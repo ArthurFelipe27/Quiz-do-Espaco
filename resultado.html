@@ -7,26 +7,37 @@
     <link rel="shortcut icon" href="/img/shortcutIcon.png">
     <title>Quiz do Espaço - Resultado</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="bg-space"></div>
 
-    <main class="container fade-in">
+    <main class="container-fade-in">
         <h1 class="titulo-espacial">Resultado</h1>
-        <section aria-labelledby="resultado">
+
+        <section aria-labelledby="resultado" style="margin-top: 20px;">
             <p id="resultado" aria-live="polite"></p>
         </section>
 
-        <button onclick="window.location.href='index.html'">Jogar Novamente</button>
+        <button id="jogar-novamente" style="margin-top: 20px;">Jogar Novamente</button>
     </main>
 
     <script>
-        // Exibe resultado final
-        const pontos = localStorage.getItem('pontos') || 0;
-        const nome = localStorage.getItem('nomeJogador') || 'Jogador';
+        document.addEventListener('DOMContentLoaded', () => {
+            const pontos = localStorage.getItem('pontos') || 0;
+            const nome = localStorage.getItem('nomeJogador') || 'Jogador';
 
-        document.getElementById('resultado').textContent = `${nome}, você fez ${pontos} pontos!`;
+            const resultadoEl = document.getElementById('resultado');
+            resultadoEl.textContent = `${nome}, você fez ${pontos} ponto${pontos == 1 ? '' : 's'}! 🚀`;
+
+            const jogarNovamenteBtn = document.getElementById('jogar-novamente');
+            jogarNovamenteBtn.addEventListener('click', () => {
+                // Opcional: Limpar os pontos para novo jogo
+                localStorage.removeItem('pontos');
+                window.location.href = 'index.html';
+            });
+        });
     </script>
 </body>
 

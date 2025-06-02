@@ -1,187 +1,180 @@
-/* Fundo espacial */
-.bg-space {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.6);
-  z-index: -1;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Container principal */
-.container {
-  max-width: 600px;
-  margin: 70px auto;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  text-align: center;
-  animation: fadeIn 1.5s ease forwards;
-  color: #004d60;
+body {
+    background: black;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Animação de entrada */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Fundo estrelado animado */
+#starsCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
 }
 
-/* Título estilizado */
-.titulo-espacial {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 2.5rem;
-  color: #00e5ff;
-  text-shadow: 0 0 5px #00e5ff, 0 0 10px #00b8d4, 0 0 20px #00b8d4;
-  margin-bottom: 25px;
+/* Astronauta flutuando */
+.astronaut {
+    position: absolute;
+    top: 50px;
+    right: 90px;
+    width: 90px;
+    animation: float 6s infinite ease-in-out;
 }
 
-/* Frase motivacional */
-.frase-motivacional {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-  color: #00e5ff;
-  text-shadow: 0 0 5px #00b8d4;
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
-/* Campo de nome (index.html) */
-#nomeJogador {
-  width: 80%;
-  padding: 12px;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  border: 2px solid #00b8d4;
-  outline: none;
-  margin-bottom: 20px;
-  transition: border-color 0.3s ease;
-  color: #004d60;
-  font-weight: 600;
+/* Efeito de luz pulsante no título */
+#title {
+    text-shadow: 0 0 10px white;
+    animation: glow 2s infinite alternate;
 }
 
-#nomeJogador:focus {
-  border-color: #00e5ff;
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 10px white;
+    }
+
+    100% {
+        text-shadow: 0 0 20px cyan;
+    }
 }
 
-/* Botões padrão */
+/* Caixa de login futurista */
+.login-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 500px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.pergunta-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 650px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: 0.3s;
+}
+
+/* Efeito de brilho ao digitar */
+input:focus {
+    box-shadow: 0 0 10px cyan;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
 button {
-  padding: 12px 0;
-  font-size: 1.2rem;
-  background-color: #00b8d4;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 184, 212, 0.6);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;
-  max-width: 300px;
-  margin: 10px auto;
-  display: block;
+    background: linear-gradient(45deg, #ff00ff, #00d2ff);
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
-button:hover:not(:disabled) {
-  background-color: #00e5ff;
-  box-shadow: 0 8px 25px rgba(0, 229, 255, 0.9);
+/* Efeito de brilho ao passar o mouse */
+button:hover {
+    background: linear-gradient(45deg, #6600cc, #0088cc);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px white;
 }
 
-button:disabled {
-  cursor: default;
-  background-color: #9ad7e3;
-  box-shadow: none;
-  color: #666;
+#errorMsg {
+    color: red;
+    margin-top: 10px;
 }
 
-/* Pergunta */
 .pergunta {
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #004d60;
+    margin-bottom: 20px;
+    font-size: 1.2em;
 }
 
-/* Botões de resposta */
 #answers button {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 12px;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  background-color: #00b8d4;
-  color: white;
-  box-shadow: 0 5px 12px rgba(0, 184, 212, 0.6);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
+    margin: 10px 0;
+    width: 100%;
 }
 
-#answers button:hover:not(:disabled) {
-  background-color: #00e5ff;
-  box-shadow: 0 8px 20px rgba(0, 229, 255, 0.9);
-}
-
-/* Feedback */
 #feedback {
-  font-weight: bold;
-  margin-top: 15px;
-  font-size: 1.2rem;
+    margin-top: 20px;
+    font-weight: bold;
 }
 
-/* Botão próxima pergunta */
-#next-btn {
-  margin-top: 25px;
-  display: none;
-  /* Escondido por padrão */
-}
-
-/* Informação extra */
 #info-extra {
-  margin-top: 20px;
-  font-style: italic;
-  color: #007c91;
-  min-height: 60px;
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-style: italic;
+    min-height: 50px;
 }
 
-/* Pontuação */
+
 #pontos-usuario {
-  margin-top: 20px;
-  font-weight: bold;
-  color: #00e5ff;
-  font-size: 1.3rem;
-  text-shadow: 0 0 5px #00b8d4;
+    margin-top: 20px;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
-/* Nome do jogador */
-.player-name {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #006994;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-/* Responsividade */
-@media (max-width: 600px) {
-  .container {
-    margin: 30px 15px;
-    padding: 20px;
-  }
-
-  .titulo-espacial {
-    font-size: 2rem;
-  }
-
-  button {
-    font-size: 1rem;
-  }
+.container-fade-in {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 50px;
+    border-radius: 15px;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }

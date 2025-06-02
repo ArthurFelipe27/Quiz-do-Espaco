@@ -7,13 +7,17 @@
     <link rel="shortcut icon" href="/img/shortcutIcon.png">
     <title>Quiz do Espaço - Perguntas</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="bg-space"></div>
+    <canvas id="starsCanvas"></canvas>
 
-    <main class="container fade-in">
-        <h1 class="titulo-espacial">Quiz do Espaço</h1>
+    <img src="/img/astronauta.png" alt="Astronauta flutuando" class="astronaut">
+
+    <main class="pergunta-container">
+        <h1 id="title">Quiz do Espaço</h1>
+
         <div id="player-name" class="player-name"></div>
 
         <section aria-labelledby="question">
@@ -21,14 +25,20 @@
             <div id="answers" role="group" aria-label="Opções de resposta"></div>
         </section>
 
-        <p id="feedback" aria-live="polite"></p>
-        <div id="info-extra" aria-live="polite"></div>
+        <p id="feedback" aria-live="polite" style="margin-top: 10px;"></p>
+        <div id="info-extra" aria-live="polite"
+            style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px;"></div>
 
-        <button id="next-btn" type="button" disabled>Próxima Pergunta</button>
-        <p id="pontos-usuario"></p>
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button id="voltar">Voltar</button>
+            <button id="next-btn" type="button" disabled>Próxima Pergunta</button>
+        </div>
+
+        <p id="pontos-usuario" style="margin-top: 15px;"></p>
     </main>
 
     <script src="js/script.js" defer></script>
+
 </body>
 
 </html>

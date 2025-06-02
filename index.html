@@ -1,43 +1,92 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="/img/shortcutIcon.png">
-  <title>Quiz Espacial - Início</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Login Espacial</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-  <div class="bg-space"></div>
+  <canvas id="starsCanvas"></canvas>
 
-  <main class="container">
-    <h1 class="titulo-espacial">Quiz Espacial</h1>
-    <p class="frase-motivacional">Prepare-se para uma jornada incrível pelo universo!</p>
+  <div class="login-container">
+    <h1 id="title">🌌 Bem-vindo ao Universo</h1>
+    <img class="astronaut" src="/img/astronauta.png" alt="Astronauta flutuando">
+    <form id="loginForm">
+      <label for="username">Usuário:</label>
+      <input type="text" id="username" placeholder="Digite seu usuário..." required>
 
-    <form id="formInicio">
-      <label for="nomeJogador" class="player-name">Digite seu nome para começar:</label>
-      <input type="text" id="nomeJogador" name="nomeJogador" required placeholder="Seu nome">
-      <button type="submit">Começar</button>
+      <label for="password">Senha:</label>
+      <input type="password" id="password" placeholder="Digite sua senha..." required>
+
+      <button type="submit">Entrar</button>
     </form>
-  </main>
+    <p id="errorMsg"></p>
+  </div>
+
+
 
   <script>
-    // Armazena nome do jogador e redireciona para o quiz
-    document.getElementById('formInicio').addEventListener('submit', function (event) {
-      event.preventDefault();
-      const nome = document.getElementById('nomeJogador').value.trim();
+    document.addEventListener("DOMContentLoaded", function () {
+      createStarBackground();
 
-      if (nome.length < 3) { // Validação extra
-        alert('Por favor, digite um nome com pelo menos 3 letras.');
-        return;
+      document.getElementById("loginForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const errorMsg = document.getElementById("errorMsg");
+
+        if (username.trim() === "" || password.trim() === "") {
+          errorMsg.textContent = "Usuário e senha não podem estar vazios!";
+        } else {
+          localStorage.setItem("username", username);
+          window.location.href = "quiz.html";
+        }
+      });
+    });
+
+    /* Criar fundo estrelado animado */
+    function createStarBackground() {
+      const canvas = document.getElementById("starsCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let stars = [];
+      for (let i = 0; i < 100; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2,
+          velocity: Math.random() * 0.5
+        });
       }
 
-      localStorage.setItem('nomeJogador', nome);
-      localStorage.setItem('pontos', '0');  // Zera os pontos sempre que iniciar
-      window.location.href = 'quiz.html';
-    });
+      function animateStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+          ctx.fillStyle = "white";
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+          ctx.fill();
+          star.y += star.velocity;
+
+          if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+          }
+        });
+
+        requestAnimationFrame(animateStars);
+      }
+
+      animateStars();
+    }
+
   </script>
 </body>
 
