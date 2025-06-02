@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/img/shortcutIcon.png">
+    <title>Quiz do Espaço - Perguntas</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="bg-space"></div>
+
+    <main class="container fade-in">
+        <h1 class="titulo-espacial">Quiz do Espaço</h1>
+        <div id="player-name" class="player-name"></div>
+
+        <section aria-labelledby="question">
+            <p id="question" class="pergunta"></p>
+            <div id="answers" role="group" aria-label="Opções de resposta"></div>
+        </section>
+
+        <p id="feedback" aria-live="polite"></p>
+        <div id="info-extra" aria-live="polite"></div>
+
+        <button id="next-btn" type="button" disabled>Próxima Pergunta</button>
+        <p id="pontos-usuario"></p>
+    </main>
+
+    <script src="js/script.js" defer></script>
+</body>
+
+</html>

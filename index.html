@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/img/shortcutIcon.png">
+  <title>Quiz Espacial - Início</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="bg-space"></div>
+
+  <main class="container">
+    <h1 class="titulo-espacial">Quiz Espacial</h1>
+    <p class="frase-motivacional">Prepare-se para uma jornada incrível pelo universo!</p>
+
+    <form id="formInicio">
+      <label for="nomeJogador" class="player-name">Digite seu nome para começar:</label>
+      <input type="text" id="nomeJogador" name="nomeJogador" required placeholder="Seu nome">
+      <button type="submit">Começar</button>
+    </form>
+  </main>
+
+  <script>
+    // Armazena nome do jogador e redireciona para o quiz
+    document.getElementById('formInicio').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const nome = document.getElementById('nomeJogador').value.trim();
+
+      if (nome.length < 3) { // Validação extra
+        alert('Por favor, digite um nome com pelo menos 3 letras.');
+        return;
+      }
+
+      localStorage.setItem('nomeJogador', nome);
+      localStorage.setItem('pontos', '0');  // Zera os pontos sempre que iniciar
+      window.location.href = 'quiz.html';
+    });
+  </script>
+</body>
+
+</html>

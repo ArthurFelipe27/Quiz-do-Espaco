@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/img/shortcutIcon.png">
+    <title>Quiz do Espaço - Resultado</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="bg-space"></div>
+
+    <main class="container fade-in">
+        <h1 class="titulo-espacial">Resultado</h1>
+        <section aria-labelledby="resultado">
+            <p id="resultado" aria-live="polite"></p>
+        </section>
+
+        <button onclick="window.location.href='index.html'">Jogar Novamente</button>
+    </main>
+
+    <script>
+        // Exibe resultado final
+        const pontos = localStorage.getItem('pontos') || 0;
+        const nome = localStorage.getItem('nomeJogador') || 'Jogador';
+
+        document.getElementById('resultado').textContent = `${nome}, você fez ${pontos} pontos!`;
+    </script>
+</body>
+
+</html>
