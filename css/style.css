@@ -1,3 +1,4 @@
+/* Reset e base */
 * {
     margin: 0;
     padding: 0;
@@ -13,16 +14,7 @@ body {
     align-items: center;
     height: 100vh;
     overflow: hidden;
-}
-
-/* Fundo estrelado animado */
-#starsCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
+    position: relative;
 }
 
 /* Astronauta flutuando */
@@ -48,7 +40,7 @@ body {
     }
 }
 
-/* Efeito de luz pulsante no título */
+/* Título com efeito de brilho */
 #title {
     text-shadow: 0 0 10px white;
     animation: glow 2s infinite alternate;
@@ -64,6 +56,17 @@ body {
     }
 }
 
+/* Fundo animado */
+#starsCanvas,
+#warpCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
 /* Caixa de login futurista */
 .login-container {
     background: rgba(255, 255, 255, 0.1);
@@ -76,21 +79,20 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    animation: portalOpen 1s ease-out;
 }
 
-.pergunta-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    width: 650px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+@keyframes portalOpen {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
 
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
 input {
     width: 100%;
@@ -106,6 +108,7 @@ input {
 /* Efeito de brilho ao digitar */
 input:focus {
     box-shadow: 0 0 10px cyan;
+    outline: none;
 }
 
 input::placeholder {
@@ -121,6 +124,7 @@ button {
     border-radius: 5px;
     font-size: 16px;
     transition: 0.3s;
+    color: white;
 }
 
 /* Efeito de brilho ao passar o mouse */
@@ -133,6 +137,20 @@ button:hover {
 #errorMsg {
     color: red;
     margin-top: 10px;
+}
+
+/* Container de perguntas futurista */
+.pergunta-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 650px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .pergunta {
@@ -159,13 +177,13 @@ button:hover {
     min-height: 50px;
 }
 
-
 #pontos-usuario {
     margin-top: 20px;
     font-size: 1.1em;
     font-weight: bold;
 }
 
+/* Container com efeito fade-in */
 .container-fade-in {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -177,4 +195,5 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    animation: portalOpen 1s ease-out;
 }

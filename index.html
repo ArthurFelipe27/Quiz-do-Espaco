@@ -11,6 +11,7 @@
 
 <body>
   <canvas id="starsCanvas"></canvas>
+  <canvas id="warpCanvas" style="display: none;"></canvas>
 
   <div class="login-container">
     <h1 id="title">🌌 Bem-vindo ao Universo</h1>
@@ -27,8 +28,6 @@
     <p id="errorMsg"></p>
   </div>
 
-
-
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       createStarBackground();
@@ -42,9 +41,17 @@
 
         if (username.trim() === "" || password.trim() === "") {
           errorMsg.textContent = "Usuário e senha não podem estar vazios!";
+        } else if (password !== "12345") {
+          errorMsg.textContent = "Senha incorreta! Tente novamente.";
         } else {
-          localStorage.setItem("username", username);
-          window.location.href = "quiz.html";
+          localStorage.setItem("nomeJogador", username);
+
+          // Iniciar túnel de luz
+          triggerWarpEffect();
+
+          setTimeout(() => {
+            window.location.href = "quiz.html";
+          }, 2000);
         }
       });
     });
@@ -87,6 +94,53 @@
       animateStars();
     }
 
+    /* Simulação de túnel de luz intergaláctico */
+    function triggerWarpEffect() {
+      const canvas = document.getElementById("warpCanvas");
+      canvas.style.display = "block";
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let lines = [];
+      for (let i = 0; i < 50; i++) {
+        lines.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          length: Math.random() * 50 + 50,
+          velocity: Math.random() * 5 + 2,
+          alpha: 1
+        });
+      }
+
+      function animateWarp() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        lines.forEach((line, index) => {
+          ctx.strokeStyle = `rgba(255, 255, 255, ${line.alpha})`;
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(line.x, line.y);
+          ctx.lineTo(line.x, line.y - line.length);
+          ctx.stroke();
+
+          line.y -= line.velocity;
+          line.alpha -= 0.02;
+
+          if (line.alpha <= 0) {
+            lines.splice(index, 1);
+          }
+        });
+
+        if (lines.length > 0) {
+          requestAnimationFrame(animateWarp);
+        }
+      }
+
+      animateWarp();
+    }
   </script>
 </body>
 

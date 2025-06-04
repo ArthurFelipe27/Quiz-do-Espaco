@@ -11,11 +11,12 @@ const quiz = [
     correta: 1,
     termoExtra: "Planeta Marte"
   },
-  // ... continue com as demais perguntas normalmente
+  // ... continue com as demais perguntas
 ];
 
 let perguntaAtual = 0;
 let pontos = 0;
+let perguntasRespondidas = Array(quiz.length).fill(false);
 
 const questionEl = document.getElementById('question');
 const answersEl = document.getElementById('answers');
@@ -23,11 +24,33 @@ const feedbackEl = document.getElementById('feedback');
 const infoExtraEl = document.getElementById('info-extra');
 const nextBtn = document.getElementById('next-btn');
 const voltarBtn = document.getElementById('voltar');
+const resetBtn = document.getElementById('reset-btn');
+const pularBtn = document.getElementById('pular-btn');
 const pontosUsuarioEl = document.getElementById('pontos-usuario');
 const playerNameEl = document.getElementById('player-name');
 
+function salvarProgresso() {
+  localStorage.setItem('progressoQuiz', JSON.stringify({
+    perguntaAtual,
+    pontos,
+    perguntasRespondidas
+  }));
+}
+
+function carregarProgresso() {
+  const progresso = JSON.parse(localStorage.getItem('progressoQuiz'));
+  if (progresso) {
+    perguntaAtual = progresso.perguntaAtual;
+    pontos = progresso.pontos;
+    perguntasRespondidas = progresso.perguntasRespondidas;
+  } else {
+    perguntaAtual = 0;
+    pontos = 0;
+    perguntasRespondidas = Array(quiz.length).fill(false);
+  }
+}
+
 function carregarPergunta() {
-  pontos = parseInt(localStorage.getItem('pontos')) || 0;
   pontosUsuarioEl.textContent = `Pontos: ${pontos}`;
 
   feedbackEl.textContent = '';
@@ -43,12 +66,27 @@ function carregarPergunta() {
   q.respostas.forEach((resp, i) => {
     const btn = document.createElement('button');
     btn.textContent = resp;
-    btn.onclick = () => verificarResposta(i);
+
+    if (perguntasRespondidas[perguntaAtual]) {
+      btn.disabled = true;
+    } else {
+      btn.onclick = () => verificarResposta(i);
+    }
+
     answersEl.appendChild(btn);
   });
 
-  // Esconde o botão voltar na primeira pergunta
+  if (perguntasRespondidas[perguntaAtual]) {
+    nextBtn.disabled = false;
+    nextBtn.style.display = 'inline-block';
+    feedbackEl.textContent = 'Pergunta já respondida.';
+    feedbackEl.style.color = 'orange';
+    buscarInfoExtra(q.termoExtra);
+  }
+
   voltarBtn.style.display = perguntaAtual === 0 ? 'none' : 'inline-block';
+
+  salvarProgresso();
 }
 
 function verificarResposta(indiceSelecionado) {
@@ -57,17 +95,24 @@ function verificarResposta(indiceSelecionado) {
   const botoes = answersEl.querySelectorAll('button');
   botoes.forEach(b => b.disabled = true);
 
-  if (indiceSelecionado === q.correta) {
-    feedbackEl.textContent = 'Resposta correta!';
-    feedbackEl.style.color = 'green';
-    pontos += 10;
+  if (!perguntasRespondidas[perguntaAtual]) {
+    if (indiceSelecionado === q.correta) {
+      feedbackEl.textContent = 'Resposta correta!';
+      feedbackEl.style.color = 'green';
+      pontos += 10;
+    } else {
+      feedbackEl.textContent = 'Resposta incorreta.';
+      feedbackEl.style.color = 'red';
+      pontos = Math.max(0, pontos - 5);
+    }
+
+    perguntasRespondidas[perguntaAtual] = true;
+    salvarProgresso();
   } else {
-    feedbackEl.textContent = 'Resposta incorreta.';
-    feedbackEl.style.color = 'red';
-    pontos = Math.max(0, pontos - 5);
+    feedbackEl.textContent = 'Você já respondeu esta pergunta.';
+    feedbackEl.style.color = 'orange';
   }
 
-  localStorage.setItem('pontos', pontos);
   pontosUsuarioEl.textContent = `Pontos: ${pontos}`;
 
   nextBtn.disabled = false;
@@ -93,6 +138,7 @@ function buscarInfoExtra(termo) {
 nextBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
+    localStorage.removeItem('progressoQuiz');
     window.location.href = 'resultado.html';
   } else {
     carregarPergunta();
@@ -106,6 +152,27 @@ voltarBtn.addEventListener('click', () => {
   }
 });
 
+pularBtn.addEventListener('click', () => {
+  perguntaAtual++;
+  if (perguntaAtual >= quiz.length) {
+    localStorage.removeItem('progressoQuiz');
+    window.location.href = 'resultado.html';
+  } else {
+    carregarPergunta();
+  }
+});
+
+resetBtn.addEventListener('click', resetarQuiz);
+
+function resetarQuiz() {
+  perguntaAtual = 0;
+  pontos = 0;
+  perguntasRespondidas = Array(quiz.length).fill(false);
+  localStorage.removeItem('progressoQuiz');
+  localStorage.setItem('pontos', pontos);
+  carregarPergunta();
+}
+
 window.onload = () => {
   const nome = localStorage.getItem('nomeJogador');
   if (!nome) {
@@ -114,5 +181,7 @@ window.onload = () => {
     return;
   }
   playerNameEl.textContent = `Jogador(a): ${nome}`;
+
+  carregarProgresso();
   carregarPergunta();
 };
