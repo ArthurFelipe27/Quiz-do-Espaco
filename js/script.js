@@ -138,6 +138,7 @@ function buscarInfoExtra(termo) {
 nextBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
+    localStorage.setItem('pontos', pontos);
     localStorage.removeItem('progressoQuiz');
     window.location.href = 'resultado.html';
   } else {
@@ -155,6 +156,7 @@ voltarBtn.addEventListener('click', () => {
 pularBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
+    localStorage.setItem('pontos', pontos);
     localStorage.removeItem('progressoQuiz');
     window.location.href = 'resultado.html';
   } else {
@@ -169,7 +171,7 @@ function resetarQuiz() {
   pontos = 0;
   perguntasRespondidas = Array(quiz.length).fill(false);
   localStorage.removeItem('progressoQuiz');
-  localStorage.setItem('pontos', pontos);
+  localStorage.removeItem('pontos');
   carregarPergunta();
 }
 

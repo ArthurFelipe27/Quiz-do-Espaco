@@ -25,16 +25,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const pontos = localStorage.getItem('pontos') || 0;
+            const pontos = Number(localStorage.getItem('pontos')) || 0;
             const nome = localStorage.getItem('nomeJogador') || 'Jogador';
 
             const resultadoEl = document.getElementById('resultado');
-            resultadoEl.textContent = `${nome}, você fez ${pontos} ponto${pontos == 1 ? '' : 's'}! 🚀`;
+            resultadoEl.textContent = `${nome}, você fez ${pontos} ponto${pontos === 1 ? '' : 's'}! 🚀`;
 
-            const jogarNovamenteBtn = document.getElementById('jogar-novamente');
-            jogarNovamenteBtn.addEventListener('click', () => {
-                // Opcional: Limpar os pontos para novo jogo
+            document.getElementById('jogar-novamente').addEventListener('click', () => {
                 localStorage.removeItem('pontos');
+                localStorage.removeItem('nomeJogador');
                 window.location.href = 'index.html';
             });
         });
