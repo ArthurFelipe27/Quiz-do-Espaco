@@ -3,16 +3,52 @@ const quiz = [
     pergunta: "Qual é o maior planeta do Sistema Solar?",
     respostas: ["Terra", "Júpiter", "Marte", "Saturno"],
     correta: 1,
-    termoExtra: "Planeta Júpiter"
+    termoExtra: "Júpiter (planeta)"
   },
   {
     pergunta: "Qual planeta é conhecido como o Planeta Vermelho?",
     respostas: ["Vênus", "Marte", "Mercúrio", "Saturno"],
     correta: 1,
-    termoExtra: "Planeta Marte"
+    termoExtra: "Marte (planeta)"
   },
-  // ... continue com as demais perguntas
+  {
+    pergunta: "Qual é a estrela mais próxima da Terra?",
+    respostas: ["Alfa Centauri", "Proxima Centauri", "Sol", "Sirius"],
+    correta: 2,
+    termoExtra: "Sol"
+  },
+  {
+    pergunta: "Quem foi o primeiro humano a viajar ao espaço?",
+    respostas: ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "Valentina Tereshkova"],
+    correta: 2,
+    termoExtra: "Yuri Gagarin"
+  },
+  {
+    pergunta: "Qual planeta possui um sistema de anéis mais visível?",
+    respostas: ["Júpiter", "Urano", "Saturno", "Netuno"],
+    correta: 2,
+    termoExtra: "Anéis de Saturno"
+  },
+  {
+    pergunta: "Qual é o nome do maior satélite natural da Terra?",
+    respostas: ["Europa", "Lua", "Fobos", "Titã"],
+    correta: 1,
+    termoExtra: "Lua"
+  },
+  {
+    pergunta: "Em que galáxia está localizado o Sistema Solar?",
+    respostas: ["Galáxia de Andrômeda", "Via Láctea", "Nuvem de Magalhães", "Galáxia do Triângulo"],
+    correta: 1,
+    termoExtra: "Via Láctea"
+  },
+  {
+    pergunta: "Qual planeta é conhecido por ter a maior tempestade do Sistema Solar, a Grande Mancha Vermelha?",
+    respostas: ["Júpiter", "Saturno", "Netuno", "Urano"],
+    correta: 0,
+    termoExtra: "Grande Mancha Vermelha"
+  }
 ];
+
 
 let perguntaAtual = 0;
 let pontos = 0;
