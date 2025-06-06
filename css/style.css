@@ -217,3 +217,83 @@ button:hover {
         transform: translateY(0);
     }
 }
+
+.botao-creditos {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 12px 16px;
+    border-radius: 12px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    z-index: 999;
+}
+
+.botao-creditos:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+.creditos-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #fff;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.creditos-container ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.creditos-container li {
+    margin-bottom: 10px;
+}
+
+
+.botao-voltar {
+    display: inline-block;
+    margin-top: 30px;
+    background: linear-gradient(45deg, #ff00ff, #00d2ff);
+    padding: 12px 20px;
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.botao-voltar:hover {
+    background: linear-gradient(45deg, #6600cc, #0088cc);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px white;
+}
+
+@keyframes brilharEstrela {
+
+    0%,
+    100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 15px #0ff;
+    }
+
+    50% {
+        text-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff;
+    }
+}
+
+.estrela-nome {
+    animation: brilharEstrela 2s infinite ease-in-out;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: inline-block;
+}
