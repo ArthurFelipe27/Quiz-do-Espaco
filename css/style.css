@@ -197,3 +197,23 @@ button:hover {
     gap: 15px;
     animation: portalOpen 1s ease-out;
 }
+
+
+.rocket {
+    display: inline-block;
+    animation: flutuar 2s ease-in-out infinite;
+}
+
+@keyframes flutuar {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

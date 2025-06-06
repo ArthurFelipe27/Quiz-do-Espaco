@@ -17,25 +17,79 @@
         <h1 class="titulo-espacial">Resultado</h1>
 
         <section aria-labelledby="resultado" style="margin-top: 20px;">
-            <p id="resultado" aria-live="polite"></p>
+            <p id="resultado" aria-live="polite">
+                <span id="texto-resultado"></span>
+                <span class="rocket">🚀</span>
+            </p>
+        </section>
+
+        <!-- Novo bloco para exibir o ranking -->
+        <section style="margin-top: 40px;">
+            <h2>🏆 Ranking dos Melhores</h2>
+            <ol id="lista-ranking"></ol>
         </section>
 
         <button id="jogar-novamente" style="margin-top: 20px;">Jogar Novamente</button>
+        <button id="reiniciar-ranking" style="margin-top: 10px;">Reiniciar Ranking</button>
     </main>
 
     <script>
+        function atualizarRanking(nome, pontos) {
+            const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+
+            ranking.sort((a, b) => b.pontos - a.pontos);
+
+            if (ranking.length < 5) {
+                ranking.push({ nome, pontos });
+            } else {
+                const ultimo = ranking[ranking.length - 1];
+                if (pontos >= ultimo.pontos) {
+                    ranking[ranking.length - 1] = { nome, pontos };
+                } else {
+                    return;
+                }
+            }
+
+            ranking.sort((a, b) => b.pontos - a.pontos);
+            localStorage.setItem('ranking', JSON.stringify(ranking));
+        }
+
+        function exibirRanking() {
+            const listaRanking = document.getElementById('lista-ranking');
+            const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+
+            listaRanking.innerHTML = '';
+            ranking.forEach((jogador, index) => {
+                const item = document.createElement('li');
+                item.textContent = `${index + 1}º - ${jogador.nome}: ${jogador.pontos} ponto${jogador.pontos === 1 ? '' : 's'}`;
+                listaRanking.appendChild(item);
+            });
+        }
+
+        function reiniciarRanking() {
+            if (confirm("Tem certeza que deseja apagar todo o ranking?")) {
+                localStorage.removeItem('ranking');
+                exibirRanking();
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const pontos = Number(localStorage.getItem('pontos')) || 0;
             const nome = localStorage.getItem('nomeJogador') || 'Jogador';
 
-            const resultadoEl = document.getElementById('resultado');
-            resultadoEl.textContent = `${nome}, você fez ${pontos} ponto${pontos === 1 ? '' : 's'}! 🚀`;
+            const resultadoEl = document.getElementById('texto-resultado').textContent = `${nome}, você fez ${pontos} ponto${pontos === 1 ? '' : 's'}!`;
+
+
+            atualizarRanking(nome, pontos);
+            exibirRanking();
 
             document.getElementById('jogar-novamente').addEventListener('click', () => {
                 localStorage.removeItem('pontos');
                 localStorage.removeItem('nomeJogador');
                 window.location.href = 'index.html';
             });
+
+            document.getElementById('reiniciar-ranking').addEventListener('click', reiniciarRanking);
         });
     </script>
 </body>
