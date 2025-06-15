@@ -4,18 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/img/shortcutIcon.png">
+  <link rel="shortcut icon" href="img/shortcutIcon.png">
   <title>Login Espacial</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+  <!-- /*--===[CANVAS ESTRELAS E TÚNEL]===--*/ -->
   <canvas id="starsCanvas"></canvas>
   <canvas id="warpCanvas" style="display: none;"></canvas>
 
+  <!-- /*--===[CONTAINER DE LOGIN]===--*/ -->
   <div class="login-container">
     <h1 id="title">🌌 Bem-vindo ao Espaço</h1>
-    <img class="astronaut" src="/img/astronauta.png" alt="Astronauta flutuando">
+    <img class="astronaut" src="img/astronauta.png" alt="Astronauta flutuando">
+
+    <!-- /*--===[FORMULÁRIO DE LOGIN]===--*/ -->
     <form id="loginForm">
       <label for="username">Usuário:</label>
       <input type="text" id="username" placeholder="Digite seu usuário..." required>
@@ -25,13 +29,15 @@
 
       <button type="submit">Entrar</button>
     </form>
+
     <p id="errorMsg"></p>
   </div>
 
-  <a href="/creditos.html" class="botao-creditos">👩‍🚀 Créditos</a>
-
+  <!-- /*--===[LINK PARA CRÉDITOS]===--*/ -->
+  <a href="creditos.html" class="botao-creditos">👩‍🚀 Créditos</a>
 
   <script>
+    /*--===[INICIALIZAÇÃO E LOGIN]===--*/
     document.addEventListener("DOMContentLoaded", function () {
       createStarBackground();
 
@@ -59,7 +65,7 @@
       });
     });
 
-    /* Criar fundo estrelado animado */
+    /*--===[FUNDO ESTRELADO ANIMADO]===--*/
     function createStarBackground() {
       const canvas = document.getElementById("starsCanvas");
       const ctx = canvas.getContext("2d");
@@ -97,7 +103,7 @@
       animateStars();
     }
 
-    /* Simulação de túnel de luz intergaláctico */
+    /*--===[EFEITO DE TÚNEL INTERGALÁCTICO]===--*/
     function triggerWarpEffect() {
       const canvas = document.getElementById("warpCanvas");
       canvas.style.display = "block";
@@ -146,5 +152,6 @@
     }
   </script>
 </body>
+
 
 </html>

@@ -1,4 +1,4 @@
-/* Reset e base */
+/*===[RESET E ESTILO BASE]===*/
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +17,7 @@ body {
     position: relative;
 }
 
-/* Astronauta flutuando */
+/*===[ASTRONAUTA FLUTUANDO]===*/
 .astronaut {
     position: absolute;
     top: 50px;
@@ -27,36 +27,23 @@ body {
 }
 
 @keyframes float {
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-20px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
 }
 
-/* Título com efeito de brilho */
+/*===[TÍTULO COM EFEITO DE BRILHO]===*/
 #title {
     text-shadow: 0 0 10px white;
     animation: glow 2s infinite alternate;
 }
 
 @keyframes glow {
-    0% {
-        text-shadow: 0 0 10px white;
-    }
-
-    100% {
-        text-shadow: 0 0 20px cyan;
-    }
+    0% { text-shadow: 0 0 10px white; }
+    100% { text-shadow: 0 0 20px cyan; }
 }
 
-/* Fundo animado */
+/*===[FUNDO ANIMADO COM ESTRELAS E WARP]===*/
 #starsCanvas,
 #warpCanvas {
     position: fixed;
@@ -67,7 +54,7 @@ body {
     z-index: -1;
 }
 
-/* Caixa de login futurista */
+/*===[CONTAINER DE LOGIN FUTURISTA]===*/
 .login-container {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -83,17 +70,11 @@ body {
 }
 
 @keyframes portalOpen {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
+/*===[ESTILO DOS INPUTS]===*/
 input {
     width: 100%;
     padding: 10px;
@@ -105,7 +86,6 @@ input {
     transition: 0.3s;
 }
 
-/* Efeito de brilho ao digitar */
 input:focus {
     box-shadow: 0 0 10px cyan;
     outline: none;
@@ -115,6 +95,7 @@ input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
+/*===[ESTILO DOS BOTÕES]===*/
 button {
     background: linear-gradient(45deg, #ff00ff, #00d2ff);
     border: none;
@@ -127,63 +108,75 @@ button {
     color: white;
 }
 
-/* Efeito de brilho ao passar o mouse */
 button:hover {
     background: linear-gradient(45deg, #6600cc, #0088cc);
     transform: scale(1.05);
     box-shadow: 0 0 15px white;
 }
 
+/*===[MENSAGEM DE ERRO NO LOGIN]===*/
 #errorMsg {
     color: red;
     margin-top: 10px;
 }
 
-/* Container de perguntas futurista */
+/*===[CONTAINER DE PERGUNTAS DO QUIZ]===*/
 .pergunta-container {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     padding: 30px;
     border-radius: 15px;
     text-align: center;
-    width: 650px;
+    width: 900px;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
+/*===[TEXTO DA PERGUNTA]===*/
 .pergunta {
     margin-bottom: 20px;
     font-size: 1.2em;
 }
 
+/*===[BOTÕES DE RESPOSTAS DO QUIZ]===*/
 #answers button {
     margin: 10px 0;
     width: 100%;
 }
 
+/*===[FEEDBACK APÓS RESPOSTA]===*/
 #feedback {
     margin-top: 20px;
     font-weight: bold;
 }
 
+/*===[INFORMAÇÃO EXTRA (Wikipedia)]===*/
 #info-extra {
     margin-top: 20px;
-    padding: 10px;
+    padding: 10px 20px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     font-style: italic;
-    min-height: 50px;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: normal;
+    word-wrap: break-word;
+    transition: all 0.4s ease-in-out;
+    box-sizing: border-box;
+    max-height: 250px;
 }
 
+/*===[EXIBIÇÃO DE PONTUAÇÃO DO USUÁRIO]===*/
 #pontos-usuario {
     margin-top: 20px;
     font-size: 1.1em;
     font-weight: bold;
 }
 
-/* Container com efeito fade-in */
+/*===[CONTAINER COM ANIMAÇÃO FADE-IN]===*/
 .container-fade-in {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -198,26 +191,19 @@ button:hover {
     animation: portalOpen 1s ease-out;
 }
 
-
+/*===[ANIMAÇÃO DE OBJETO FLUTUANDO (FOGUETE)]===*/
 .rocket {
     display: inline-block;
     animation: flutuar 2s ease-in-out infinite;
 }
 
 @keyframes flutuar {
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
 }
 
+/*===[BOTÃO DE CRÉDITOS FIXO]===*/
 .botao-creditos {
     position: fixed;
     bottom: 20px;
@@ -237,7 +223,7 @@ button:hover {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-
+/*===[CONTAINER DOS CRÉDITOS]===*/
 .creditos-container {
     background-color: rgba(0, 0, 0, 0.6);
     padding: 30px;
@@ -259,7 +245,7 @@ button:hover {
     margin-bottom: 10px;
 }
 
-
+/*===[BOTÃO DE VOLTAR (PÓS-CRÉDITOS)]===*/
 .botao-voltar {
     display: inline-block;
     margin-top: 30px;
@@ -278,10 +264,9 @@ button:hover {
     box-shadow: 0 0 15px white;
 }
 
+/*===[EFEITO DE BRILHO PARA NOMES ESTELARES]===*/
 @keyframes brilharEstrela {
-
-    0%,
-    100% {
+    0%, 100% {
         text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 15px #0ff;
     }
 

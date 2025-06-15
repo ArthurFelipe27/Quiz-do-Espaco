@@ -1,3 +1,4 @@
+//===[BASE DE PERGUNTAS DO QUIZ]===//
 const quiz = [
   {
     pergunta: "Qual é o maior planeta do Sistema Solar?",
@@ -49,11 +50,12 @@ const quiz = [
   }
 ];
 
-
+//===[VARIÁVEIS DE CONTROLE DO QUIZ]===//
 let perguntaAtual = 0;
 let pontos = 0;
 let perguntasRespondidas = Array(quiz.length).fill(false);
 
+//===[REFERÊNCIAS A ELEMENTOS DA INTERFACE]===//
 const questionEl = document.getElementById('question');
 const answersEl = document.getElementById('answers');
 const feedbackEl = document.getElementById('feedback');
@@ -65,6 +67,7 @@ const pularBtn = document.getElementById('pular-btn');
 const pontosUsuarioEl = document.getElementById('pontos-usuario');
 const playerNameEl = document.getElementById('player-name');
 
+//===[FUNÇÃO PARA SALVAR PROGRESSO NO localStorage]===//
 function salvarProgresso() {
   localStorage.setItem('progressoQuiz', JSON.stringify({
     perguntaAtual,
@@ -73,6 +76,7 @@ function salvarProgresso() {
   }));
 }
 
+//===[FUNÇÃO PARA CARREGAR PROGRESSO DO localStorage]===//
 function carregarProgresso() {
   const progresso = JSON.parse(localStorage.getItem('progressoQuiz'));
   if (progresso) {
@@ -86,19 +90,19 @@ function carregarProgresso() {
   }
 }
 
+//===[FUNÇÃO PARA EXIBIR A PERGUNTA NA TELA]===//
 function carregarPergunta() {
   pontosUsuarioEl.textContent = `Pontos: ${pontos}`;
-
   feedbackEl.textContent = '';
   infoExtraEl.textContent = '';
   nextBtn.disabled = true;
   nextBtn.style.display = 'none';
-
   answersEl.innerHTML = '';
 
   const q = quiz[perguntaAtual];
   questionEl.textContent = q.pergunta;
 
+  // Cria os botões de resposta
   q.respostas.forEach((resp, i) => {
     const btn = document.createElement('button');
     btn.textContent = resp;
@@ -112,6 +116,7 @@ function carregarPergunta() {
     answersEl.appendChild(btn);
   });
 
+  // Caso a pergunta já tenha sido respondida
   if (perguntasRespondidas[perguntaAtual]) {
     nextBtn.disabled = false;
     nextBtn.style.display = 'inline-block';
@@ -121,13 +126,12 @@ function carregarPergunta() {
   }
 
   voltarBtn.style.display = perguntaAtual === 0 ? 'none' : 'inline-block';
-
   salvarProgresso();
 }
 
+//===[FUNÇÃO PARA VERIFICAR A RESPOSTA SELECIONADA]===//
 function verificarResposta(indiceSelecionado) {
   const q = quiz[perguntaAtual];
-
   const botoes = answersEl.querySelectorAll('button');
   botoes.forEach(b => b.disabled = true);
 
@@ -150,13 +154,13 @@ function verificarResposta(indiceSelecionado) {
   }
 
   pontosUsuarioEl.textContent = `Pontos: ${pontos}`;
-
   nextBtn.disabled = false;
   nextBtn.style.display = 'inline-block';
 
   buscarInfoExtra(q.termoExtra);
 }
 
+//===[FUNÇÃO PARA BUSCAR INFORMAÇÃO EXTRA DA WIKIPEDIA]===//
 function buscarInfoExtra(termo) {
   infoExtraEl.textContent = 'Carregando informação extra...';
   const url = `https://pt.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(termo)}`;
@@ -171,6 +175,7 @@ function buscarInfoExtra(termo) {
     });
 }
 
+//===[BOTÃO "PRÓXIMA PERGUNTA"]===//
 nextBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
@@ -182,6 +187,7 @@ nextBtn.addEventListener('click', () => {
   }
 });
 
+//===[BOTÃO "VOLTAR"]===//
 voltarBtn.addEventListener('click', () => {
   if (perguntaAtual > 0) {
     perguntaAtual--;
@@ -189,6 +195,7 @@ voltarBtn.addEventListener('click', () => {
   }
 });
 
+//===[BOTÃO "PULAR PERGUNTA"]===//
 pularBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
@@ -200,8 +207,10 @@ pularBtn.addEventListener('click', () => {
   }
 });
 
+//===[BOTÃO "RESETAR QUIZ"]===//
 resetBtn.addEventListener('click', resetarQuiz);
 
+//===[FUNÇÃO PARA RESETAR O QUIZ]===//
 function resetarQuiz() {
   perguntaAtual = 0;
   pontos = 0;
@@ -211,6 +220,7 @@ function resetarQuiz() {
   carregarPergunta();
 }
 
+//===[INICIALIZAÇÃO AUTOMÁTICA AO CARREGAR A PÁGINA]===//
 window.onload = () => {
   const nome = localStorage.getItem('nomeJogador');
   if (!nome) {

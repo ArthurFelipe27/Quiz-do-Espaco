@@ -1,92 +1,96 @@
-# Quiz Interativo - Tema Espaço 🚀🌌
+# 🚀 Quiz Interativo: Explorando o Espaço 🌌
 
-Este é um projeto de Quiz Interativo em **HTML**, **CSS** e **JavaScript**, com **design futurista**, sistema de pontos, armazenamento local (`localStorage`), perguntas dinâmicas e informações extras da **Wikipédia**.
-
----
-
-## 🎮 Como Rodar
-
-1. **Clone ou baixe** este repositório para o seu computador.
-
-2. **Abra a pasta do projeto**.
-
-3. **Abra o arquivo `index.html` em seu navegador** (Google Chrome, Firefox, Edge, etc.).  
-   - Clique com o botão direito no arquivo > Abrir com > seu navegador preferido.
-
-4. **Digite seu nome na tela inicial e clique em "Começar"**.
-
-5. **Responda às perguntas do quiz**:  
-   - ✅ Cada resposta correta soma **10 pontos**.  
-   - ❌ Cada resposta errada subtrai **5 pontos** (pontuação não fica negativa).  
-
-6. **Ao final do quiz, sua pontuação será exibida** na tela de resultado.
+Este é um projeto de **Quiz Interativo** desenvolvido com **HTML**, **CSS (com Bootstrap e animações personalizadas)** e **JavaScript**, com um design futurista envolvente. Ele apresenta um sistema de pontuação inteligente, armazenamento local com `localStorage`, perguntas dinâmicas, integração com a **Wikipédia**, efeitos visuais modernos e ranking de jogadores.
 
 ---
 
-## 📁 Estrutura do Projeto
+## 🎮 Como Rodar o Projeto
 
-├── index.html # Página inicial com campo para nome do jogador
-├── quiz.html # Página com perguntas do quiz
-├── resultado.html # Página que mostra a pontuação final
+1. **Clone ou baixe** este repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/quiz-espaco.git
+
+2. **Acesse a pasta do projeto**:
+   cd quiz-espaco
+
+3. Abra o arquivo **index.html** em seu navegador (Chrome, Firefox, Edge, etc.).
+
+    Clique com o botão direito > "Abrir com" > navegador preferido.
+
+4. Digite **seu nome de usuário e senha (padrão: 12345**) para iniciar.
+
+5. Responda ao quiz:
+
+    ✅ Respostas corretas somam **+10 pontos**.
+
+    ❌ Respostas erradas subtraem **-5 pontos** (sem pontuação negativa).
+
+6. Ao final, veja sua **pontuação, ranking dos melhores jogadores e informações extras** sobre o tema das perguntas.
+
+📁 **Estrutura do Projeto**
+📦 quiz-espaco/
+├── index.html               # Tela de login com efeito espacial
+├── quiz.html                # Tela principal do quiz
+├── resultado.html           # Tela final com pontuação e ranking
 ├── css/
-│ └── style.css # Estilos visuais futuristas e animações
+│   └── style.css            # Estilização completa com efeitos visuais
 ├── js/
-│ └── script.js # Lógica do quiz, validações, navegação e API da Wikipédia
-└── img/
-└── astronaut.png # Astronauta flutuante decorativo
+│   └── script.js            # Lógica do quiz, pontuação e chamadas à API
+├── img/
+│   └── astronauta.png       # Astronauta flutuante no login
+└── README.md                # Documentação do projeto
 
+✨ **Funcionalidades**
 
----
+    🔐 Tela de login animada com validação e túnel espacial ao entrar.
+    📋 Validação de nome (mínimo 3 caracteres) e senha (padrão: 12345).
+    🧠 Perguntas e respostas dinâmicas via JavaScript.
+    💾 Pontuação persistente usando localStorage.
+    🌐 Integração com API da Wikipédia: busca dados relevantes ao tema.
+    🚫 Bloqueio da próxima pergunta até que uma opção seja escolhida.
+    🏆 Ranking dos melhores jogadores salvo localmente.
+    🛸 Animações futuristas com:
+        Estrelas flutuantes (canvas).
+        Efeito de dobra espacial (warpCanvas).
+        Astronauta flutuando.
+        Textos e botões com brilho neon.
 
-## ✨ Funcionalidades
+🎨 **Design**
+    Interface imersiva e responsiva.
+    Efeitos com text-shadow, box-shadow, backdrop-filter.
+    Tipografia moderna e navegação intuitiva.
+    Feedback visual claro para acertos e erros.
+    Tema claro/escuro facilmente integrável (em desenvolvimento opcional).
 
-- ✅ Validação do nome no início (mínimo **3 caracteres**).
-- ✅ Sistema de **pontos dinâmico** com armazenamento no `localStorage`.
-- ✅ **Carregamento dinâmico** de perguntas e respostas via JavaScript.
-- ✅ Bloqueio do botão **“Próxima Pergunta”** até o usuário responder.
-- ✅ Busca de **informações extras da Wikipédia** para cada resposta correta.
-- ✅ Navegação entre páginas controlada via **JavaScript**.
-- ✅ **Animações futuristas**:  
-  - Astronauta flutuante.  
-  - Fundo espacial com estrelas e efeito de dobra espacial.  
-  - Efeitos de brilho e neon nos textos e botões.  
-  - Caixas com `backdrop-filter` e `box-shadow` suaves.
+🔧 **Tecnologias Utilizadas**
+    HTML5
+    CSS3 (com @keyframes, backdrop-filter, neon)
+    JavaScript (Vanilla)
+    Bootstrap 5 (ajuste de responsividade e layout)
+    Fetch API para buscar resumos na Wikipédia
+    localStorage API para persistência de dados
 
----
+💡 **Melhorias Implementadas**
+    ✅ Interface aprimorada com efeitos modernos e interativos.
+    ✅ Modularização do JavaScript para melhor legibilidade.
+    ✅ Validação de formulário com mensagens claras.
+    ✅ Utilização de canvas para criar um ambiente espacial realista.
+    ✅ Estrutura responsiva e escalável para dispositivos móveis.
 
-## 🎨 Design
+📌 **Requisitos para Execução**
 
-- Interface futurista com **animações** e efeitos de **neon**.
-- Fundo com **canvas animado** de estrelas e dobra espacial.
-- Elementos flutuantes e responsivos.
-- **Feedback visual** para respostas corretas e incorretas.
-- **Informações extras** para expandir o conhecimento sobre o espaço.
+   Navegador moderno com suporte a:
+      JavaScript (ES6+)
+      Fetch API
+      Manipulação de DOM
+   Conexão com internet para carregamento da API da Wikipédia
 
----
-
-## 🛠️ Requisitos
-
-- Navegador moderno com suporte a **JavaScript** e **Fetch API** (Chrome, Firefox, Edge, Safari).
-- Conexão com **internet** para buscar as informações extras da Wikipédia.
-
----
-
-## 💡 Melhorias Implementadas
-
-- ✅ Efeitos visuais com `text-shadow`, `box-shadow` e gradientes.
-- ✅ `localStorage` para manter a pontuação entre páginas.
-- ✅ `keyframes` para animações de entrada e elementos flutuantes.
-- ✅ Estrutura de código modular e bem comentada.
-- ✅ Validação e estilização aprimoradas nos campos de input.
-- ✅ **Canvas animado** para criar o ambiente espacial imersivo.
-
----
-
-## ❓ Dúvidas ou sugestões
-
-Entre em contato!  
-Contribuições são bem-vindas. 🚀
+🤝 **Contribuições**
+   Contribuições são muito bem-vindas!
+   Sugestões de melhoria, novas funcionalidades ou correções podem ser feitas via **Pull Request** ou **Issues**.
 
 ---
 
-**Divirta-se aprendendo sobre o universo!** 🌟🌠  
+🌟 **Divirta-se aprendendo sobre o universo!**
+   "A curiosidade é o combustível da descoberta." – Carl Sagan
+    EOF
