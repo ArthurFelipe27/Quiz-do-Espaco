@@ -1,103 +1,66 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="/img/shortcutIcon.png">
-  <title>Quiz do Espaço - Resultado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="img/shortcutIcon.png">
+  <title>Login Espacial</title>
   <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <canvas id="starsCanvas"></canvas>
+  <canvas id="warpCanvas" style="display: none;"></canvas>
+
+  <div class="login-container">
+    <h1 id="title">🌌 Bem-vindo ao Espaço</h1>
+    <img class="astronaut" src="img/astronauta.png" alt="Astronauta flutuando">
+
+    <form id="loginForm">
+      <label for="username">Usuário:</label>
+      <input type="text" id="username" placeholder="Digite seu usuário..." required>
+
+      <label for="password">Senha:</label>
+      <input type="password" id="password" placeholder="Digite sua senha..." required>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <p id="errorMsg"></p>
+  </div>
+
+  <a href="creditos.html" class="botao-creditos">👩‍🚀 Créditos</a>
 
   <button id="toggleTheme" class="botao-tema">🌓 Alternar Tema</button>
 
-  <main class="container-fade-in">
-    <h1 class="titulo-espacial">Resultado</h1>
-
-    <section aria-labelledby="resultado" style="margin-top: 20px;">
-      <p id="resultado" aria-live="polite">
-        <span id="texto-resultado"></span>
-        <span class="rocket">🚀</span>
-      </p>
-    </section>
-
-    <section style="margin-top: 40px;">
-      <h2>🏆 Ranking dos Melhores</h2>
-      <ol id="lista-ranking"></ol>
-    </section>
-
-    <button id="jogar-novamente" style="margin-top: 20px;">Jogar Novamente</button>
-    <button id="reiniciar-ranking" style="margin-top: 10px;">Reiniciar Ranking</button>
-  </main>
-
   <script>
-    /*--===[FUNÇÃO PARA ATUALIZAR O RANKING NO LOCALSTORAGE]===--*/
-    function atualizarRanking(nome, pontos) {
-      const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+    /*--===[INICIALIZAÇÃO E LOGIN]===--*/
+    document.addEventListener("DOMContentLoaded", function () {
+      createStarBackground();
 
-      ranking.sort((a, b) => b.pontos - a.pontos);
+      document.getElementById("loginForm").addEventListener("submit", function (event) {
+        event.preventDefault();
 
-      if (ranking.length < 5) {
-        ranking.push({ nome, pontos });
-      } else {
-        const ultimo = ranking[ranking.length - 1];
-        if (pontos >= ultimo.pontos) {
-          ranking[ranking.length - 1] = { nome, pontos };
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const errorMsg = document.getElementById("errorMsg");
+
+        if (username.trim() === "" || password.trim() === "") {
+          errorMsg.textContent = "Usuário e senha não podem estar vazios!";
+        } else if (password !== "12345") {
+          errorMsg.textContent = "Senha incorreta! Tente novamente.";
         } else {
-          return;
+          localStorage.setItem("nomeJogador", username);
+
+          // Iniciar túnel de luz
+          triggerWarpEffect();
+
+          setTimeout(() => {
+            window.location.href = "quiz.html";
+          }, 2000);
         }
-      }
-
-      ranking.sort((a, b) => b.pontos - a.pontos);
-      localStorage.setItem('ranking', JSON.stringify(ranking));
-    }
-
-    /*--===[FUNÇÃO PARA EXIBIR O RANKING NA TELA]===--*/
-    function exibirRanking() {
-      const listaRanking = document.getElementById('lista-ranking');
-      const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-
-      listaRanking.innerHTML = '';
-      ranking.forEach((jogador, index) => {
-        const item = document.createElement('li');
-        item.textContent = `${index + 1}º - ${jogador.nome}: ${jogador.pontos} ponto${jogador.pontos === 1 ? '' : 's'}`;
-        listaRanking.appendChild(item);
       });
-    }
-
-    /*--===[FUNÇÃO PARA REINICIAR O RANKING]===--*/
-    function reiniciarRanking() {
-      if (confirm("Tem certeza que deseja apagar todo o ranking?")) {
-        localStorage.removeItem('ranking');
-        exibirRanking();
-      }
-    }
-
-    /*--===[INICIALIZAÇÃO AO CARREGAR A PÁGINA]===--*/
-    document.addEventListener('DOMContentLoaded', () => {
-      const pontos = Number(localStorage.getItem('pontos')) || 0;
-      const nome = localStorage.getItem('nomeJogador') || 'Jogador';
-
-      const resultadoEl = document.getElementById('texto-resultado');
-      if (resultadoEl) { // Adiciona verificação para garantir que o elemento existe
-        resultadoEl.textContent = `${nome}, você fez ${pontos} ponto${pontos === 1 ? '' : 's'}!`;
-      }
-
-
-      atualizarRanking(nome, pontos);
-      exibirRanking();
-
-      document.getElementById('jogar-novamente').addEventListener('click', () => {
-        localStorage.removeItem('pontos');
-        localStorage.removeItem('nomeJogador');
-        window.location.href = 'index.html';
-      });
-
-      document.getElementById('reiniciar-ranking').addEventListener('click', reiniciarRanking);
     });
 
     /*--===[FUNDO ESTRELADO ANIMADO]===--*/
@@ -138,10 +101,53 @@
       animateStars();
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      createStarBackground();
-    });
+    /*--===[EFEITO DE TÚNEL INTERGALÁCTICO]===--*/
+    function triggerWarpEffect() {
+      const canvas = document.getElementById("warpCanvas");
+      canvas.style.display = "block";
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
 
+      let lines = [];
+      for (let i = 0; i < 50; i++) {
+        lines.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          length: Math.random() * 50 + 50,
+          velocity: Math.random() * 5 + 2,
+          alpha: 1
+        });
+      }
+
+      function animateWarp() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        lines.forEach((line, index) => {
+          ctx.strokeStyle = `rgba(255, 255, 255, ${line.alpha})`;
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(line.x, line.y);
+          ctx.lineTo(line.x, line.y - line.length);
+          ctx.stroke();
+
+          line.y -= line.velocity;
+          line.alpha -= 0.02;
+
+          if (line.alpha <= 0) {
+            lines.splice(index, 1);
+          }
+        });
+
+        if (lines.length > 0) {
+          requestAnimationFrame(animateWarp);
+        }
+      }
+
+      animateWarp();
+    }
   </script>
   <script src="js/tema.js"></script>
 </body>
