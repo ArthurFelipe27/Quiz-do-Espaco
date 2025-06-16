@@ -2,23 +2,22 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/img/shortcutIcon.png">
-    <title>Quiz do Espaço - Resultado</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/img/shortcutIcon.png">
+  <title>Quiz do Espaço - Resultado</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- /*--===[FUNDO ESPACIAL]===--*/ -->
-  <div class="bg-space"></div>
+  <canvas id="starsCanvas"></canvas>
 
-  <!-- /*--===[CONTAINER PRINCIPAL DE RESULTADO]===--*/ -->
+  <button id="toggleTheme" class="botao-tema">🌓 Alternar Tema</button>
+
   <main class="container-fade-in">
     <h1 class="titulo-espacial">Resultado</h1>
 
-    <!-- /*--===[SEÇÃO DE RESULTADO DO JOGADOR]===--*/ -->
     <section aria-labelledby="resultado" style="margin-top: 20px;">
       <p id="resultado" aria-live="polite">
         <span id="texto-resultado"></span>
@@ -26,13 +25,11 @@
       </p>
     </section>
 
-    <!-- /*--===[SEÇÃO DE RANKING]===--*/ -->
     <section style="margin-top: 40px;">
       <h2>🏆 Ranking dos Melhores</h2>
       <ol id="lista-ranking"></ol>
     </section>
 
-    <!-- /*--===[BOTÕES DE AÇÃO]===--*/ -->
     <button id="jogar-novamente" style="margin-top: 20px;">Jogar Novamente</button>
     <button id="reiniciar-ranking" style="margin-top: 10px;">Reiniciar Ranking</button>
   </main>
@@ -85,8 +82,11 @@
       const pontos = Number(localStorage.getItem('pontos')) || 0;
       const nome = localStorage.getItem('nomeJogador') || 'Jogador';
 
-      const resultadoEl = document.getElementById('texto-resultado').textContent =
-        `${nome}, você fez ${pontos} ponto${pontos === 1 ? '' : 's'}!`;
+      const resultadoEl = document.getElementById('texto-resultado');
+      if (resultadoEl) { // Adiciona verificação para garantir que o elemento existe
+        resultadoEl.textContent = `${nome}, você fez ${pontos} ponto${pontos === 1 ? '' : 's'}!`;
+      }
+
 
       atualizarRanking(nome, pontos);
       exibirRanking();
@@ -99,7 +99,51 @@
 
       document.getElementById('reiniciar-ranking').addEventListener('click', reiniciarRanking);
     });
+
+    /*--===[FUNDO ESTRELADO ANIMADO]===--*/
+    function createStarBackground() {
+      const canvas = document.getElementById("starsCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let stars = [];
+      for (let i = 0; i < 100; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2,
+          velocity: Math.random() * 0.5
+        });
+      }
+
+      function animateStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+          ctx.fillStyle = "white";
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+          ctx.fill();
+          star.y += star.velocity;
+
+          if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+          }
+        });
+
+        requestAnimationFrame(animateStars);
+      }
+
+      animateStars();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      createStarBackground();
+    });
+
   </script>
+  <script src="js/tema.js"></script>
 </body>
 
 </html>

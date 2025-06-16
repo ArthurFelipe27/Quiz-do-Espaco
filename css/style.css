@@ -27,9 +27,17 @@ body {
 }
 
 @keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0); }
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
 /*===[TÍTULO COM EFEITO DE BRILHO]===*/
@@ -39,8 +47,13 @@ body {
 }
 
 @keyframes glow {
-    0% { text-shadow: 0 0 10px white; }
-    100% { text-shadow: 0 0 20px cyan; }
+    0% {
+        text-shadow: 0 0 10px white;
+    }
+
+    100% {
+        text-shadow: 0 0 20px cyan;
+    }
 }
 
 /*===[FUNDO ANIMADO COM ESTRELAS E WARP]===*/
@@ -70,8 +83,15 @@ body {
 }
 
 @keyframes portalOpen {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /*===[ESTILO DOS INPUTS]===*/
@@ -198,9 +218,17 @@ button:hover {
 }
 
 @keyframes flutuar {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
 /*===[BOTÃO DE CRÉDITOS FIXO]===*/
@@ -266,7 +294,9 @@ button:hover {
 
 /*===[EFEITO DE BRILHO PARA NOMES ESTELARES]===*/
 @keyframes brilharEstrela {
-    0%, 100% {
+
+    0%,
+    100% {
         text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 15px #0ff;
     }
 
@@ -281,4 +311,125 @@ button:hover {
     font-weight: bold;
     font-size: 1.2em;
     display: inline-block;
+}
+
+
+/*===[BOTÃO DE TEMA]===*/
+.botao-tema {
+    position: fixed;
+    width: 150px;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.botao-tema:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/*===[TEMA CLARO]===*/
+body.light-theme {
+    background: #f0f0f0;
+    color: #333;
+}
+
+body.light-theme #title,
+body.light-theme .titulo-espacial {
+    text-shadow: 0 0 5px #333;
+    animation: none;
+    /* Desativa o glow no tema claro */
+    color: #333;
+}
+
+body.light-theme .login-container,
+body.light-theme .pergunta-container,
+body.light-theme .container-fade-in,
+body.light-theme .creditos-container {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    color: #333;
+}
+
+body.light-theme input {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+body.light-theme input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-theme input:focus {
+    box-shadow: 0 0 10px #0088cc;
+}
+
+body.light-theme button {
+    background: linear-gradient(45deg, #00d2ff, #ff00ff);
+    color: white;
+    /* Mantém o texto do botão branco para contraste */
+}
+
+body.light-theme button:hover {
+    background: linear-gradient(45deg, #0088cc, #6600cc);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+body.light-theme .botao-creditos,
+body.light-theme .botao-voltar,
+body.light-theme .botao-tema {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+body.light-theme .botao-creditos:hover,
+body.light-theme .botao-voltar:hover,
+body.light-theme .botao-tema:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+body.light-theme .estrela-nome {
+    animation: none;
+    /* Desativa o brilho no tema claro */
+    color: #333;
+    text-shadow: none;
+}
+
+body.light-theme #feedback {
+    color: inherit;
+    /* Volta para a cor padrão do texto no tema claro */
+}
+
+body.light-theme #feedback[style*="green"] {
+    color: green !important;
+}
+
+body.light-theme #feedback[style*="red"] {
+    color: red !important;
+}
+
+body.light-theme #feedback[style*="orange"] {
+    color: orange !important;
+}
+
+body.light-theme #info-extra {
+    background: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+body.light-theme #starsCanvas {
+    /* No modo claro, as estrelas podem ser mais escuras ou ausentes para contraste */
+    filter: invert(1);
+    /* Inverte as cores das estrelas para escuro */
+    opacity: 0.5;
+    /* Reduz a opacidade para que não fiquem muito proeminentes */
 }

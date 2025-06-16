@@ -11,39 +11,28 @@
 </head>
 
 <body>
-
-    <!--===[FUNDO ESTRELADO ANIMADO COM CANVAS]===-->
+    <button id="toggleTheme" class="botao-tema">🌓 Alternar Tema</button>
     <canvas id="starsCanvas"></canvas>
 
-    <!--===[IMAGEM DO ASTRONAUTA FLUTUANTE]===-->
     <img src="img/astronauta.png" alt="Astronauta flutuando" class="astronaut">
 
-    <!--===[CONTAINER PRINCIPAL DO QUIZ]===-->
     <main class="pergunta-container">
 
-        <!--===[TÍTULO DO QUIZ]===-->
         <h1 id="title">Quiz do Espaço</h1>
 
-        <!--===[EXIBIÇÃO DO NOME DO JOGADOR]===-->
         <div id="player-name" class="player-name"></div>
 
-        <!--===[SEÇÃO DA PERGUNTA E RESPOSTAS]===-->
         <section aria-labelledby="question">
-            <!-- Pergunta atual -->
             <p id="question" class="pergunta"></p>
 
-            <!-- Botões de resposta -->
             <div id="answers" role="group" aria-label="Opções de resposta"></div>
         </section>
 
-        <!--===[FEEDBACK DE RESPOSTA]===-->
         <p id="feedback" aria-live="polite" style="margin-top: 10px;"></p>
 
-        <!--===[INFORMAÇÃO EXTRA (WIKIPEDIA)]===-->
         <div id="info-extra" aria-live="polite"
             style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px;"></div>
 
-        <!--===[BOTÕES DE CONTROLE DO QUIZ]===-->
         <div style="display: flex; gap: 10px; margin-top: 15px;">
             <button id="voltar">Voltar</button>
             <button id="next-btn" type="button" disabled>Próxima Pergunta</button>
@@ -51,13 +40,18 @@
             <button id="reset-btn" type="button">Resetar Quiz</button>
         </div>
 
-        <!--===[PONTUAÇÃO DO USUÁRIO]===-->
         <p id="pontos-usuario" style="margin-top: 15px;"></p>
     </main>
 
-    <!--===[SCRIPT PRINCIPAL DO QUIZ]===-->
     <script src="js/script.js" defer></script>
+    <script src="js/tema.js" defer></script>
 
+    <script>
+        // Chama a função createStarBackground() ao carregar o quiz
+        document.addEventListener("DOMContentLoaded", function () {
+            createStarBackground();
+        });
+    </script>
 </body>
 
 

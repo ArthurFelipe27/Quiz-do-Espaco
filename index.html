@@ -10,16 +10,13 @@
 </head>
 
 <body>
-  <!-- /*--===[CANVAS ESTRELAS E TÚNEL]===--*/ -->
   <canvas id="starsCanvas"></canvas>
   <canvas id="warpCanvas" style="display: none;"></canvas>
 
-  <!-- /*--===[CONTAINER DE LOGIN]===--*/ -->
   <div class="login-container">
     <h1 id="title">🌌 Bem-vindo ao Espaço</h1>
     <img class="astronaut" src="img/astronauta.png" alt="Astronauta flutuando">
 
-    <!-- /*--===[FORMULÁRIO DE LOGIN]===--*/ -->
     <form id="loginForm">
       <label for="username">Usuário:</label>
       <input type="text" id="username" placeholder="Digite seu usuário..." required>
@@ -33,8 +30,9 @@
     <p id="errorMsg"></p>
   </div>
 
-  <!-- /*--===[LINK PARA CRÉDITOS]===--*/ -->
   <a href="creditos.html" class="botao-creditos">👩‍🚀 Créditos</a>
+
+  <button id="toggleTheme" class="botao-tema">🌓 Alternar Tema</button>
 
   <script>
     /*--===[INICIALIZAÇÃO E LOGIN]===--*/
@@ -151,7 +149,7 @@
       animateWarp();
     }
   </script>
+  <script src="js/tema.js"></script>
 </body>
-
 
 </html>
