@@ -51,21 +51,21 @@ const quiz = [
 ];
 
 //===[VARIÁVEIS DE CONTROLE DO QUIZ]===//
-let perguntaAtual = 0;
-let pontos = 0;
-let perguntasRespondidas = Array(quiz.length).fill(false);
+let perguntaAtual = 0; // ===[Controla o índice da pergunta atual]===
+let pontos = 0; // ===[Acumula a pontuação do jogador]===
+let perguntasRespondidas = Array(quiz.length).fill(false); // ===[Controla quais perguntas já foram respondidas]===
 
 //===[REFERÊNCIAS A ELEMENTOS DA INTERFACE]===//
-const questionEl = document.getElementById('question');
-const answersEl = document.getElementById('answers');
-const feedbackEl = document.getElementById('feedback');
-const infoExtraEl = document.getElementById('info-extra');
-const nextBtn = document.getElementById('next-btn');
-const voltarBtn = document.getElementById('voltar');
-const resetBtn = document.getElementById('reset-btn');
-const pularBtn = document.getElementById('pular-btn');
-const pontosUsuarioEl = document.getElementById('pontos-usuario');
-const playerNameEl = document.getElementById('player-name');
+const questionEl = document.getElementById('question'); // ===[Elemento onde será exibida a pergunta]===
+const answersEl = document.getElementById('answers'); // ===[Elemento onde os botões de resposta serão inseridos]===
+const feedbackEl = document.getElementById('feedback'); // ===[Elemento para exibir feedback correto/incorreto]===
+const infoExtraEl = document.getElementById('info-extra'); // ===[Elemento para exibir informações da Wikipedia]===
+const nextBtn = document.getElementById('next-btn'); // ===[Botão "Próxima Pergunta"]===
+const voltarBtn = document.getElementById('voltar'); // ===[Botão "Voltar"]===
+const resetBtn = document.getElementById('reset-btn'); // ===[Botão "Resetar Quiz"]===
+const pularBtn = document.getElementById('pular-btn'); // ===[Botão "Pular Pergunta"]===
+const pontosUsuarioEl = document.getElementById('pontos-usuario'); // ===[Elemento para mostrar a pontuação]===
+const playerNameEl = document.getElementById('player-name'); // ===[Elemento para mostrar o nome do jogador]===
 
 //===[FUNÇÃO PARA SALVAR PROGRESSO NO localStorage]===//
 function salvarProgresso() {
@@ -102,7 +102,7 @@ function carregarPergunta() {
   const q = quiz[perguntaAtual];
   questionEl.textContent = q.pergunta;
 
-  // Cria os botões de resposta
+  // ===[Cria os botões de resposta dinamicamente]===
   q.respostas.forEach((resp, i) => {
     const btn = document.createElement('button');
     btn.textContent = resp;
@@ -110,13 +110,13 @@ function carregarPergunta() {
     if (perguntasRespondidas[perguntaAtual]) {
       btn.disabled = true;
     } else {
-      btn.onclick = () => verificarResposta(i);
+      btn.onclick = () => verificarResposta(i); // ===[Atribui evento ao botão]===
     }
 
     answersEl.appendChild(btn);
   });
 
-  // Caso a pergunta já tenha sido respondida
+  // ===[Caso já tenha respondido, exibe feedback e info extra]===
   if (perguntasRespondidas[perguntaAtual]) {
     nextBtn.disabled = false;
     nextBtn.style.display = 'inline-block';
@@ -143,7 +143,7 @@ function verificarResposta(indiceSelecionado) {
     } else {
       feedbackEl.textContent = 'Resposta incorreta.';
       feedbackEl.style.color = 'red';
-      pontos = Math.max(0, pontos - 5);
+      pontos = Math.max(0, pontos - 5); // ===[Garante que a pontuação não fique negativa]===
     }
 
     perguntasRespondidas[perguntaAtual] = true;
@@ -179,9 +179,9 @@ function buscarInfoExtra(termo) {
 nextBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
-    localStorage.setItem('pontos', pontos);
+    localStorage.setItem('pontos', pontos); // ===[Salva os pontos finais]===
     localStorage.removeItem('progressoQuiz');
-    window.location.href = 'resultado.html';
+    window.location.href = 'resultado.html'; // ===[Vai para a tela de resultado]===
   } else {
     carregarPergunta();
   }
@@ -228,8 +228,8 @@ window.onload = () => {
     window.location.href = 'index.html';
     return;
   }
-  playerNameEl.textContent = `Jogador(a): ${nome}`;
 
+  playerNameEl.textContent = `Jogador(a): ${nome}`;
   carregarProgresso();
   carregarPergunta();
 };

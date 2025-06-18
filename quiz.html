@@ -2,57 +2,85 @@
 <html lang="pt-BR">
 
 <head>
+    <!-- Define o conjunto de caracteres como UTF-8 para suportar acentuação -->
     <meta charset="UTF-8">
+
+    <!-- Garante que a visualização se ajuste corretamente em dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Ícone da aba do navegador -->
     <link rel="shortcut icon" href="img/shortcutIcon.png">
+
+    <!-- Título exibido na aba do navegador -->
     <title>Quiz do Espaço - Perguntas</title>
+
+    <!-- Estilo principal do projeto -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Fonte futurista usada no quiz -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <!-- Botão fixo no canto superior direito para alternar entre tema escuro/claro -->
     <button id="toggleTheme" class="botao-tema">🌓 Alternar Tema</button>
+
+    <!-- Canvas com estrelas de fundo animadas -->
     <canvas id="starsCanvas"></canvas>
 
+    <!-- Astronauta animado flutuando na tela -->
     <img src="img/astronauta.png" alt="Astronauta flutuando" class="astronaut">
 
+    <!-- Container principal com as perguntas do quiz -->
     <main class="pergunta-container">
 
+        <!-- Título principal do quiz -->
         <h1 id="title">Quiz do Espaço</h1>
 
+        <!-- Exibição dinâmica do nome do jogador -->
         <div id="player-name" class="player-name"></div>
 
+        <!-- Seção da pergunta e respostas -->
         <section aria-labelledby="question">
+            <!-- Texto da pergunta é inserido dinamicamente -->
             <p id="question" class="pergunta"></p>
 
+            <!-- Botões de respostas são inseridos aqui via JavaScript -->
             <div id="answers" role="group" aria-label="Opções de resposta"></div>
         </section>
 
+        <!-- Feedback visual após a resposta do usuário -->
         <p id="feedback" aria-live="polite" style="margin-top: 10px;"></p>
 
+        <!-- Informação extra da Wikipedia exibida após a pergunta ser respondida -->
         <div id="info-extra" aria-live="polite"
-            style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px;"></div>
-
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <button id="voltar">Voltar</button>
-            <button id="next-btn" type="button" disabled>Próxima Pergunta</button>
-            <button id="pular-btn" type="button">Pular Pergunta</button>
-            <button id="reset-btn" type="button">Resetar Quiz</button>
+            style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px;">
         </div>
 
+        <!-- Botões de navegação do quiz -->
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button id="voltar">Voltar</button> <!-- Retorna à tela anterior -->
+            <button id="next-btn" type="button" disabled>Próxima Pergunta</button> <!-- Vai para a próxima pergunta -->
+            <button id="pular-btn" type="button">Pular Pergunta</button> <!-- Pula a pergunta atual -->
+            <button id="reset-btn" type="button">Resetar Quiz</button> <!-- Reinicia o quiz do zero -->
+        </div>
+
+        <!-- Exibição da pontuação do usuário -->
         <p id="pontos-usuario" style="margin-top: 15px;"></p>
     </main>
 
+    <!-- Script principal do quiz (perguntas, respostas, lógica do jogo) -->
     <script src="js/script.js" defer></script>
+
+    <!-- Script de alternância entre tema escuro e claro -->
     <script src="js/tema.js" defer></script>
 
+    <!-- Script responsável por gerar o fundo estrelado ao carregar a página -->
     <script>
-        // Chama a função createStarBackground() ao carregar o quiz
         document.addEventListener("DOMContentLoaded", function () {
             createStarBackground();
         });
     </script>
 </body>
-
 
 </html>

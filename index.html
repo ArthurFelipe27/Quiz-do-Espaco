@@ -1,63 +1,66 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt"> <!-- ===[LINGUAGEM DEFINIDA COMO PORTUGUÊS]=== -->
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"> <!-- ===[CONFIGURAÇÃO DE CARACTERES PARA UTF-8]=== -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="img/shortcutIcon.png">
-  <title>Login Espacial</title>
-  <link rel="stylesheet" href="css/style.css">
+  <!-- ===[TORNA O SITE RESPONSIVO EM DISPOSITIVOS MÓVEIS]=== -->
+  <link rel="shortcut icon" href="img/shortcutIcon.png"> <!-- ===[ÍCONE DE ABA DO NAVEGADOR]=== -->
+  <title>Login Espacial</title> <!-- ===[TÍTULO DA ABA DO NAVEGADOR]=== -->
+  <link rel="stylesheet" href="css/style.css"> <!-- ===[IMPORTAÇÃO DO ARQUIVO DE ESTILOS CSS]=== -->
 </head>
 
 <body>
-  <canvas id="starsCanvas"></canvas>
-  <canvas id="warpCanvas" style="display: none;"></canvas>
+  <canvas id="starsCanvas"></canvas> <!-- ===[CANVAS PARA ANIMAÇÃO DAS ESTRELAS DE FUNDO]=== -->
+  <canvas id="warpCanvas" style="display: none;"></canvas> <!-- ===[CANVAS PARA EFEITO DE TÚNEL]=== -->
 
   <div class="login-container">
-    <h1 id="title">🌌 Bem-vindo ao Espaço</h1>
+    <h1 id="title">🌌 Bem-vindo ao Espaço</h1> <!-- ===[TÍTULO PRINCIPAL DO LOGIN]=== -->
     <img class="astronaut" src="img/astronauta.png" alt="Astronauta flutuando">
+    <!-- ===[IMAGEM ILUSTRATIVA DO LOGIN]=== -->
 
-    <form id="loginForm">
+    <form id="loginForm"> <!-- ===[FORMULÁRIO DE LOGIN]=== -->
       <label for="username">Usuário:</label>
       <input type="text" id="username" placeholder="Digite seu usuário..." required>
+      <!-- ===[CAMPO DE TEXTO PARA O USUÁRIO]=== -->
 
       <label for="password">Senha:</label>
-      <input type="password" id="password" placeholder="Digite sua senha..." required>
+      <input type="password" id="password" placeholder="Digite sua senha..." required> <!-- ===[CAMPO DE SENHA]=== -->
 
-      <button type="submit">Entrar</button>
+      <button type="submit">Entrar</button> <!-- ===[BOTÃO DE ENVIO DO LOGIN]=== -->
     </form>
 
-    <p id="errorMsg"></p>
+    <p id="errorMsg"></p> <!-- ===[ÁREA PARA MENSAGENS DE ERRO]=== -->
   </div>
 
-  <a href="creditos.html" class="botao-creditos">👩‍🚀 Créditos</a>
+  <a href="creditos.html" class="botao-creditos">👩‍🚀 Créditos</a> <!-- ===[BOTÃO QUE LEVA À PÁGINA DE CRÉDITOS]=== -->
 
   <button id="toggleTheme" class="botao-tema">🌓 Alternar Tema</button>
+  <!-- ===[BOTÃO PARA TROCAR TEMA CLARO/ESCURO]=== -->
 
   <script>
     /*--===[INICIALIZAÇÃO E LOGIN]===--*/
     document.addEventListener("DOMContentLoaded", function () {
-      createStarBackground();
+      createStarBackground(); // ===[INICIA O FUNDO ESTRELADO ASSIM QUE A PÁGINA CARREGA]===
 
       document.getElementById("loginForm").addEventListener("submit", function (event) {
-        event.preventDefault();
+        event.preventDefault(); // ===[IMPEDE O ENVIO PADRÃO DO FORMULÁRIO]===
 
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         const errorMsg = document.getElementById("errorMsg");
 
         if (username.trim() === "" || password.trim() === "") {
-          errorMsg.textContent = "Usuário e senha não podem estar vazios!";
+          errorMsg.textContent = "Usuário e senha não podem estar vazios!"; // ===[VALIDAÇÃO DE CAMPOS VAZIOS]===
         } else if (password !== "12345") {
-          errorMsg.textContent = "Senha incorreta! Tente novamente.";
+          errorMsg.textContent = "Senha incorreta! Tente novamente."; // ===[SENHA FIXA DE TESTE — AJUSTE PARA USO REAL]===
         } else {
-          localStorage.setItem("nomeJogador", username);
+          localStorage.setItem("nomeJogador", username); // ===[ARMAZENA NOME DO USUÁRIO LOCALMENTE]===
 
-          // Iniciar túnel de luz
-          triggerWarpEffect();
+          triggerWarpEffect(); // ===[DISPARA ANIMAÇÃO DE TÚNEL]===
 
           setTimeout(() => {
-            window.location.href = "quiz.html";
+            window.location.href = "quiz.html"; // ===[REDIRECIONA PARA A PÁGINA DO QUIZ APÓS ANIMAÇÃO]===
           }, 2000);
         }
       });
@@ -70,9 +73,9 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      let stars = [];
+      let estrelas = []; // ===[ARRAY PARA ARMAZENAR AS ESTRELAS]===
       for (let i = 0; i < 100; i++) {
-        stars.push({
+        estrelas.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size: Math.random() * 2,
@@ -82,20 +85,20 @@
 
       function animateStars() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(star => {
+        estrelas.forEach(estrela => {
           ctx.fillStyle = "white";
           ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+          ctx.arc(estrela.x, estrela.y, estrela.size, 0, Math.PI * 2);
           ctx.fill();
-          star.y += star.velocity;
+          estrela.y += estrela.velocity;
 
-          if (star.y > canvas.height) {
-            star.y = 0;
-            star.x = Math.random() * canvas.width;
+          if (estrela.y > canvas.height) {
+            estrela.y = 0;
+            estrela.x = Math.random() * canvas.width;
           }
         });
 
-        requestAnimationFrame(animateStars);
+        requestAnimationFrame(animateStars); // ===[LOOP ANIMADO PARA O FUNDO]===
       }
 
       animateStars();
@@ -104,14 +107,14 @@
     /*--===[EFEITO DE TÚNEL INTERGALÁCTICO]===--*/
     function triggerWarpEffect() {
       const canvas = document.getElementById("warpCanvas");
-      canvas.style.display = "block";
+      canvas.style.display = "block"; // ===[MOSTRA O CANVAS DO TÚNEL]===
       const ctx = canvas.getContext("2d");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      let lines = [];
+      let linhas = []; // ===[ARRAY PARA RISCOS DO TÚNEL]===
       for (let i = 0; i < 50; i++) {
-        lines.push({
+        linhas.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           length: Math.random() * 50 + 50,
@@ -123,33 +126,34 @@
       function animateWarp() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // ===[FUNDO SEMI-TRANSPARENTE PARA TRAIL]===
 
-        lines.forEach((line, index) => {
-          ctx.strokeStyle = `rgba(255, 255, 255, ${line.alpha})`;
+        linhas.forEach((linha, index) => {
+          ctx.strokeStyle = `rgba(255, 255, 255, ${linha.alpha})`;
           ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.moveTo(line.x, line.y);
-          ctx.lineTo(line.x, line.y - line.length);
+          ctx.moveTo(linha.x, linha.y);
+          ctx.lineTo(linha.x, linha.y - linha.length);
           ctx.stroke();
 
-          line.y -= line.velocity;
-          line.alpha -= 0.02;
+          linha.y -= linha.velocity;
+          linha.alpha -= 0.02;
 
-          if (line.alpha <= 0) {
-            lines.splice(index, 1);
+          if (linha.alpha <= 0) {
+            linhas.splice(index, 1); // ===[REMOVE LINHAS INVISÍVEIS PARA ECONOMIZAR PROCESSAMENTO]===
           }
         });
 
-        if (lines.length > 0) {
-          requestAnimationFrame(animateWarp);
+        if (linhas.length > 0) {
+          requestAnimationFrame(animateWarp); // ===[CONTINUA ANIMAÇÃO ENQUANTO TIVER LINHAS]===
         }
       }
 
       animateWarp();
     }
   </script>
-  <script src="js/tema.js"></script>
+
+  <script src="js/tema.js"></script> <!-- ===[SCRIPT PARA GERENCIAR O TEMA CLARO/ESCURO]=== -->
 </body>
 
 </html>

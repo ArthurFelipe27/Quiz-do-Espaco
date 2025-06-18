@@ -11,13 +11,16 @@
 </head>
 
 <body>
+  <!-- ===[Canvas para o fundo animado de estrelas]=== -->
   <canvas id="starsCanvas"></canvas>
 
+  <!-- ===[Botão de alternância de tema claro/escuro]=== -->
   <button id="toggleTheme" class="botao-tema">🌓 Alternar Tema</button>
 
   <main class="container-fade-in">
     <h1 class="titulo-espacial">Resultado</h1>
 
+    <!-- ===[Seção de exibição da pontuação final]=== -->
     <section aria-labelledby="resultado" style="margin-top: 20px;">
       <p id="resultado" aria-live="polite">
         <span id="texto-resultado"></span>
@@ -25,20 +28,23 @@
       </p>
     </section>
 
+    <!-- ===[Seção de ranking com os melhores jogadores]=== -->
     <section style="margin-top: 40px;">
       <h2>🏆 Ranking dos Melhores</h2>
       <ol id="lista-ranking"></ol>
     </section>
 
+    <!-- ===[Botões de ação]=== -->
     <button id="jogar-novamente" style="margin-top: 20px;">Jogar Novamente</button>
     <button id="reiniciar-ranking" style="margin-top: 10px;">Reiniciar Ranking</button>
   </main>
 
   <script>
-    /*--===[FUNÇÃO PARA ATUALIZAR O RANKING NO LOCALSTORAGE]===--*/
+    // ===[Atualiza o ranking no localStorage com novo jogador, se pontuação for alta o suficiente]===
     function atualizarRanking(nome, pontos) {
       const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
 
+      // Ordena do maior para o menor
       ranking.sort((a, b) => b.pontos - a.pontos);
 
       if (ranking.length < 5) {
@@ -48,7 +54,7 @@
         if (pontos >= ultimo.pontos) {
           ranking[ranking.length - 1] = { nome, pontos };
         } else {
-          return;
+          return; // pontuação não alta o suficiente
         }
       }
 
@@ -56,7 +62,7 @@
       localStorage.setItem('ranking', JSON.stringify(ranking));
     }
 
-    /*--===[FUNÇÃO PARA EXIBIR O RANKING NA TELA]===--*/
+    // ===[Exibe o ranking de jogadores no elemento <ol>]===
     function exibirRanking() {
       const listaRanking = document.getElementById('lista-ranking');
       const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
@@ -69,7 +75,7 @@
       });
     }
 
-    /*--===[FUNÇÃO PARA REINICIAR O RANKING]===--*/
+    // ===[Permite reiniciar (apagar) completamente o ranking]===
     function reiniciarRanking() {
       if (confirm("Tem certeza que deseja apagar todo o ranking?")) {
         localStorage.removeItem('ranking');
@@ -77,30 +83,31 @@
       }
     }
 
-    /*--===[INICIALIZAÇÃO AO CARREGAR A PÁGINA]===--*/
+    // ===[Executa quando a página estiver carregada]===
     document.addEventListener('DOMContentLoaded', () => {
       const pontos = Number(localStorage.getItem('pontos')) || 0;
       const nome = localStorage.getItem('nomeJogador') || 'Jogador';
 
       const resultadoEl = document.getElementById('texto-resultado');
-      if (resultadoEl) { // Adiciona verificação para garantir que o elemento existe
+      if (resultadoEl) {
         resultadoEl.textContent = `${nome}, você fez ${pontos} ponto${pontos === 1 ? '' : 's'}!`;
       }
 
+      atualizarRanking(nome, pontos); // atualiza ranking se aplicável
+      exibirRanking(); // mostra ranking na tela
 
-      atualizarRanking(nome, pontos);
-      exibirRanking();
-
+      // ===[Botão: Jogar Novamente]===
       document.getElementById('jogar-novamente').addEventListener('click', () => {
         localStorage.removeItem('pontos');
         localStorage.removeItem('nomeJogador');
         window.location.href = 'index.html';
       });
 
+      // ===[Botão: Reiniciar Ranking]===
       document.getElementById('reiniciar-ranking').addEventListener('click', reiniciarRanking);
     });
 
-    /*--===[FUNDO ESTRELADO ANIMADO]===--*/
+    // ===[Cria o fundo animado com estrelas]===
     function createStarBackground() {
       const canvas = document.getElementById("starsCanvas");
       const ctx = canvas.getContext("2d");
@@ -117,6 +124,7 @@
         });
       }
 
+      // ===[Função de animação das estrelas]===
       function animateStars() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         stars.forEach(star => {
@@ -126,6 +134,7 @@
           ctx.fill();
           star.y += star.velocity;
 
+          // Reposiciona a estrela quando ela sai da tela
           if (star.y > canvas.height) {
             star.y = 0;
             star.x = Math.random() * canvas.width;
@@ -138,11 +147,13 @@
       animateStars();
     }
 
+    // ===[Executa a animação ao carregar a página]===
     document.addEventListener("DOMContentLoaded", function () {
       createStarBackground();
     });
-
   </script>
+
+  <!-- ===[Script para alternar tema claro/escuro]=== -->
   <script src="js/tema.js"></script>
 </body>
 

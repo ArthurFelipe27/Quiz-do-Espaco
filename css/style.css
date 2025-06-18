@@ -1,10 +1,12 @@
-/*===[RESET E ESTILO BASE]===*/
+/*===[RESET E ESTILO BASE]===
+Remove margens, preenchimentos e aplica box-sizing global */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/*===[ESTILO DO CORPO (tema escuro padrão)]===*/
 body {
     background: black;
     color: white;
@@ -17,7 +19,7 @@ body {
     position: relative;
 }
 
-/*===[ASTRONAUTA FLUTUANDO]===*/
+/*===[ANIMAÇÃO DO ASTRONAUTA FLUTUANDO NO TOPO DIREITO]===*/
 .astronaut {
     position: absolute;
     top: 50px;
@@ -40,7 +42,7 @@ body {
     }
 }
 
-/*===[TÍTULO COM EFEITO DE BRILHO]===*/
+/*===[EFEITO DE BRILHO NO TÍTULO PRINCIPAL]===*/
 #title {
     text-shadow: 0 0 10px white;
     animation: glow 2s infinite alternate;
@@ -56,7 +58,7 @@ body {
     }
 }
 
-/*===[FUNDO ANIMADO COM ESTRELAS E WARP]===*/
+/*===[FUNDO COM ESTRELAS E EFEITO DE WARP FIXO]===*/
 #starsCanvas,
 #warpCanvas {
     position: fixed;
@@ -67,7 +69,7 @@ body {
     z-index: -1;
 }
 
-/*===[CONTAINER DE LOGIN FUTURISTA]===*/
+/*===[CONTAINER DE LOGIN COM ESTILO FUTURISTA]===*/
 .login-container {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -82,6 +84,7 @@ body {
     animation: portalOpen 1s ease-out;
 }
 
+/*===[ANIMAÇÃO DE ABERTURA COMO PORTAL]===*/
 @keyframes portalOpen {
     0% {
         transform: scale(0);
@@ -94,7 +97,7 @@ body {
     }
 }
 
-/*===[ESTILO DOS INPUTS]===*/
+/*===[ESTILO DOS CAMPOS DE TEXTO (inputs)]===*/
 input {
     width: 100%;
     padding: 10px;
@@ -115,7 +118,7 @@ input::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/*===[ESTILO DOS BOTÕES]===*/
+/*===[BOTÕES COM GRADIENTE E INTERAÇÃO]===*/
 button {
     background: linear-gradient(45deg, #ff00ff, #00d2ff);
     border: none;
@@ -140,7 +143,7 @@ button:hover {
     margin-top: 10px;
 }
 
-/*===[CONTAINER DE PERGUNTAS DO QUIZ]===*/
+/*===[CONTAINER DAS PERGUNTAS DO QUIZ]===*/
 .pergunta-container {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -160,19 +163,19 @@ button:hover {
     font-size: 1.2em;
 }
 
-/*===[BOTÕES DE RESPOSTAS DO QUIZ]===*/
+/*===[BOTÕES DAS RESPOSTAS]===*/
 #answers button {
     margin: 10px 0;
     width: 100%;
 }
 
-/*===[FEEDBACK APÓS RESPOSTA]===*/
+/*===[MENSAGEM DE FEEDBACK (após resposta)]===*/
 #feedback {
     margin-top: 20px;
     font-weight: bold;
 }
 
-/*===[INFORMAÇÃO EXTRA (Wikipedia)]===*/
+/*===[CAIXA DE INFORMAÇÃO EXTRA (Wikipedia)]===*/
 #info-extra {
     margin-top: 20px;
     padding: 10px 20px;
@@ -189,14 +192,14 @@ button:hover {
     max-height: 250px;
 }
 
-/*===[EXIBIÇÃO DE PONTUAÇÃO DO USUÁRIO]===*/
+/*===[EXIBIÇÃO DE PONTOS DO USUÁRIO]===*/
 #pontos-usuario {
     margin-top: 20px;
     font-size: 1.1em;
     font-weight: bold;
 }
 
-/*===[CONTAINER COM ANIMAÇÃO FADE-IN]===*/
+/*===[CONTAINER COM ANIMAÇÃO DE APARECIMENTO]===*/
 .container-fade-in {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -211,7 +214,7 @@ button:hover {
     animation: portalOpen 1s ease-out;
 }
 
-/*===[ANIMAÇÃO DE OBJETO FLUTUANDO (FOGUETE)]===*/
+/*===[ANIMAÇÃO DE OBJETO FLUTUANTE (foguete)]===*/
 .rocket {
     display: inline-block;
     animation: flutuar 2s ease-in-out infinite;
@@ -231,7 +234,7 @@ button:hover {
     }
 }
 
-/*===[BOTÃO DE CRÉDITOS FIXO]===*/
+/*===[BOTÃO FLUTUANTE DE CRÉDITOS]===*/
 .botao-creditos {
     position: fixed;
     bottom: 20px;
@@ -251,7 +254,7 @@ button:hover {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-/*===[CONTAINER DOS CRÉDITOS]===*/
+/*===[CONTAINER DOS CRÉDITOS DO PROJETO]===*/
 .creditos-container {
     background-color: rgba(0, 0, 0, 0.6);
     padding: 30px;
@@ -273,7 +276,7 @@ button:hover {
     margin-bottom: 10px;
 }
 
-/*===[BOTÃO DE VOLTAR (PÓS-CRÉDITOS)]===*/
+/*===[BOTÃO DE VOLTAR NA TELA DE CRÉDITOS]===*/
 .botao-voltar {
     display: inline-block;
     margin-top: 30px;
@@ -292,7 +295,7 @@ button:hover {
     box-shadow: 0 0 15px white;
 }
 
-/*===[EFEITO DE BRILHO PARA NOMES ESTELARES]===*/
+/*===[EFEITO DE BRILHO ESTELAR PARA NOMES]===*/
 @keyframes brilharEstrela {
 
     0%,
@@ -313,8 +316,7 @@ button:hover {
     display: inline-block;
 }
 
-
-/*===[BOTÃO DE TEMA]===*/
+/*===[BOTÃO DE TROCA DE TEMA FIXO]===*/
 .botao-tema {
     position: fixed;
     width: 150px;
@@ -335,17 +337,17 @@ button:hover {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-/*===[TEMA CLARO]===*/
+/*===[ESTILOS PARA TEMA CLARO]===*/
 body.light-theme {
     background: #f0f0f0;
     color: #333;
 }
 
+/*===[Ajustes visuais no tema claro]===*/
 body.light-theme #title,
 body.light-theme .titulo-espacial {
     text-shadow: 0 0 5px #333;
     animation: none;
-    /* Desativa o glow no tema claro */
     color: #333;
 }
 
@@ -375,7 +377,6 @@ body.light-theme input:focus {
 body.light-theme button {
     background: linear-gradient(45deg, #00d2ff, #ff00ff);
     color: white;
-    /* Mantém o texto do botão branco para contraste */
 }
 
 body.light-theme button:hover {
@@ -399,37 +400,13 @@ body.light-theme .botao-tema:hover {
 
 body.light-theme .estrela-nome {
     animation: none;
-    /* Desativa o brilho no tema claro */
     color: #333;
     text-shadow: none;
 }
 
+/*===[Ajustes no feedback para manter cores no tema claro]===*/
 body.light-theme #feedback {
     color: inherit;
-    /* Volta para a cor padrão do texto no tema claro */
 }
 
-body.light-theme #feedback[style*="green"] {
-    color: green !important;
-}
-
-body.light-theme #feedback[style*="red"] {
-    color: red !important;
-}
-
-body.light-theme #feedback[style*="orange"] {
-    color: orange !important;
-}
-
-body.light-theme #info-extra {
-    background: rgba(0, 0, 0, 0.1);
-    color: #333;
-}
-
-body.light-theme #starsCanvas {
-    /* No modo claro, as estrelas podem ser mais escuras ou ausentes para contraste */
-    filter: invert(1);
-    /* Inverte as cores das estrelas para escuro */
-    opacity: 0.5;
-    /* Reduz a opacidade para que não fiquem muito proeminentes */
-}
+body.light-theme #feedback
