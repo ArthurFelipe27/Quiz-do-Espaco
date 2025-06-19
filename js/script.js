@@ -51,23 +51,51 @@ const quiz = [
 ];
 
 //===[VARIÁVEIS DE CONTROLE DO QUIZ]===//
-let perguntaAtual = 0; // ===[Controla o índice da pergunta atual]===
-let pontos = 0; // ===[Acumula a pontuação do jogador]===
-let perguntasRespondidas = Array(quiz.length).fill(false); // ===[Controla quais perguntas já foram respondidas]===
+let perguntaAtual = 0;
+let pontos = 0;
+let perguntasRespondidas = Array(quiz.length).fill(false);
 
-//===[REFERÊNCIAS A ELEMENTOS DA INTERFACE]===//
-const questionEl = document.getElementById('question'); // ===[Elemento onde será exibida a pergunta]===
-const answersEl = document.getElementById('answers'); // ===[Elemento onde os botões de resposta serão inseridos]===
-const feedbackEl = document.getElementById('feedback'); // ===[Elemento para exibir feedback correto/incorreto]===
-const infoExtraEl = document.getElementById('info-extra'); // ===[Elemento para exibir informações da Wikipedia]===
-const nextBtn = document.getElementById('next-btn'); // ===[Botão "Próxima Pergunta"]===
-const voltarBtn = document.getElementById('voltar'); // ===[Botão "Voltar"]===
-const resetBtn = document.getElementById('reset-btn'); // ===[Botão "Resetar Quiz"]===
-const pularBtn = document.getElementById('pular-btn'); // ===[Botão "Pular Pergunta"]===
-const pontosUsuarioEl = document.getElementById('pontos-usuario'); // ===[Elemento para mostrar a pontuação]===
-const playerNameEl = document.getElementById('player-name'); // ===[Elemento para mostrar o nome do jogador]===
+//===[TIMER]===//
+let tempoRestante = 15;
+let timerInterval = null;
+const timerEl = document.getElementById('timer');
 
-//===[FUNÇÃO PARA SALVAR PROGRESSO NO localStorage]===//
+function iniciarTimer() {
+  clearInterval(timerInterval);
+  tempoRestante = 15;
+  timerEl.textContent = `Tempo: ${tempoRestante}s`;
+
+  timerInterval = setInterval(() => {
+    tempoRestante--;
+    timerEl.textContent = `Tempo: ${tempoRestante}s`;
+
+    if (tempoRestante <= 0) {
+      clearInterval(timerInterval);
+      if (!perguntasRespondidas[perguntaAtual]) {
+        perguntasRespondidas[perguntaAtual] = true;
+        feedbackEl.textContent = 'Tempo esgotado! Nenhum ponto.';
+        feedbackEl.style.color = 'orange';
+        nextBtn.disabled = false;
+        nextBtn.style.display = 'inline-block';
+        buscarInfoExtra(quiz[perguntaAtual].termoExtra);
+      }
+    }
+  }, 1000);
+}
+
+//===[REFERÊNCIAS A ELEMENTOS]===//
+const questionEl = document.getElementById('question');
+const answersEl = document.getElementById('answers');
+const feedbackEl = document.getElementById('feedback');
+const infoExtraEl = document.getElementById('info-extra');
+const nextBtn = document.getElementById('next-btn');
+const voltarBtn = document.getElementById('voltar');
+const resetBtn = document.getElementById('reset-btn');
+const pularBtn = document.getElementById('pular-btn');
+const pontosUsuarioEl = document.getElementById('pontos-usuario');
+const playerNameEl = document.getElementById('player-name');
+
+//===[SALVAR/CARREGAR PROGRESSO]===//
 function salvarProgresso() {
   localStorage.setItem('progressoQuiz', JSON.stringify({
     perguntaAtual,
@@ -76,7 +104,6 @@ function salvarProgresso() {
   }));
 }
 
-//===[FUNÇÃO PARA CARREGAR PROGRESSO DO localStorage]===//
 function carregarProgresso() {
   const progresso = JSON.parse(localStorage.getItem('progressoQuiz'));
   if (progresso) {
@@ -90,7 +117,7 @@ function carregarProgresso() {
   }
 }
 
-//===[FUNÇÃO PARA EXIBIR A PERGUNTA NA TELA]===//
+//===[CARREGAR PERGUNTA]===//
 function carregarPergunta() {
   pontosUsuarioEl.textContent = `Pontos: ${pontos}`;
   feedbackEl.textContent = '';
@@ -102,7 +129,6 @@ function carregarPergunta() {
   const q = quiz[perguntaAtual];
   questionEl.textContent = q.pergunta;
 
-  // ===[Cria os botões de resposta dinamicamente]===
   q.respostas.forEach((resp, i) => {
     const btn = document.createElement('button');
     btn.textContent = resp;
@@ -110,27 +136,31 @@ function carregarPergunta() {
     if (perguntasRespondidas[perguntaAtual]) {
       btn.disabled = true;
     } else {
-      btn.onclick = () => verificarResposta(i); // ===[Atribui evento ao botão]===
+      btn.onclick = () => verificarResposta(i);
     }
 
     answersEl.appendChild(btn);
   });
 
-  // ===[Caso já tenha respondido, exibe feedback e info extra]===
   if (perguntasRespondidas[perguntaAtual]) {
     nextBtn.disabled = false;
     nextBtn.style.display = 'inline-block';
     feedbackEl.textContent = 'Pergunta já respondida.';
     feedbackEl.style.color = 'orange';
     buscarInfoExtra(q.termoExtra);
+    clearInterval(timerInterval);
+    timerEl.textContent = 'Tempo esgotado!';
+  } else {
+    iniciarTimer();
   }
 
   voltarBtn.style.display = perguntaAtual === 0 ? 'none' : 'inline-block';
   salvarProgresso();
 }
 
-//===[FUNÇÃO PARA VERIFICAR A RESPOSTA SELECIONADA]===//
+//===[VERIFICAR RESPOSTA]===//
 function verificarResposta(indiceSelecionado) {
+  clearInterval(timerInterval);
   const q = quiz[perguntaAtual];
   const botoes = answersEl.querySelectorAll('button');
   botoes.forEach(b => b.disabled = true);
@@ -143,7 +173,7 @@ function verificarResposta(indiceSelecionado) {
     } else {
       feedbackEl.textContent = 'Resposta incorreta.';
       feedbackEl.style.color = 'red';
-      pontos = Math.max(0, pontos - 5); // ===[Garante que a pontuação não fique negativa]===
+      pontos = Math.max(0, pontos - 5);
     }
 
     perguntasRespondidas[perguntaAtual] = true;
@@ -156,11 +186,10 @@ function verificarResposta(indiceSelecionado) {
   pontosUsuarioEl.textContent = `Pontos: ${pontos}`;
   nextBtn.disabled = false;
   nextBtn.style.display = 'inline-block';
-
   buscarInfoExtra(q.termoExtra);
 }
 
-//===[FUNÇÃO PARA BUSCAR INFORMAÇÃO EXTRA DA WIKIPEDIA]===//
+//===[BUSCAR INFO EXTRA]===//
 function buscarInfoExtra(termo) {
   infoExtraEl.textContent = 'Carregando informação extra...';
   const url = `https://pt.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(termo)}`;
@@ -175,19 +204,18 @@ function buscarInfoExtra(termo) {
     });
 }
 
-//===[BOTÃO "PRÓXIMA PERGUNTA"]===//
+//===[NAVEGAÇÃO ENTRE PERGUNTAS]===//
 nextBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
-    localStorage.setItem('pontos', pontos); // ===[Salva os pontos finais]===
+    localStorage.setItem('pontos', pontos);
     localStorage.removeItem('progressoQuiz');
-    window.location.href = 'resultado.html'; // ===[Vai para a tela de resultado]===
+    window.location.href = 'resultado.html';
   } else {
     carregarPergunta();
   }
 });
 
-//===[BOTÃO "VOLTAR"]===//
 voltarBtn.addEventListener('click', () => {
   if (perguntaAtual > 0) {
     perguntaAtual--;
@@ -195,7 +223,6 @@ voltarBtn.addEventListener('click', () => {
   }
 });
 
-//===[BOTÃO "PULAR PERGUNTA"]===//
 pularBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
@@ -207,10 +234,9 @@ pularBtn.addEventListener('click', () => {
   }
 });
 
-//===[BOTÃO "RESETAR QUIZ"]===//
 resetBtn.addEventListener('click', resetarQuiz);
 
-//===[FUNÇÃO PARA RESETAR O QUIZ]===//
+//===[RESETAR QUIZ]===//
 function resetarQuiz() {
   perguntaAtual = 0;
   pontos = 0;
@@ -220,7 +246,7 @@ function resetarQuiz() {
   carregarPergunta();
 }
 
-//===[INICIALIZAÇÃO AUTOMÁTICA AO CARREGAR A PÁGINA]===//
+//===[INICIALIZAÇÃO]===//
 window.onload = () => {
   const nome = localStorage.getItem('nomeJogador');
   if (!nome) {

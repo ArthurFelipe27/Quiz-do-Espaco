@@ -43,6 +43,9 @@
         <!-- Seção da pergunta e respostas -->
         <section aria-labelledby="question">
             <!-- Texto da pergunta é inserido dinamicamente -->
+            <div id="timer"
+                style="font-size: 1.2em; margin-bottom: 15px; color: #00d2ff; text-shadow: 0 0 8px #00d2ff;">Tempo: 30s
+            </div>
             <p id="question" class="pergunta"></p>
 
             <!-- Botões de respostas são inseridos aqui via JavaScript -->
@@ -75,12 +78,6 @@
     <!-- Script de alternância entre tema escuro e claro -->
     <script src="js/tema.js" defer></script>
 
-    <!-- Script responsável por gerar o fundo estrelado ao carregar a página -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            createStarBackground();
-        });
-    </script>
 </body>
 
 </html>
