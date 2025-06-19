@@ -1,5 +1,4 @@
-/*===[RESET E ESTILO BASE]===
-Remove margens, preenchimentos e aplica box-sizing global */
+/*===[RESET E ESTILO BASE]===*/
 * {
     margin: 0;
     padding: 0;
@@ -14,9 +13,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-x: hidden;
     position: relative;
+    padding: 20px;
 }
 
 /*===[ANIMAÇÃO DO ASTRONAUTA FLUTUANDO NO TOPO DIREITO]===*/
@@ -160,7 +160,7 @@ button:hover {
 /*===[TEXTO DA PERGUNTA]===*/
 .pergunta {
     margin-bottom: 20px;
-    font-size: 1.2em;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
 }
 
 /*===[BOTÕES DAS RESPOSTAS]===*/
@@ -337,6 +337,69 @@ button:hover {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
+/*===[RESPONSIVIDADE GERAL PARA TELAS PEQUENAS]===*/
+@media (max-width: 768px) {
+
+    .login-container,
+    .pergunta-container,
+    .container-fade-in,
+    .creditos-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .astronaut {
+        width: 60px;
+        right: 20px;
+        top: 20px;
+    }
+
+    .botao-tema {
+        width: auto;
+        font-size: 12px;
+        padding: 8px 10px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .botao-creditos {
+        bottom: 15px;
+        right: 15px;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pergunta {
+        font-size: clamp(1rem, 3vw, 1.1rem);
+    }
+
+    .estrela-nome {
+        font-size: 1em;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    input {
+        font-size: 14px;
+    }
+
+    #info-extra {
+        font-size: 0.9em;
+        padding: 8px 12px;
+        max-height: 200px;
+    }
+
+    #pontos-usuario {
+        font-size: 1em;
+    }
+}
+
+
 /*===[ESTILOS PARA TEMA CLARO]===*/
 body.light-theme {
     background: #f0f0f0;
@@ -408,5 +471,3 @@ body.light-theme .estrela-nome {
 body.light-theme #feedback {
     color: inherit;
 }
-
-body.light-theme #feedback

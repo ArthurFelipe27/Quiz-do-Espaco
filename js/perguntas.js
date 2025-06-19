@@ -93,7 +93,7 @@ const bancoDePerguntas = [
         pergunta: "Qual a distância média da Terra ao Sol?",
         respostas: ["150 milhões de km", "384 mil km", "1 bilhão de km", "27 milhões de km"],
         correta: 0,
-        termoExtra: "Distância Terra-Sol"
+        termoExtra: "Distância Terra para o Sol"
     },
     {
         pergunta: "Qual missão levou o primeiro homem à Lua?",
@@ -105,7 +105,7 @@ const bancoDePerguntas = [
         pergunta: "Qual planeta tem um dia mais longo que seu ano?",
         respostas: ["Vênus", "Marte", "Mercúrio", "Júpiter"],
         correta: 0,
-        termoExtra: "Vênus (planeta)"
+        termoExtra: "Venus (planeta)"
     },
     {
         pergunta: "Qual é o nome da maior lua de Saturno?",
@@ -129,7 +129,7 @@ const bancoDePerguntas = [
         pergunta: "Qual elemento é mais abundante no Sol?",
         respostas: ["Hidrogênio", "Hélio", "Oxigênio", "Carbono"],
         correta: 0,
-        termoExtra: "Composição do Sol"
+        termoExtra: "Hidrogenio (elemento)"
     },
     {
         pergunta: "Qual planeta possui a maior quantidade de luas conhecidas?",
@@ -165,6 +165,6 @@ const bancoDePerguntas = [
         pergunta: "Qual planeta é conhecido como o ‘planeta anão’?",
         respostas: ["Plutão", "Ceres", "Eris", "Todos os anteriores"],
         correta: 3,
-        termoExtra: "Planetas anões"
+        termoExtra: "Plutão"
     }
 ];
