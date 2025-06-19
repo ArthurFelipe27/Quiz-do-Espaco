@@ -92,6 +92,6 @@ localStorage API para persistência de dados
 
 ---
 
-🌟 **Divirta-se aprendendo sobre o universo!**  
-   *"A curiosidade é o combustível da descoberta."*  
-   – Carl Sagan
+🌟 **Divirta-se aprendendo sobre o universo!**
+   "A curiosidade é o combustível da descoberta." – Carl Sagan
+    EOF
