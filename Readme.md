@@ -75,8 +75,8 @@ Este é um projeto de **Quiz Interativo** desenvolvido com **HTML**, **CSS (com 
     ✅ Modularização do JavaScript para melhor legibilidade.
     ✅ Validação de formulário com mensagens claras.
     ✅ Utilização de canvas para criar um ambiente espacial realista.
-    ✅ Estrutura responsiva e escalável para dispositivos móveis.
-
+    ✅ Estrutura responsiva e escalável para dispositivos móveis.  
+    ✅ Um banco proprio para perguntas.
 📌 **Requisitos para Execução**
 
    Navegador moderno com suporte a:
