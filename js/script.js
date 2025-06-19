@@ -220,6 +220,10 @@ window.onload = () => {
     return;
   }
 
+  // LIMPA ESTADO SALVO
+  localStorage.removeItem('progressoQuiz');
+  localStorage.removeItem('pontos');
+
   playerNameEl.textContent = `Jogador(a): ${nome}`;
   carregarProgresso();
   carregarPergunta();
