@@ -156,18 +156,32 @@ function verificarResposta(indiceSelecionado) {
 
 //===[BUSCAR INFO EXTRA]===//
 function buscarInfoExtra(termo) {
-  infoExtraEl.textContent = 'Carregando informação extra...';
   const url = `https://pt.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(termo)}`;
 
   fetch(url)
-    .then(res => res.ok ? res.json() : Promise.reject())
-    .then(data => {
-      infoExtraEl.innerHTML = `<strong>${termo}</strong>: ${data.extract || 'Informação extra não disponível.'}`;
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Resposta não OK da Wikipedia");
+      }
+      return response.json();
     })
-    .catch(() => {
-      infoExtraEl.textContent = 'Erro ao buscar informação extra.';
+    .then(data => {
+      const infoDiv = document.getElementById("info-extra");
+
+      // Verifica se o resumo existe e não é uma página de desambiguação
+      if (data.extract && data.type !== "disambiguation") {
+        infoDiv.textContent = data.extract;
+      } else {
+        infoDiv.textContent = "Informação extra não disponível para esse tema.";
+      }
+    })
+    .catch(error => {
+      console.error("Erro ao buscar da Wikipedia:", error);
+      document.getElementById("info-extra").textContent =
+        "Não foi possível carregar a informação extra.";
     });
 }
+
 
 //===[NAVEGAÇÃO ENTRE PERGUNTAS]===//
 nextBtn.addEventListener('click', () => {
