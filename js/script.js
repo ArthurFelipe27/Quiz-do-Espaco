@@ -126,7 +126,18 @@ function verificarResposta(indiceSelecionado) {
   clearInterval(timerInterval);
   const q = quiz[perguntaAtual];
   const botoes = answersEl.querySelectorAll('button');
-  botoes.forEach(b => b.disabled = true);
+
+  botoes.forEach((btn, index) => {
+    btn.disabled = true;
+
+    if (index === q.correta) {
+      btn.classList.add('btn-correta');
+    }
+
+    if (index === indiceSelecionado && index !== q.correta) {
+      btn.classList.add('btn-incorreta');
+    }
+  });
 
   if (!perguntasRespondidas[perguntaAtual]) {
     if (indiceSelecionado === q.correta) {

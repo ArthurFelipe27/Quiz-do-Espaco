@@ -471,3 +471,15 @@ body.light-theme .estrela-nome {
 body.light-theme #feedback {
     color: inherit;
 }
+
+/*===[ESTILOS PARA RESPOSTAS CORRETAS E INCORRETAS]===*/
+
+#answers button.btn-correta {
+    background: green !important;
+    color: white !important;
+}
+
+#answers button.btn-incorreta {
+    background: red !important;
+    color: white !important;
+}
