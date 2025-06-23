@@ -15,10 +15,8 @@ function selecionarPerguntasAleatorias(banco, quantidade) {
 const quiz = selecionarPerguntasAleatorias(bancoDePerguntas, 10);
 let perguntaAtual = 0;
 let pontos = 0;
-
-// Inicialize outras variáveis baseadas em quiz.length
+let respondeuPeloMenosUma = false;
 let perguntasRespondidas = Array(quiz.length).fill(false);
-
 
 //===[CRONOMETRO/TEMPO]===//
 let tempoRestante = 15;
@@ -142,6 +140,7 @@ function verificarResposta(indiceSelecionado) {
     }
 
     perguntasRespondidas[perguntaAtual] = true;
+    respondeuPeloMenosUma = true;
     salvarProgresso();
   } else {
     feedbackEl.textContent = 'Você já respondeu esta pergunta.';
@@ -160,33 +159,47 @@ function buscarInfoExtra(termo) {
 
   fetch(url)
     .then(response => {
-      if (!response.ok) {
-        throw new Error("Resposta não OK da Wikipedia");
-      }
+      if (!response.ok) throw new Error("Resposta não OK da Wikipedia");
       return response.json();
     })
     .then(data => {
       const infoDiv = document.getElementById("info-extra");
+      infoDiv.innerHTML = "";
 
-      // Verifica se o resumo existe e não é uma página de desambiguação
       if (data.extract && data.type !== "disambiguation") {
-        infoDiv.textContent = data.extract;
+        if (data.thumbnail && data.thumbnail.source) {
+          const img = document.createElement("img");
+          img.src = data.thumbnail.source;
+          img.alt = `Imagem de ${data.title}`;
+          img.style.maxWidth = "100%";
+          img.style.borderRadius = "8px";
+          img.style.marginBottom = "10px";
+          infoDiv.appendChild(img);
+        }
+
+        const texto = document.createElement("p");
+        texto.textContent = data.extract;
+        infoDiv.appendChild(texto);
       } else {
-        infoDiv.textContent = "Informação extra não disponível para esse tema.";
+        infoDiv.textContent = "Informação extra não disponível para esse tema. 😞";
       }
     })
     .catch(error => {
       console.error("Erro ao buscar da Wikipedia:", error);
       document.getElementById("info-extra").textContent =
-        "Não foi possível carregar a informação extra.";
+        "Não foi possível carregar a informação extra. 😞";
     });
 }
-
 
 //===[NAVEGAÇÃO ENTRE PERGUNTAS]===//
 nextBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
+    if (!respondeuPeloMenosUma) {
+      alert("⚠️ Você precisa responder pelo menos uma pergunta antes de concluir o quiz.");
+      perguntaAtual--;
+      return;
+    }
     localStorage.setItem('pontos', pontos);
     localStorage.removeItem('progressoQuiz');
     window.location.href = 'resultado.html';
@@ -205,6 +218,11 @@ voltarBtn.addEventListener('click', () => {
 pularBtn.addEventListener('click', () => {
   perguntaAtual++;
   if (perguntaAtual >= quiz.length) {
+    if (!respondeuPeloMenosUma) {
+      alert("⚠️ Você precisa responder pelo menos uma pergunta antes de concluir o quiz.");
+      perguntaAtual--;
+      return;
+    }
     localStorage.setItem('pontos', pontos);
     localStorage.removeItem('progressoQuiz');
     window.location.href = 'resultado.html';
@@ -219,6 +237,7 @@ resetBtn.addEventListener('click', resetarQuiz);
 function resetarQuiz() {
   perguntaAtual = 0;
   pontos = 0;
+  respondeuPeloMenosUma = false;
   perguntasRespondidas = Array(quiz.length).fill(false);
   localStorage.removeItem('progressoQuiz');
   localStorage.removeItem('pontos');
@@ -234,7 +253,6 @@ window.onload = () => {
     return;
   }
 
-  // LIMPA ESTADO SALVO
   localStorage.removeItem('progressoQuiz');
   localStorage.removeItem('pontos');
 

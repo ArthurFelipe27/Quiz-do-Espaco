@@ -165,6 +165,6 @@ const bancoDePerguntas = [
         pergunta: "Qual planeta é conhecido como o ‘planeta anão’?",
         respostas: ["Plutão", "Ceres", "Eris", "Todos os anteriores"],
         correta: 3,
-        termoExtra: "Plutão"
+        termoExtra: "planetas anões"
     }
 ];
