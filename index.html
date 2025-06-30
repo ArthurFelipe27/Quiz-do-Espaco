@@ -20,51 +20,45 @@
     <!-- ===[IMAGEM ILUSTRATIVA DO LOGIN]=== -->
 
     <form id="loginForm"> <!-- ===[FORMULÁRIO DE LOGIN]=== -->
+
+      <!-- ===[CAMPO DE TEXTO PARA O USUÁRIO]=== -->
       <label for="username">Usuário:</label>
       <input type="text" id="username" placeholder="Digite seu usuário..." required>
-      <!-- ===[CAMPO DE TEXTO PARA O USUÁRIO]=== -->
 
-      <label for="password">Senha:</label>
-      <input type="password" id="password" placeholder="Digite sua senha..." required> <!-- ===[CAMPO DE SENHA]=== -->
-
+      <!-- ===[BOTÃO QUE LEVA À PÁGINA DE CRÉDITOS]=== -->
       <button type="submit">Entrar</button> <!-- ===[BOTÃO DE ENVIO DO LOGIN]=== -->
+
+      <a href="creditos.html" class="botao-creditos">👩‍🚀 Créditos</a>
     </form>
 
     <p id="errorMsg"></p> <!-- ===[ÁREA PARA MENSAGENS DE ERRO]=== -->
   </div>
 
-  <a href="creditos.html" class="botao-creditos">👩‍🚀 Créditos</a> <!-- ===[BOTÃO QUE LEVA À PÁGINA DE CRÉDITOS]=== -->
 
   <button id="toggleTheme" class="botao-tema">🌓 Alternar Tema</button>
   <!-- ===[BOTÃO PARA TROCAR TEMA CLARO/ESCURO]=== -->
 
   <script>
     /*--===[INICIALIZAÇÃO E LOGIN]===--*/
-    document.addEventListener("DOMContentLoaded", function () {
-      createStarBackground(); // ===[INICIA O FUNDO ESTRELADO ASSIM QUE A PÁGINA CARREGA]===
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+      event.preventDefault();
 
-      document.getElementById("loginForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // ===[IMPEDE O ENVIO PADRÃO DO FORMULÁRIO]===
+      const username = document.getElementById("username").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
 
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        const errorMsg = document.getElementById("errorMsg");
+      if (username === "") {
+        errorMsg.textContent = "Por favor, digite seu nome!";
+        return;
+      }
 
-        if (username.trim() === "" || password.trim() === "") {
-          errorMsg.textContent = "Usuário e senha não podem estar vazios!"; // ===[VALIDAÇÃO DE CAMPOS VAZIOS]===
-        } else if (password !== "12345") {
-          errorMsg.textContent = "Senha incorreta! Tente novamente."; // ===[SENHA FIXA DE TESTE — AJUSTE PARA USO REAL]===
-        } else {
-          localStorage.setItem("nomeJogador", username); // ===[ARMAZENA NOME DO USUÁRIO LOCALMENTE]===
+      localStorage.setItem("nomeJogador", username);
+      triggerWarpEffect();
 
-          triggerWarpEffect(); // ===[DISPARA ANIMAÇÃO DE TÚNEL]===
-
-          setTimeout(() => {
-            window.location.href = "quiz.html"; // ===[REDIRECIONA PARA A PÁGINA DO QUIZ APÓS ANIMAÇÃO]===
-          }, 2000);
-        }
-      });
+      setTimeout(() => {
+        window.location.href = "quiz.html";
+      }, 2000);
     });
+
 
     /*--===[FUNDO ESTRELADO ANIMADO]===--*/
     function createStarBackground() {

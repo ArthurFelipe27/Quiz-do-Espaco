@@ -192,15 +192,41 @@ function buscarInfoExtra(termo) {
         texto.textContent = data.extract;
         infoDiv.appendChild(texto);
       } else {
-        infoDiv.textContent = "Informação extra não disponível para esse tema. 😞";
+        usarFallback(termo);
       }
     })
     .catch(error => {
       console.error("Erro ao buscar da Wikipedia:", error);
-      document.getElementById("info-extra").textContent =
-        "Não foi possível carregar a informação extra. 😞";
+      usarFallback(termo);
     });
 }
+
+function usarFallback(termo) {
+  const infoDiv = document.getElementById("info-extra");
+  infoDiv.innerHTML = "";
+
+  const fallback = fallbackInfo[termo];
+
+  if (fallback) {
+    if (fallback.imagem) {
+      const img = document.createElement("img");
+      img.src = fallback.imagem;
+      img.alt = `Imagem de ${termo}`;
+      img.style.maxWidth = "100%";
+      img.style.borderRadius = "8px";
+      img.style.marginBottom = "10px";
+      infoDiv.appendChild(img);
+    }
+
+    const texto = document.createElement("p");
+    texto.textContent = fallback.texto;
+    infoDiv.appendChild(texto);
+  } else {
+    infoDiv.textContent = "Informação extra não disponível para esse tema. 😞";
+  }
+}
+
+
 
 //===[NAVEGAÇÃO ENTRE PERGUNTAS]===//
 nextBtn.addEventListener('click', () => {

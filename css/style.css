@@ -84,6 +84,8 @@ body {
     animation: portalOpen 1s ease-out;
 }
 
+
+
 /*===[ANIMAÇÃO DE ABERTURA COMO PORTAL]===*/
 @keyframes portalOpen {
     0% {
@@ -136,6 +138,8 @@ button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 15px white;
 }
+
+
 
 /*===[MENSAGEM DE ERRO NO LOGIN]===*/
 #errorMsg {
@@ -236,23 +240,28 @@ button:hover {
 
 /*===[BOTÃO FLUTUANTE DE CRÉDITOS]===*/
 .botao-creditos {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 12px 16px;
-    border-radius: 12px;
+    display: inline-block;
+    width: 100%;
+    background: linear-gradient(45deg, #ff00ff, #00d2ff);
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
     color: white;
-    font-family: 'Orbitron', sans-serif;
+    text-align: center;
     text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    z-index: 999;
+    transition: 0.3s;
+    font-family: 'Orbitron', sans-serif;
+    margin-top: 10px;
 }
 
 .botao-creditos:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(45deg, #6600cc, #0088cc);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px white;
 }
+
 
 /*===[CONTAINER DOS CRÉDITOS DO PROJETO]===*/
 .creditos-container {
