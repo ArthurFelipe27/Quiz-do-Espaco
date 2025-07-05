@@ -166,5 +166,95 @@ const bancoDePerguntas = [
         respostas: ["Plutão", "Ceres", "Eris", "Todos os anteriores"],
         correta: 3,
         termoExtra: "planetas anões"
+    },
+    {
+        pergunta: "O que é um exoplaneta?",
+        respostas: ["Um planeta fora do Sistema Solar", "Um planeta sem atmosfera", "Um planeta anão", "Um planeta em órbita do Sol"],
+        correta: 0,
+        termoExtra: "Exoplaneta"
+    },
+    {
+        pergunta: "Qual é o nome da galáxia mais próxima da Via Láctea?",
+        respostas: ["Galáxia de Andrômeda", "Nuvem de Magalhães", "Galáxia do Triângulo", "Cefeus A"],
+        correta: 0,
+        termoExtra: "Galáxia de Andrômeda"
+    },
+    {
+        pergunta: "O que é uma estrela de nêutrons?",
+        respostas: ["O núcleo colapsado de uma estrela massiva", "Uma estrela feita de hidrogênio puro", "Uma estrela muito jovem", "Um tipo de buraco negro"],
+        correta: 0,
+        termoExtra: "Estrela de nêutrons"
+    },
+    {
+        pergunta: "Qual foi o primeiro rover a explorar Marte com sucesso?",
+        respostas: ["Spirit", "Sojourner", "Curiosity", "Opportunity"],
+        correta: 1,
+        termoExtra: "Sojourner (rover)"
+    },
+    {
+        pergunta: "O que é a Estação Espacial Internacional (ISS)?",
+        respostas: ["Um laboratório em órbita", "Um satélite meteorológico", "Um telescópio espacial", "Uma nave interplanetária"],
+        correta: 0,
+        termoExtra: "Estação Espacial Internacional"
+    },
+    {
+        pergunta: "Qual é o nome do maior vulcão conhecido do Sistema Solar?",
+        respostas: ["Monte Olimpo", "Monte Everest", "Valles Marineris", "Tharsis Rise"],
+        correta: 0,
+        termoExtra: "Monte Olimpo (Marte)"
+    },
+    {
+        pergunta: "Qual é o nome do cinturão de objetos além de Netuno?",
+        respostas: ["Cinturão de Kuiper", "Cinturão de Asteroides", "Nuvem de Oort", "Zona de Hertzsprung"],
+        correta: 0,
+        termoExtra: "Cinturão de Kuiper"
+    },
+    {
+        pergunta: "Qual planeta tem o maior campo magnético do Sistema Solar?",
+        respostas: ["Júpiter", "Saturno", "Terra", "Netuno"],
+        correta: 0,
+        termoExtra: "Campo magnético de Júpiter"
+    },
+    {
+        pergunta: "O que é uma galáxia elíptica?",
+        respostas: ["Uma galáxia com forma arredondada ou oval", "Uma galáxia em formato de espiral", "Uma galáxia em formação", "Um grupo de estrelas jovens"],
+        correta: 0,
+        termoExtra: "Galáxia elíptica"
+    },
+    {
+        pergunta: "Qual é o planeta com o maior período de translação no Sistema Solar?",
+        respostas: ["Netuno", "Urano", "Plutão", "Júpiter"],
+        correta: 2,
+        termoExtra: "Órbita de Plutão"
+    },
+    {
+        pergunta: "O que é uma aurora boreal?",
+        respostas: ["Fenômeno luminoso causado pelo Sol na atmosfera da Terra", "Explosão de uma estrela", "Tempestade de poeira em Marte", "Reflexo da luz lunar"],
+        correta: 0,
+        termoExtra: "Aurora boreal"
+    },
+    {
+        pergunta: "Qual telescópio está programado para substituir o Hubble?",
+        respostas: ["James Webb", "Kepler", "Chandra", "Spitzer"],
+        correta: 0,
+        termoExtra: "Telescópio Espacial James Webb"
+    },
+    {
+        pergunta: "Qual é o menor planeta do Sistema Solar?",
+        respostas: ["Mercúrio", "Plutão", "Ceres", "Marte"],
+        correta: 0,
+        termoExtra: "Mercúrio (planeta)"
+    },
+    {
+        pergunta: "O que é a Nuvem de Oort?",
+        respostas: ["Uma região com bilhões de cometas no limite do Sistema Solar", "Um conjunto de estrelas jovens", "Um campo magnético ao redor do Sol", "Um aglomerado de buracos negros"],
+        correta: 0,
+        termoExtra: "Nuvem de Oort"
+    },
+    {
+        pergunta: "Qual foi a primeira missão a fotografar o lado oculto da Lua?",
+        respostas: ["Luna 3", "Apollo 8", "Chang’e 4", "Surveyor 1"],
+        correta: 0,
+        termoExtra: "Luna 3"
     }
 ];
