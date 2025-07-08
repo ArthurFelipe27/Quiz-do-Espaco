@@ -2,6 +2,12 @@
 
 Este é um projeto de **Quiz Interativo** desenvolvido com **HTML**, **CSS (com Bootstrap e animações personalizadas)** e **JavaScript**, com um design futurista envolvente. Ele apresenta um sistema de pontuação inteligente, armazenamento local com `localStorage`, perguntas dinâmicas, integração com a **Wikipédia**, efeitos visuais modernos e ranking de jogadores.
 
+## Você pode acessar o Quiz por este link:
+````
+quizdoespaco.netlify.app
+````
+Cole no seu navegador.
+
 ---
 
 ## 🎮 Como Rodar o Projeto
@@ -44,8 +50,6 @@ Este é um projeto de **Quiz Interativo** desenvolvido com **HTML**, **CSS (com 
 └── README.md                 
 
 ## ✨ Funcionalidades  
-🔐 Tela de login animada com validação e túnel espacial ao entrar.  
-📋 Validação de nome (mínimo 3 caracteres) e senha (padrão: 12345).  
 🧠 Perguntas e respostas dinâmicas via JavaScript.  
 💾 Pontuação persistente usando localStorage.  
 🌐 Integração com API da Wikipédia: busca dados relevantes ao tema.  
