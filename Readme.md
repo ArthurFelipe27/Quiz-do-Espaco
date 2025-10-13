@@ -35,9 +35,9 @@ index.html
 
 6. Ao final, veja sua pontuação, ranking e informações extras sobre os temas através da integração com a Wikipédia.
 
-📁 Estrutura do Projeto
-📦 quiz-espaco/
-└── index.html → Contém toda a estrutura (HTML), estilo (CSS) e lógica (JavaScript) da aplicação.
+## 📁 Estrutura do Projeto  
+📦 quiz-espaco/  
+└── index.html → Contém toda a estrutura (HTML), estilo (CSS) e lógica (JavaScript) da aplicação.  
 
 ## ✨ Funcionalidades Principais
 
@@ -80,12 +80,12 @@ localStorage para salvar ranking e tema
 
 ## 💡 Melhorias Implementadas
 
-✅ Reestruturação completa para SPA (sem múltiplas páginas).
-✅ Código unificado e otimizado em um único arquivo.
-✅ Modularização da lógica e uso de managers para cada parte do jogo.
-✅ Sistema de tema claro/escuro totalmente funcional.
-✅ Modal estilizado substituindo alertas nativos.
-✅ Melhor desempenho e compatibilidade mobile.
+✅ Reestruturação completa para SPA (sem múltiplas páginas).  
+✅ Código unificado e otimizado em um único arquivo.  
+✅ Modularização da lógica e uso de managers para cada parte do jogo.  
+✅ Sistema de tema claro/escuro totalmente funcional.  
+✅ Modal estilizado substituindo alertas nativos.  
+✅ Melhor desempenho e compatibilidade mobile.  
 
 ## 📌 Requisitos para Execução
 
