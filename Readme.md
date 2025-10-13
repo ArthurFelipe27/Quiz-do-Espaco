@@ -1,101 +1,106 @@
-# 🚀 Quiz Interativo: Explorando o Espaço 🌌
+# 🚀 Quiz Interativo: Explorando o Espaço 🌌 (Versão SPA)
 
-Este é um projeto de **Quiz Interativo** desenvolvido com **HTML**, **CSS (com Bootstrap e animações personalizadas)** e **JavaScript**, com um design futurista envolvente. Ele apresenta um sistema de pontuação inteligente, armazenamento local com `localStorage`, perguntas dinâmicas, integração com a **Wikipédia**, efeitos visuais modernos e ranking de jogadores.
+Este é um projeto de **Quiz Interativo** totalmente reestruturado para uma **Single Page Application (SPA)** fluida e dinâmica, desenvolvida com **HTML**, **CSS** e **JavaScript moderno**, sem bibliotecas externas.  
+Com uma interface imersiva e desempenho aprimorado, o jogo leva o jogador a uma jornada espacial de aprendizado e diversão.
 
-## Você pode acessar o Quiz por este link:
+---
+
+## 🌐 Acesse o Quiz
+
 ````
 quizdoespaco.netlify.app
 ````
-Cole no seu navegador.
+Cole o link no seu navegador favorito e comece a explorar o universo!
 
 ---
 
-## 🎮 Como Rodar o Projeto
+## 🎮 Como Jogar
 
-1. **Clone ou baixe** este repositório:
+1. **Baixe ou clone** este repositório:
    ```bash
    git clone https://github.com/seu-usuario/quiz-espaco.git
 
-2. **Acesse a pasta do projeto**:
-   cd quiz-espaco
+2. Abra o arquivo principal:
+index.html
 
-3. Abra o arquivo **index.html** em seu navegador (Chrome, Firefox, Edge, etc.).
+3. Execute-o diretamente no seu navegador moderno (Chrome, Firefox, Edge, etc.).
 
-    Clique com o botão direito > "Abrir com" > navegador preferido.
+4. Digite seu nome para iniciar sua jornada pelo espaço.
 
-4. Digite **seu nome de usuário e senha (padrão: 12345**) para iniciar.
+5. Responda às perguntas:
 
-5. Responda ao quiz:
+✅ Acertos valem +10 pontos
 
-    ✅ Respostas corretas somam **+10 pontos**.
+❌ Erros reduzem -5 pontos (sem pontuação negativa)
 
-    ❌ Respostas erradas subtraem **-5 pontos** (sem pontuação negativa).
+6. Ao final, veja sua pontuação, ranking e informações extras sobre os temas através da integração com a Wikipédia.
 
-6. Ao final, veja sua **pontuação, ranking dos melhores jogadores e informações extras** sobre o tema das perguntas.
+📁 Estrutura do Projeto
+📦 quiz-espaco/
+└── index.html → Contém toda a estrutura (HTML), estilo (CSS) e lógica (JavaScript) da aplicação.
 
-## 📁 Estrutura do Projeto  
-📦 quiz-espaco/  
-├── index.html              
-├── quiz.html                
-├── resultado.html  
-├── creditos.html  
-├── css/  
-│        └── style.css  
-├── js/  
-│        └── script.js   
-│        └── tema.js   
-│        └── perguntas.js   
-├── img/  
-│        └── astronauta.png   
-└── README.md                 
+## ✨ Funcionalidades Principais
 
-## ✨ Funcionalidades  
-🧠 Perguntas e respostas dinâmicas via JavaScript.  
-💾 Pontuação persistente usando localStorage.  
-🌐 Integração com API da Wikipédia: busca dados relevantes ao tema.  
-🚫 Bloqueio da próxima pergunta até que uma opção seja escolhida.  
-🏆 Ranking dos melhores jogadores salvo localmente.  
-🛸 Animações futuristas com:
-+ Estrelas flutuantes (canvas).  
-+ Efeito de dobra espacial (warpCanvas).  
-+ Astronauta flutuando.  
-+ Textos e botões com brilho neon.       
+🛰 Arquitetura SPA (Single Page Application)
+Navegação instantânea entre as telas de login, quiz, resultados e créditos — tudo sem recarregar a página.
 
-## 🎨 Design
-Interface imersiva e responsiva.  
-Efeitos com text-shadow, box-shadow, backdrop-filter.  
-Tipografia moderna e navegação intuitiva.  
-Feedback visual claro para acertos e erros.  
-Tema claro/escuro facilmente integrável (em desenvolvimento opcional).  
+🧩 Código Moderno e Modularizado
+Lógica dividida em managers que controlam o estado do jogo, perguntas, ranking e tema.
+
+💡 Sistema de Pontuação Inteligente
++10 pontos por acerto e -5 por erro, sem pontuação negativa.
+
+🌐 Integração com a API da Wikipédia
+Após cada pergunta, um resumo e uma imagem sobre o tema são exibidos para enriquecer o aprendizado.
+
+🏆 Ranking dos 5 Melhores Jogadores
+Os resultados são salvos no localStorage, incentivando a competição saudável.
+
+🎨 Design Responsivo e Imersivo
+Tema espacial com fundo animado de estrelas e astronauta flutuante.
+Adapta-se a diferentes tamanhos de tela, mantendo fluidez e estética.
+
+🌗 Tema Claro/Escuro
+O jogador pode alternar livremente entre os dois temas, com salvamento da preferência no navegador.
+
+💬 Modal Customizado
+Alertas e mensagens integradas ao design do jogo, substituindo as caixas de diálogo padrão.
 
 ## 🔧 Tecnologias Utilizadas
-HTML5  
-CSS3 (com @keyframes, backdrop-filter, neon)  
-JavaScript (Vanilla)  
-Bootstrap 5 (ajuste de responsividade e layout)  
-Fetch API para buscar resumos na Wikipédia  
-localStorage API para persistência de dados  
 
-## 💡 Melhorias Implementadas  
-✅ Interface aprimorada com efeitos modernos e interativos.  
-✅ Modularização do JavaScript para melhor legibilidade.  
-✅ Validação de formulário com mensagens claras.  
-✅ Utilização de canvas para criar um ambiente espacial realista.  
-✅ Estrutura responsiva e escalável para dispositivos móveis.  
+HTML5
 
-## 📌 Requisitos para Execução  <br/>
-   Navegador moderno com suporte a:  
-   + JavaScript (ES6+)  
-   + Fetch API  
-   + Manipulação de DOM  
-   + Conexão com internet para carregamento da API da Wikipédia
+CSS3 (com variáveis de tema, animações @keyframes, Flexbox e Grid)
 
-## 🤝 Contribuições  
-   Contribuições são muito bem-vindas!  
-   Sugestões de melhoria, novas funcionalidades ou correções podem ser feitas via **Pull Request** ou **Issues**.
+JavaScript (ES6+)
 
----
+fetch() para integração com a Wikipédia
 
-🌟 **Divirta-se aprendendo sobre o universo!**
-   "A curiosidade é o combustível da descoberta." – Carl Sagan
-    EOF
+localStorage para salvar ranking e tema
+
+## 💡 Melhorias Implementadas
+
+✅ Reestruturação completa para SPA (sem múltiplas páginas).
+✅ Código unificado e otimizado em um único arquivo.
+✅ Modularização da lógica e uso de managers para cada parte do jogo.
+✅ Sistema de tema claro/escuro totalmente funcional.
+✅ Modal estilizado substituindo alertas nativos.
+✅ Melhor desempenho e compatibilidade mobile.
+
+## 📌 Requisitos para Execução
+
+Navegador moderno com suporte a:
+
+JavaScript (ES6+)
+
+Manipulação de DOM
+
+Fetch API
+
+localStorage
+
+Conexão com internet (para carregar dados da Wikipédia)
+
+## 🌟 Divirta-se aprendendo sobre o universo!
+
+“A curiosidade é o combustível da descoberta.” – Carl Sagan
