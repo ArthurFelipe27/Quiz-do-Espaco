@@ -1,21 +1,38 @@
+// Objeto de configuração do Firebase (fornecido por você)
+const firebaseConfig = {
+    apiKey: "AIzaSyDJQkQDAjGqutnSRGfFlC0Xi17GlBBmXys",
+    authDomain: "quiz-espaco-a459a.firebaseapp.com",
+    projectId: "quiz-espaco-a459a",
+    storageBucket: "quiz-espaco-a459a.firebasestorage.app",
+    messagingSenderId: "240697813503",
+    appId: "1:240697813503:web:ec807c49f62b400e481fca"
+};
+
+// Inicializa o Firebase
+firebase.initializeApp(firebaseConfig);
+// Inicializa o Cloud Firestore e obtém uma referência para o serviço
+const db = firebase.firestore();
+
+
 // Inicia a aplicação quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
 
     // == GESTÃO DE ESTADO DA APLICAÇÃO ==
     const state = {
         nomeJogador: '',
-        dificuldadeSelecionada: null, // Armazena dificuldade
-        multiplicadorPontos: 1, // Multiplicador de pontos
-        perguntasQuiz: [],
-        perguntasDoBanco: [], // Armazena perguntas do JSON
-        fallbackDoBanco: {}, // Armazena fallbacks do JSON
+        perguntasDoBanco: [], // Vai guardar as perguntas do perguntas.json
+        fallbackDoBanco: {}, // Vai guardar os fallbacks do perguntas.json
+        perguntasQuiz: [], // Perguntas selecionadas para a rodada
         perguntaAtual: 0,
         pontos: 0,
-        streak: 0, // Bônus por acertos consecutivos
+        streak: 0, // Acertos consecutivos
         perguntasRespondidas: [],
         respondeuPeloMenosUma: false,
         tempoRestante: 15,
         timerInterval: null,
+        dificuldadeSelecionada: '', // 'facil', 'medio', 'dificil'
+        multiplicadorPontos: 1, // Multiplicador baseado na dificuldade
+        rankingListener: null, // Para guardar o listener do ranking em tempo real
     };
 
     // == SELETORES DE ELEMENTOS DO DOM ==
@@ -27,9 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
             creditos: document.getElementById('creditos-view'),
         },
         loginForm: document.getElementById('loginForm'),
-        loginBtn: document.getElementById('login-btn'), // Seletor para botão de login
-        difficultySelection: document.getElementById('difficulty-selection'), // Seletor para botões de dificuldade
         usernameInput: document.getElementById('username'),
+        difficultyButtons: document.querySelectorAll('.btn-difficulty'),
+        loginBtn: document.getElementById('login-btn'),
         errorMsg: document.getElementById('errorMsg'),
         playerName: document.getElementById('player-name'),
         timer: document.getElementById('timer'),
@@ -52,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
         resetBtn: document.getElementById('reset-btn'),
         pularBtn: document.getElementById('pular-btn'),
         jogarNovamenteBtn: document.getElementById('jogar-novamente-btn'),
-        reiniciarRankingBtn: document.getElementById('reiniciar-ranking-btn'),
         toggleThemeBtn: document.getElementById('toggleThemeBtn'),
     };
 
@@ -61,14 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.values(elements.views).forEach(view => view.classList.remove('active'));
         elements.views[viewName].classList.add('active');
 
-        // Reseta a seleção de dificuldade ao voltar para o login
+        // Gerencia o listener do ranking em tempo real
+        if (viewName === 'resultado') {
+            rankingManager.exibir(); // Ativa o listener
+        } else if (state.rankingListener) {
+            // Se sairmos da tela de resultado, desativa o listener para economizar recursos
+            state.rankingListener(); // Esta é a função de "unsubscribe" do Firebase
+            state.rankingListener = null;
+        }
+
+        // Reseta o formulário de login ao voltar para ele
         if (viewName === 'login') {
-            state.dificuldadeSelecionada = null;
+            elements.usernameInput.value = '';
+            state.dificuldadeSelecionada = '';
+            elements.difficultyButtons.forEach(btn => btn.classList.remove('active'));
             elements.loginBtn.disabled = true;
-            elements.usernameInput.value = ''; // Limpa o nome também
-            elements.difficultySelection.querySelectorAll('.btn-difficulty').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            elements.errorMsg.textContent = '';
         }
     };
 
@@ -107,53 +131,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // == LÓGICA DO QUIZ ==
     const quizManager = {
-        // A função start agora recebe a dificuldade
-        start: async function (dificuldade) {
+        // Agora é 'async' para esperar o 'fetch' do JSON
+        async carregarPerguntas() {
+            try {
+                const response = await fetch('perguntas.json');
+                if (!response.ok) {
+                    throw new Error(`Erro ao buscar perguntas: ${response.statusText}`);
+                }
+                const data = await response.json();
+                state.perguntasDoBanco = data.perguntas;
+                state.fallbackDoBanco = data.fallbackInfo;
+                return true; // Sucesso
+            } catch (error) {
+                console.error(error);
+                elements.errorMsg.textContent = "Falha ao carregar as perguntas. Tente recarregar a página.";
+                return false; // Falha
+            }
+        },
+
+        start(dificuldade) {
             state.dificuldadeSelecionada = dificuldade;
-            // Define o multiplicador de pontos
-            switch (dificuldade) {
+            this.definirMultiplicador();
+            this.selecionarPerguntas(dificuldade);
+            this.resetState();
+            elements.playerName.textContent = `Jogador(a): ${state.nomeJogador}`;
+            this.carregarPergunta();
+            showView('quiz');
+        },
+
+        definirMultiplicador() {
+            switch (state.dificuldadeSelecionada) {
+                case 'facil':
+                    state.multiplicadorPontos = 1;
+                    break;
                 case 'medio':
                     state.multiplicadorPontos = 1.5;
                     break;
                 case 'dificil':
                     state.multiplicadorPontos = 2;
                     break;
-                default: // facil
+                default:
                     state.multiplicadorPontos = 1;
             }
-
-            try {
-                // Tenta carregar as perguntas do arquivo JSON
-                const response = await fetch('perguntas.json');
-                if (!response.ok) {
-                    throw new Error(`Erro ao carregar perguntas.json: ${response.statusText}`);
-                }
-                const data = await response.json();
-
-                // Salva os dados carregados no estado global
-                state.perguntasDoBanco = data.perguntas;
-                state.fallbackDoBanco = data.fallbackInfo;
-
-                // Passa a dificuldade para selecionarPerguntas
-                this.selecionarPerguntas(dificuldade);
-
-                // Checa se encontrou perguntas para a dificuldade
-                if (state.perguntasQuiz.length === 0) {
-                    throw new Error(`Nenhuma pergunta encontrada para a dificuldade: ${dificuldade}`);
-                }
-
-                this.resetState();
-                elements.playerName.textContent = `Jogador(a): ${state.nomeJogador}`;
-                this.carregarPergunta();
-                showView('quiz');
-
-            } catch (error) {
-                // Se falhar, exibe um erro na tela de login
-                console.error("Não foi possível carregar o banco de perguntas:", error);
-                elements.errorMsg.textContent = "Erro fatal: Não foi possível carregar as perguntas. Tente recarregar a página.";
-                showView('login');
-            }
         },
+
         resetState() {
             state.perguntaAtual = 0;
             state.pontos = 0;
@@ -161,25 +182,41 @@ document.addEventListener('DOMContentLoaded', () => {
             state.perguntasRespondidas = Array(state.perguntasQuiz.length).fill(false);
             state.respondeuPeloMenosUma = false;
         },
-        // Modificado: Recebe e filtra pela dificuldade
+
         selecionarPerguntas(dificuldade) {
-            // Filtra as perguntas do banco com base na dificuldade selecionada
+            // Filtra as perguntas pela dificuldade escolhida
             const perguntasFiltradas = state.perguntasDoBanco.filter(p => p.dificuldade === dificuldade);
 
+            // Embaralha as perguntas filtradas
             const copia = [...perguntasFiltradas];
             state.perguntasQuiz = [];
-            const numPerguntas = Math.min(10, copia.length); // Pega até 10 perguntas
+            const numPerguntas = Math.min(10, copia.length); // Pega 10 perguntas ou menos
             for (let i = 0; i < numPerguntas; i++) {
                 const index = Math.floor(Math.random() * copia.length);
                 state.perguntasQuiz.push(copia.splice(index, 1)[0]);
             }
         },
+
         carregarPergunta() {
-            elements.pontosUsuario.textContent = `Pontos: ${state.pontos}`;
+            elements.pontosUsuario.textContent = `Pontos: ${state.pontos} (Sequência: ${state.streak}x)`;
             elements.feedback.textContent = '';
             elements.infoExtra.innerHTML = '';
             elements.nextBtn.disabled = true;
             elements.answers.innerHTML = '';
+
+            // Verifica se há perguntas
+            if (state.perguntasQuiz.length === 0) {
+                elements.question.textContent = "Não encontramos perguntas para esta dificuldade.";
+                elements.voltarBtn.style.display = 'none';
+                elements.pularBtn.style.display = 'none';
+                elements.resetBtn.style.display = 'none';
+                // Botão para voltar ao menu
+                const backBtn = document.createElement('button');
+                backBtn.textContent = "Voltar ao Menu";
+                backBtn.onclick = () => showView('login');
+                elements.answers.appendChild(backBtn);
+                return;
+            }
 
             const q = state.perguntasQuiz[state.perguntaAtual];
             elements.question.textContent = q.pergunta;
@@ -193,49 +230,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
             this.iniciarTimer();
             elements.voltarBtn.style.display = state.perguntaAtual === 0 ? 'none' : 'inline-block';
+            elements.pularBtn.style.display = 'inline-block';
+            elements.resetBtn.style.display = 'inline-block';
         },
+
         verificarResposta(indiceSelecionado) {
             clearInterval(state.timerInterval);
             const q = state.perguntasQuiz[state.perguntaAtual];
             const botoes = elements.answers.querySelectorAll('button');
-
             botoes.forEach(btn => btn.disabled = true);
 
+            // Pontos por tempo
+            const pontosTempo = state.tempoRestante;
+            const pontosBase = 10;
+            const bonusStreak = state.streak * 5; // +5 pontos para cada acerto consecutivo
+
             if (indiceSelecionado === q.correta) {
-                // Lógica de pontos por acerto (com multiplicador)
-                const pontosBase = 10;
-                const pontosTempo = state.tempoRestante; // Ganha os segundos restantes como bônus
-                state.streak++; // Incrementa a sequência
-                const bonusStreak = (state.streak - 1) * 5; // Bônus de +5 para 2x, +10 para 3x, etc.
-
-                // Aplica o multiplicador de dificuldade
+                state.streak++;
                 const pontosGanhos = Math.round((pontosBase + pontosTempo + bonusStreak) * state.multiplicadorPontos);
-
                 state.pontos += pontosGanhos;
 
                 botoes[indiceSelecionado].classList.add('btn-correta');
-                let feedbackTexto = `Resposta correta! +${pontosGanhos} pontos (${pontosBase}b + ${pontosTempo}t + ${bonusStreak}s) x ${state.multiplicadorPontos}D`;
-
-                elements.feedback.textContent = feedbackTexto;
+                elements.feedback.innerHTML = `Correto! +${pontosGanhos} pts <br>
+          <small>(+${pontosBase} base +${pontosTempo} tempo +${bonusStreak} streak) x${state.multiplicadorPontos} diff</small>`;
                 elements.feedback.style.color = 'var(--correct-color)';
-
             } else {
-                // Lógica de pontos por erro (com multiplicador)
+                const penalidade = Math.round(5 * state.multiplicadorPontos);
+                state.pontos = Math.max(0, state.pontos - penalidade);
+                const streakPerdido = state.streak;
                 state.streak = 0; // Zera a sequência
-                const penalidade = Math.round(5 * state.multiplicadorPontos); // Penalidade maior
+
                 botoes[indiceSelecionado].classList.add('btn-incorreta');
                 botoes[q.correta].classList.add('btn-correta');
-                elements.feedback.textContent = `Resposta incorreta. -${penalidade} pontos. Sequência perdida!`;
+                elements.feedback.innerHTML = `Incorreto. -${penalidade} pts. ${streakPerdido > 0 ? `Sequência de ${streakPerdido} perdida.` : ''}`;
                 elements.feedback.style.color = 'var(--incorrect-color)';
-                state.pontos = Math.max(0, state.pontos - penalidade);
             }
 
             state.perguntasRespondidas[state.perguntaAtual] = true;
             state.respondeuPeloMenosUma = true;
-            elements.pontosUsuario.textContent = `Pontos: ${state.pontos}`;
+            elements.pontosUsuario.textContent = `Pontos: ${state.pontos} (Sequência: ${state.streak}x)`;
             elements.nextBtn.disabled = false;
             this.buscarInfoExtra(q.termoExtra);
         },
+
         iniciarTimer() {
             clearInterval(state.timerInterval);
             state.tempoRestante = 15;
@@ -246,15 +283,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 elements.timer.textContent = `Tempo: ${state.tempoRestante}s`;
                 if (state.tempoRestante <= 0) {
                     clearInterval(state.timerInterval);
-                    elements.feedback.textContent = 'Tempo esgotado!';
+                    elements.feedback.textContent = 'Tempo esgotado! Sequência perdida.';
                     elements.feedback.style.color = 'orange';
+                    state.streak = 0; // Zera a sequência
                     elements.nextBtn.disabled = false;
                     elements.answers.querySelectorAll('button').forEach(btn => btn.disabled = true);
                     this.buscarInfoExtra(state.perguntasQuiz[state.perguntaAtual].termoExtra);
                 }
             }, 1000);
         },
+
         buscarInfoExtra(termo) {
+            if (!termo) {
+                elements.infoExtra.textContent = "Informação extra não disponível.";
+                return;
+            }
             const url = `https://pt.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(termo)}`;
             fetch(url)
                 .then(response => response.ok ? response.json() : Promise.reject('API call failed'))
@@ -272,8 +315,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(() => this.usarFallback(termo));
         },
+
         usarFallback(termo) {
-            // Modificado: Usa state.fallbackDoBanco em vez de FALLBACK_INFO
             const fallback = state.fallbackDoBanco[termo];
             if (fallback) {
                 let content = '';
@@ -286,6 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 elements.infoExtra.textContent = "Informação extra não disponível.";
             }
         },
+
         proximaPergunta() {
             state.perguntaAtual++;
             if (state.perguntaAtual >= state.perguntasQuiz.length) {
@@ -299,159 +343,161 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.carregarPergunta();
             }
         },
-        // Função para pular pergunta (com multiplicador)
-        pular() {
-            // Pular quebra a sequência e tem uma pequena penalidade
-            state.streak = 0;
-            const penalidadePulo = Math.round(2 * state.multiplicadorPontos); // Penalidade maior
-            state.pontos = Math.max(0, state.pontos - penalidadePulo);
-            elements.pontosUsuario.textContent = `Pontos: ${state.pontos}`;
-            elements.feedback.textContent = `Pergunta pulada. -${penalidadePulo} pontos.`;
-            elements.feedback.style.color = 'orange';
 
-            // Avança para a próxima pergunta
-            this.proximaPergunta();
-        },
         perguntaAnterior() {
             if (state.perguntaAtual > 0) {
                 state.perguntaAtual--;
                 this.carregarPergunta();
             }
         },
+
+        pular() {
+            // Penalidade por pular
+            const penalidade = Math.round(2 * state.multiplicadorPontos);
+            state.pontos = Math.max(0, state.pontos - penalidade);
+            elements.feedback.textContent = `Pulou! -${penalidade} pts. Sequência perdida.`;
+            elements.feedback.style.color = 'orange';
+            state.streak = 0; // Zera a sequência
+            this.proximaPergunta();
+        },
+
         async resetar() {
             const confirmado = await showModal("Tem certeza que deseja reiniciar o quiz? Seu progresso será perdido.");
             if (confirmado) {
                 clearInterval(state.timerInterval);
-                // Reinicia com a dificuldade atual
-                this.start(state.dificuldadeSelecionada);
+                this.start(state.dificuldadeSelecionada); // Reinicia com a mesma dificuldade
             }
         },
+
         finalizar() {
             clearInterval(state.timerInterval);
-            rankingManager.atualizar(state.nomeJogador, state.pontos, state.dificuldadeSelecionada); // Passa a dificuldade
-            elements.resultadoTexto.innerHTML = `${state.nomeJogador}, você fez <strong>${state.pontos}</strong> ponto${state.pontos !== 1 ? 's' : ''} (Modo ${state.dificuldadeSelecionada})! <span class="rocket">🚀</span>`;
-            rankingManager.exibir();
+            // Salva no ranking (agora no Firebase)
+            rankingManager.atualizar(state.nomeJogador, state.pontos, state.dificuldadeSelecionada);
+            elements.resultadoTexto.innerHTML = `${state.nomeJogador}, você fez <strong>${state.pontos}</strong> ponto${state.pontos !== 1 ? 's' : ''}! <span class="rocket">🚀</span>`;
+            // O rankingManager.exibir() agora é chamado pelo showView('resultado')
             showView('resultado');
         }
     };
 
-    // == LÓGICA DO RANKING ==
+    // == LÓGICA DO RANKING (AGORA COM FIREBASE) ==
     const rankingManager = {
-        getRanking() {
-            return JSON.parse(localStorage.getItem('ranking')) || [];
-        },
-        saveRanking(ranking) {
-            localStorage.setItem('ranking', JSON.stringify(ranking));
-        },
-        // Modificado: Salva a dificuldade também
+
+        // Salva a pontuação no Firebase
         atualizar(nome, pontos, dificuldade) {
-            let ranking = this.getRanking();
-            ranking.push({ nome, pontos, dificuldade }); // Salva dificuldade
-            ranking.sort((a, b) => b.pontos - a.pontos);
-            ranking = ranking.slice(0, 5); // Mantém apenas os 5 melhores
-            this.saveRanking(ranking);
+            db.collection('ranking').add({
+                nome: nome,
+                pontos: pontos,
+                dificuldade: dificuldade,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp() // Adiciona data/hora
+            }).then(() => {
+                console.log('Pontuação salva no ranking global!');
+            }).catch((error) => {
+                console.error('Erro ao salvar no ranking: ', error);
+            });
         },
+
+        // Exibe o ranking em tempo real
         exibir() {
-            const ranking = this.getRanking();
-            elements.listaRanking.innerHTML = '';
-            if (ranking.length === 0) {
-                elements.listaRanking.innerHTML = '<li>Ainda não há pontuações. Seja o primeiro!</li>';
-            } else {
-                ranking.forEach((jogador, index) => {
-                    const item = document.createElement('li');
-                    // Exibe a dificuldade no ranking
-                    item.textContent = `${index + 1}º - ${jogador.nome}: ${jogador.pontos} pontos (${jogador.dificuldade})`;
-                    elements.listaRanking.appendChild(item);
+            // Se já houver um listener, desativa antes de criar um novo
+            if (state.rankingListener) {
+                state.rankingListener();
+            }
+
+            // Ouve mudanças na coleção 'ranking', ordenado por pontos, pegando os 5 melhores
+            state.rankingListener = db.collection('ranking')
+                .orderBy('pontos', 'desc')
+                .limit(5)
+                .onSnapshot((querySnapshot) => {
+                    elements.listaRanking.innerHTML = '';
+                    if (querySnapshot.empty) {
+                        elements.listaRanking.innerHTML = '<li>Ainda não há pontuações. Seja o primeiro!</li>';
+                        return;
+                    }
+
+                    let index = 1;
+                    querySnapshot.forEach((doc) => {
+                        const jogador = doc.data();
+                        const item = document.createElement('li');
+                        // Mostra a dificuldade no ranking
+                        item.textContent = `${index}º - ${jogador.nome} (${jogador.dificuldade}): ${jogador.pontos} pontos`;
+                        elements.listaRanking.appendChild(item);
+                        index++;
+                    });
+                }, (error) => {
+                    console.error("Erro ao buscar ranking: ", error);
+                    elements.listaRanking.innerHTML = '<li>Erro ao carregar o ranking. Tente recarregar.</li>';
                 });
-            }
         },
-        async reiniciar() {
-            const confirmado = await showModal("Tem certeza que deseja apagar todo o ranking?");
-            if (confirmado) {
-                localStorage.removeItem('ranking');
-                this.exibir();
-            }
-        }
+        // As funções getRanking(), saveRanking() e reiniciar() baseadas no localStorage não são mais necessárias.
+    };
+
+    // == VALIDAÇÃO DO LOGIN ==
+    const validarLogin = () => {
+        const nomeValido = elements.usernameInput.value.trim().length > 0;
+        const dificuldadeValida = state.dificuldadeSelecionada.length > 0;
+        elements.loginBtn.disabled = !(nomeValido && dificuldadeValida);
     };
 
     // == EVENT LISTENERS (Controladores) ==
-
-    // Listener para botões de dificuldade
-    elements.difficultySelection.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btn-difficulty')) {
-            // Remove 'active' de todos
-            elements.difficultySelection.querySelectorAll('.btn-difficulty').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            // Adiciona 'active' ao clicado
-            e.target.classList.add('active');
-            // Salva a dificuldade
-            state.dificuldadeSelecionada = e.target.dataset.difficulty;
-            // Habilita o botão de login se o nome também estiver preenchido
-            if (elements.usernameInput.value.trim() !== '') {
-                elements.loginBtn.disabled = false;
-            }
-        }
-    });
-
-    // Listener para o input de nome (para habilitar o botão)
-    elements.usernameInput.addEventListener('input', () => {
-        if (elements.usernameInput.value.trim() !== '' && state.dificuldadeSelecionada) {
-            elements.loginBtn.disabled = false;
-        } else {
-            elements.loginBtn.disabled = true;
-        }
-    });
-
-    // Modificado: Listener do formulário de login
     elements.loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const username = elements.usernameInput.value.trim();
-
-        // Checagem dupla (embora o botão deva estar desabilitado)
         if (username && state.dificuldadeSelecionada) {
             state.nomeJogador = username;
             elements.errorMsg.textContent = '';
-
-            elements.loginBtn.disabled = true;
-            elements.loginBtn.textContent = 'Carregando...';
-
-            await quizManager.start(state.dificuldadeSelecionada); // Passa a dificuldade
-
-            elements.loginBtn.disabled = false;
-            elements.loginBtn.textContent = 'Entrar';
-
-        } else if (!username) {
-            elements.errorMsg.textContent = "Por favor, digite seu nome!";
-        } else if (!state.dificuldadeSelecionada) {
-            elements.errorMsg.textContent = "Por favor, escolha um nível de dificuldade!";
+            quizManager.start(state.dificuldadeSelecionada);
+        } else {
+            elements.errorMsg.textContent = "Por favor, digite seu nome e escolha uma dificuldade!";
         }
     });
 
-    elements.creditosBtnLogin.addEventListener('click', () => showView('creditos'));
-    elements.voltarInicioBtn.addEventListener('click', () => showView('login'));
-    elements.jogarNovamenteBtn.addEventListener('click', () => {
-        // Não precisa mais limpar o input aqui, showView('login') já faz isso
-        showView('login');
+    // Listeners para os botões de dificuldade
+    elements.difficultyButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            elements.difficultyButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.dificuldadeSelecionada = btn.dataset.difficulty;
+            validarLogin();
+        });
     });
 
+    // Listener para o input de nome
+    elements.usernameInput.addEventListener('input', validarLogin);
+
+
+    elements.creditosBtnLogin.addEventListener('click', () => showView('creditos'));
+    elements.voltarInicioBtn.addEventListener('click', () => showView('login'));
+    elements.jogarNovamenteBtn.addEventListener('click', () => showView('login'));
+
     elements.nextBtn.addEventListener('click', () => quizManager.proximaPergunta());
-    elements.pularBtn.addEventListener('click', () => quizManager.pular()); // Modificado para pular
+    elements.pularBtn.addEventListener('click', () => quizManager.pular());
     elements.voltarBtn.addEventListener('click', () => quizManager.perguntaAnterior());
     elements.resetBtn.addEventListener('click', () => quizManager.resetar());
 
-    elements.reiniciarRankingBtn.addEventListener('click', () => rankingManager.reiniciar());
+    // O listener do reiniciarRankingBtn foi removido, pois o botão está oculto.
 
     // == INICIALIZAÇÃO DA APLICAÇÃO ==
-    const init = () => {
+    const init = async () => {
         themeManager.init();
+        // Mostra o login, mas desabilita o botão até carregar as perguntas
         showView('login');
+        elements.loginBtn.textContent = "Carregando...";
+        elements.loginBtn.disabled = true;
+
+        const sucesso = await quizManager.carregarPerguntas();
+        if (sucesso) {
+            elements.loginBtn.textContent = "Entrar";
+            validarLogin(); // Valida (provavelmente desabilitado até o usuário digitar)
+        } else {
+            elements.loginBtn.textContent = "Erro ao Carregar";
+        }
         createStarBackground(); // Inicia o fundo de estrelas
     };
 
     // EFEITO DE FUNDO DE ESTRELAS (Canvas)
     function createStarBackground() {
         const canvas = document.getElementById("starsCanvas");
+        if (!canvas) return; // Garante que o canvas exista
         const ctx = canvas.getContext("2d");
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -461,7 +507,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         let stars = [];
-        for (let i = 0; i < 150; i++) {
+        const numStars = window.innerWidth < 768 ? 75 : 150; // Menos estrelas em mobile
+        for (let i = 0; i < numStars; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,

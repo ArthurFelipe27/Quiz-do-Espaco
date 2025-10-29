@@ -37,13 +37,13 @@
         <!-- Seleção de Dificuldade -->
         <label>Escolha a dificuldade:</label>
         <div id="difficulty-selection" class="difficulty-buttons">
-          <button type="button" class="btn-difficulty" data-difficulty="facil">🚀 Fácil</button>
-          <button type="button" class="btn-difficulty" data-difficulty="medio">🪐 Médio</button>
-          <button type="button" class="btn-difficulty" data-difficulty="dificil">☄️ Difícil</button>
+          <button type="button" class="btn-difficulty" data-difficulty="facil">Fácil</button>
+          <button type="button" class="btn-difficulty" data-difficulty="medio">Médio</button>
+          <button type="button" class="btn-difficulty" data-difficulty="dificil">Difícil</button>
         </div>
 
         <p id="errorMsg"></p>
-        <button type="submit" id="login-btn" disabled>Entrar</button> <!-- Botão desabilitado por padrão -->
+        <button type="submit" id="login-btn" disabled>Entrar</button>
       </form>
       <button id="creditos-btn-login">👩‍🚀 Créditos</button>
     </section>
@@ -71,11 +71,13 @@
       <h1 class="titulo-espacial">Resultado Final</h1>
       <p id="resultado-texto" aria-live="polite"></p>
       <section>
-        <h2>🏆 Ranking dos Melhores</h2>
+        <h2>🏆 Ranking Global (Top 5)</h2>
         <ol id="lista-ranking"></ol>
       </section>
       <button id="jogar-novamente-btn">Jogar Novamente</button>
-      <button id="reiniciar-ranking-btn">Reiniciar Ranking</button>
+      <!-- O botão de reiniciar ranking foi removido da lógica (e escondido), 
+           pois o ranking agora é global e não deve ser apagado por um usuário. -->
+      <button id="reiniciar-ranking-btn" style="display: none;">Reiniciar Ranking</button>
     </section>
 
     <!-- TELA DE CRÉDITOS -->
@@ -100,6 +102,13 @@
       </div>
     </div>
   </div>
+
+  <!-- 
+    SDKs do Firebase 
+    Estes scripts se conectam ao seu banco de dados na nuvem.
+  -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
 
   <!-- Link para o arquivo JavaScript externo -->
   <script src="script.js"></script>
