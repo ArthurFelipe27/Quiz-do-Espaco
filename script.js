@@ -1,18 +1,17 @@
 // Inicia a aplicação quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
 
-    // BANCO DE PERGUNTAS E INFORMAÇÕES
-    // REMOVIDO: Agora será carregado do perguntas.json
-
     // == GESTÃO DE ESTADO DA APLICAÇÃO ==
     const state = {
         nomeJogador: '',
+        dificuldadeSelecionada: null, // Armazena dificuldade
+        multiplicadorPontos: 1, // Multiplicador de pontos
         perguntasQuiz: [],
-        perguntasDoBanco: [], // <-- NOVO: Armazena perguntas do JSON
-        fallbackDoBanco: {}, // <-- NOVO: Armazena fallbacks do JSON
+        perguntasDoBanco: [], // Armazena perguntas do JSON
+        fallbackDoBanco: {}, // Armazena fallbacks do JSON
         perguntaAtual: 0,
         pontos: 0,
-        streak: 0, // <-- NOVO: Para contar acertos consecutivos
+        streak: 0, // Bônus por acertos consecutivos
         perguntasRespondidas: [],
         respondeuPeloMenosUma: false,
         tempoRestante: 15,
@@ -28,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
             creditos: document.getElementById('creditos-view'),
         },
         loginForm: document.getElementById('loginForm'),
+        loginBtn: document.getElementById('login-btn'), // Seletor para botão de login
+        difficultySelection: document.getElementById('difficulty-selection'), // Seletor para botões de dificuldade
         usernameInput: document.getElementById('username'),
         errorMsg: document.getElementById('errorMsg'),
         playerName: document.getElementById('player-name'),
@@ -59,6 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const showView = (viewName) => {
         Object.values(elements.views).forEach(view => view.classList.remove('active'));
         elements.views[viewName].classList.add('active');
+
+        // Reseta a seleção de dificuldade ao voltar para o login
+        if (viewName === 'login') {
+            state.dificuldadeSelecionada = null;
+            elements.loginBtn.disabled = true;
+            elements.usernameInput.value = ''; // Limpa o nome também
+            elements.difficultySelection.querySelectorAll('.btn-difficulty').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
     };
 
     // == MODAL CUSTOMIZADO ==
@@ -96,8 +107,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // == LÓGICA DO QUIZ ==
     const quizManager = {
-        // A função start agora é "async" para poder usar "await" no fetch
-        start: async function () {
+        // A função start agora recebe a dificuldade
+        start: async function (dificuldade) {
+            state.dificuldadeSelecionada = dificuldade;
+            // Define o multiplicador de pontos
+            switch (dificuldade) {
+                case 'medio':
+                    state.multiplicadorPontos = 1.5;
+                    break;
+                case 'dificil':
+                    state.multiplicadorPontos = 2;
+                    break;
+                default: // facil
+                    state.multiplicadorPontos = 1;
+            }
+
             try {
                 // Tenta carregar as perguntas do arquivo JSON
                 const response = await fetch('perguntas.json');
@@ -110,8 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 state.perguntasDoBanco = data.perguntas;
                 state.fallbackDoBanco = data.fallbackInfo;
 
-                // Continua com a lógica original do quiz
-                this.selecionarPerguntas();
+                // Passa a dificuldade para selecionarPerguntas
+                this.selecionarPerguntas(dificuldade);
+
+                // Checa se encontrou perguntas para a dificuldade
+                if (state.perguntasQuiz.length === 0) {
+                    throw new Error(`Nenhuma pergunta encontrada para a dificuldade: ${dificuldade}`);
+                }
+
                 this.resetState();
                 elements.playerName.textContent = `Jogador(a): ${state.nomeJogador}`;
                 this.carregarPergunta();
@@ -127,15 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
         resetState() {
             state.perguntaAtual = 0;
             state.pontos = 0;
-            state.streak = 0; // <-- NOVO: Reseta a sequência
+            state.streak = 0;
             state.perguntasRespondidas = Array(state.perguntasQuiz.length).fill(false);
             state.respondeuPeloMenosUma = false;
         },
-        selecionarPerguntas() {
-            // Modificado: Usa state.perguntasDoBanco em vez de BANCO_DE_PERGUNTAS
-            const copia = [...state.perguntasDoBanco];
+        // Modificado: Recebe e filtra pela dificuldade
+        selecionarPerguntas(dificuldade) {
+            // Filtra as perguntas do banco com base na dificuldade selecionada
+            const perguntasFiltradas = state.perguntasDoBanco.filter(p => p.dificuldade === dificuldade);
+
+            const copia = [...perguntasFiltradas];
             state.perguntasQuiz = [];
-            const numPerguntas = Math.min(10, copia.length);
+            const numPerguntas = Math.min(10, copia.length); // Pega até 10 perguntas
             for (let i = 0; i < numPerguntas; i++) {
                 const index = Math.floor(Math.random() * copia.length);
                 state.perguntasQuiz.push(copia.splice(index, 1)[0]);
@@ -169,31 +202,32 @@ document.addEventListener('DOMContentLoaded', () => {
             botoes.forEach(btn => btn.disabled = true);
 
             if (indiceSelecionado === q.correta) {
-                // Lógica de pontos por acerto
+                // Lógica de pontos por acerto (com multiplicador)
                 const pontosBase = 10;
                 const pontosTempo = state.tempoRestante; // Ganha os segundos restantes como bônus
                 state.streak++; // Incrementa a sequência
                 const bonusStreak = (state.streak - 1) * 5; // Bônus de +5 para 2x, +10 para 3x, etc.
-                const pontosGanhos = pontosBase + pontosTempo + bonusStreak;
+
+                // Aplica o multiplicador de dificuldade
+                const pontosGanhos = Math.round((pontosBase + pontosTempo + bonusStreak) * state.multiplicadorPontos);
 
                 state.pontos += pontosGanhos;
 
                 botoes[indiceSelecionado].classList.add('btn-correta');
-                let feedbackTexto = `Resposta correta! +${pontosGanhos} pontos (${pontosBase} base + ${pontosTempo} tempo)`;
-                if (bonusStreak > 0) {
-                    feedbackTexto += ` (Bônus de ${bonusStreak} por ${state.streak}x acertos!)`;
-                }
+                let feedbackTexto = `Resposta correta! +${pontosGanhos} pontos (${pontosBase}b + ${pontosTempo}t + ${bonusStreak}s) x ${state.multiplicadorPontos}D`;
+
                 elements.feedback.textContent = feedbackTexto;
                 elements.feedback.style.color = 'var(--correct-color)';
 
             } else {
-                // Lógica de pontos por erro
+                // Lógica de pontos por erro (com multiplicador)
                 state.streak = 0; // Zera a sequência
+                const penalidade = Math.round(5 * state.multiplicadorPontos); // Penalidade maior
                 botoes[indiceSelecionado].classList.add('btn-incorreta');
                 botoes[q.correta].classList.add('btn-correta');
-                elements.feedback.textContent = 'Resposta incorreta. -5 pontos. Sequência perdida!';
+                elements.feedback.textContent = `Resposta incorreta. -${penalidade} pontos. Sequência perdida!`;
                 elements.feedback.style.color = 'var(--incorrect-color)';
-                state.pontos = Math.max(0, state.pontos - 5);
+                state.pontos = Math.max(0, state.pontos - penalidade);
             }
 
             state.perguntasRespondidas[state.perguntaAtual] = true;
@@ -265,13 +299,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.carregarPergunta();
             }
         },
-        // <-- NOVO: Função para pular pergunta -->
+        // Função para pular pergunta (com multiplicador)
         pular() {
             // Pular quebra a sequência e tem uma pequena penalidade
             state.streak = 0;
-            state.pontos = Math.max(0, state.pontos - 2); // Penalidade de 2 pontos
+            const penalidadePulo = Math.round(2 * state.multiplicadorPontos); // Penalidade maior
+            state.pontos = Math.max(0, state.pontos - penalidadePulo);
             elements.pontosUsuario.textContent = `Pontos: ${state.pontos}`;
-            elements.feedback.textContent = 'Pergunta pulada. -2 pontos.';
+            elements.feedback.textContent = `Pergunta pulada. -${penalidadePulo} pontos.`;
             elements.feedback.style.color = 'orange';
 
             // Avança para a próxima pergunta
@@ -287,13 +322,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const confirmado = await showModal("Tem certeza que deseja reiniciar o quiz? Seu progresso será perdido.");
             if (confirmado) {
                 clearInterval(state.timerInterval);
-                this.start();
+                // Reinicia com a dificuldade atual
+                this.start(state.dificuldadeSelecionada);
             }
         },
         finalizar() {
             clearInterval(state.timerInterval);
-            rankingManager.atualizar(state.nomeJogador, state.pontos);
-            elements.resultadoTexto.innerHTML = `${state.nomeJogador}, você fez <strong>${state.pontos}</strong> ponto${state.pontos !== 1 ? 's' : ''}! <span class="rocket">🚀</span>`;
+            rankingManager.atualizar(state.nomeJogador, state.pontos, state.dificuldadeSelecionada); // Passa a dificuldade
+            elements.resultadoTexto.innerHTML = `${state.nomeJogador}, você fez <strong>${state.pontos}</strong> ponto${state.pontos !== 1 ? 's' : ''} (Modo ${state.dificuldadeSelecionada})! <span class="rocket">🚀</span>`;
             rankingManager.exibir();
             showView('resultado');
         }
@@ -307,9 +343,10 @@ document.addEventListener('DOMContentLoaded', () => {
         saveRanking(ranking) {
             localStorage.setItem('ranking', JSON.stringify(ranking));
         },
-        atualizar(nome, pontos) {
+        // Modificado: Salva a dificuldade também
+        atualizar(nome, pontos, dificuldade) {
             let ranking = this.getRanking();
-            ranking.push({ nome, pontos });
+            ranking.push({ nome, pontos, dificuldade }); // Salva dificuldade
             ranking.sort((a, b) => b.pontos - a.pontos);
             ranking = ranking.slice(0, 5); // Mantém apenas os 5 melhores
             this.saveRanking(ranking);
@@ -322,7 +359,8 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 ranking.forEach((jogador, index) => {
                     const item = document.createElement('li');
-                    item.textContent = `${index + 1}º - ${jogador.nome}: ${jogador.pontos} pontos`;
+                    // Exibe a dificuldade no ranking
+                    item.textContent = `${index + 1}º - ${jogador.nome}: ${jogador.pontos} pontos (${jogador.dificuldade})`;
                     elements.listaRanking.appendChild(item);
                 });
             }
@@ -337,39 +375,68 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // == EVENT LISTENERS (Controladores) ==
-    // A função do listener agora é "async" para poder chamar quizManager.start()
+
+    // Listener para botões de dificuldade
+    elements.difficultySelection.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-difficulty')) {
+            // Remove 'active' de todos
+            elements.difficultySelection.querySelectorAll('.btn-difficulty').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Adiciona 'active' ao clicado
+            e.target.classList.add('active');
+            // Salva a dificuldade
+            state.dificuldadeSelecionada = e.target.dataset.difficulty;
+            // Habilita o botão de login se o nome também estiver preenchido
+            if (elements.usernameInput.value.trim() !== '') {
+                elements.loginBtn.disabled = false;
+            }
+        }
+    });
+
+    // Listener para o input de nome (para habilitar o botão)
+    elements.usernameInput.addEventListener('input', () => {
+        if (elements.usernameInput.value.trim() !== '' && state.dificuldadeSelecionada) {
+            elements.loginBtn.disabled = false;
+        } else {
+            elements.loginBtn.disabled = true;
+        }
+    });
+
+    // Modificado: Listener do formulário de login
     elements.loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const username = elements.usernameInput.value.trim();
-        if (username) {
+
+        // Checagem dupla (embora o botão deva estar desabilitado)
+        if (username && state.dificuldadeSelecionada) {
             state.nomeJogador = username;
             elements.errorMsg.textContent = '';
 
-            // Desabilita o botão para evitar cliques duplos enquanto carrega
-            const loginButton = elements.loginForm.querySelector('button');
-            loginButton.disabled = true;
-            loginButton.textContent = 'Carregando...';
+            elements.loginBtn.disabled = true;
+            elements.loginBtn.textContent = 'Carregando...';
 
-            await quizManager.start(); // Chama o start "async"
+            await quizManager.start(state.dificuldadeSelecionada); // Passa a dificuldade
 
-            // Reabilita o botão
-            loginButton.disabled = false;
-            loginButton.textContent = 'Entrar';
+            elements.loginBtn.disabled = false;
+            elements.loginBtn.textContent = 'Entrar';
 
-        } else {
+        } else if (!username) {
             elements.errorMsg.textContent = "Por favor, digite seu nome!";
+        } else if (!state.dificuldadeSelecionada) {
+            elements.errorMsg.textContent = "Por favor, escolha um nível de dificuldade!";
         }
     });
 
     elements.creditosBtnLogin.addEventListener('click', () => showView('creditos'));
     elements.voltarInicioBtn.addEventListener('click', () => showView('login'));
     elements.jogarNovamenteBtn.addEventListener('click', () => {
-        elements.usernameInput.value = '';
+        // Não precisa mais limpar o input aqui, showView('login') já faz isso
         showView('login');
     });
 
     elements.nextBtn.addEventListener('click', () => quizManager.proximaPergunta());
-    elements.pularBtn.addEventListener('click', () => quizManager.pular()); // <-- MUDANÇA: Chama a nova função pular()
+    elements.pularBtn.addEventListener('click', () => quizManager.pular()); // Modificado para pular
     elements.voltarBtn.addEventListener('click', () => quizManager.perguntaAnterior());
     elements.resetBtn.addEventListener('click', () => quizManager.resetar());
 
@@ -424,5 +491,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init(); // Roda a aplicação
 });
-
 

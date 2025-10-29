@@ -204,6 +204,41 @@ button:disabled {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
 }
 
+/* Estilos para botões de dificuldade */
+.difficulty-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.btn-difficulty {
+    background: var(--input-bg);
+    border: 2px solid var(--container-shadow);
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+    color: var(--text-color);
+    font-family: var(--font-family);
+    opacity: 0.7;
+}
+
+.btn-difficulty:hover {
+    opacity: 1;
+    border-color: var(--focus-shadow);
+}
+
+.btn-difficulty.active {
+    opacity: 1;
+    background: linear-gradient(45deg, var(--btn-gradient-start), var(--btn-gradient-end));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 0 10px var(--focus-shadow);
+    transform: scale(1.05);
+}
+
 #answers button {
     margin: 5px 0;
     width: 100%;

@@ -9,7 +9,8 @@
                 "Saturno"
             ],
             "correta": 1,
-            "termoExtra": "Júpiter (planeta)"
+            "termoExtra": "Júpiter (planeta)",
+            "dificuldade": "facil"
         },
         {
             "pergunta": "Qual planeta é conhecido como o Planeta Vermelho?",
@@ -20,7 +21,8 @@
                 "Saturno"
             ],
             "correta": 1,
-            "termoExtra": "Marte (planeta)"
+            "termoExtra": "Marte (planeta)",
+            "dificuldade": "facil"
         },
         {
             "pergunta": "Qual é a estrela mais próxima da Terra?",
@@ -31,7 +33,8 @@
                 "Sirius"
             ],
             "correta": 2,
-            "termoExtra": "Sol"
+            "termoExtra": "Sol",
+            "dificuldade": "facil"
         },
         {
             "pergunta": "Quem foi o primeiro humano a viajar ao espaço?",
@@ -42,7 +45,8 @@
                 "Valentina Tereshkova"
             ],
             "correta": 2,
-            "termoExtra": "Yuri Gagarin"
+            "termoExtra": "Yuri Gagarin",
+            "dificuldade": "facil"
         },
         {
             "pergunta": "Qual missão levou o primeiro homem à Lua?",
@@ -53,18 +57,8 @@
                 "Mercury 7"
             ],
             "correta": 0,
-            "termoExtra": "Apollo 11"
-        },
-        {
-            "pergunta": "Qual planeta possui um sistema de anéis mais visível?",
-            "respostas": [
-                "Júpiter",
-                "Urano",
-                "Saturno",
-                "Netuno"
-            ],
-            "correta": 2,
-            "termoExtra": "Anéis de Saturno"
+            "termoExtra": "Apollo 11",
+            "dificuldade": "facil"
         },
         {
             "pergunta": "Em que galáxia está localizado o Sistema Solar?",
@@ -75,29 +69,20 @@
                 "Galáxia do Triângulo"
             ],
             "correta": 1,
-            "termoExtra": "Via Láctea"
+            "termoExtra": "Via Láctea",
+            "dificuldade": "facil"
         },
         {
-            "pergunta": "Qual planeta é conhecido por ter a maior tempestade do Sistema Solar, a Grande Mancha Vermelha?",
+            "pergunta": "Qual planeta possui um sistema de anéis mais visível?",
             "respostas": [
                 "Júpiter",
+                "Urano",
                 "Saturno",
-                "Netuno",
-                "Urano"
+                "Netuno"
             ],
-            "correta": 0,
-            "termoExtra": "Grande Mancha Vermelha"
-        },
-        {
-            "pergunta": "Qual é o planeta mais quente do Sistema Solar?",
-            "respostas": [
-                "Mercúrio",
-                "Vênus",
-                "Marte",
-                "Júpiter"
-            ],
-            "correta": 1,
-            "termoExtra": "Vênus (planeta)"
+            "correta": 2,
+            "termoExtra": "Anéis de Saturno",
+            "dificuldade": "facil"
         },
         {
             "pergunta": "Qual foi o primeiro satélite artificial lançado pela humanidade?",
@@ -108,117 +93,152 @@
                 "Lunik 1"
             ],
             "correta": 0,
-            "termoExtra": "Sputnik 1"
+            "termoExtra": "Sputnik 1",
+            "dificuldade": "medio"
         },
         {
-            "pergunta": "Como é chamada uma região do espaço da qual nada, nem mesmo a luz, pode escapar?",
+            "pergunta": "Qual planeta é conhecido por ter a maior tempestade do Sistema Solar, a Grande Mancha Vermelha?",
             "respostas": [
-                "Nebulosa",
-                "Quasar",
-                "Buraco negro",
-                "Supernova"
-            ],
-            "correta": 2,
-            "termoExtra": "Buraco negro"
-        },
-        {
-            "pergunta": "Qual é o maior vulcão conhecido no Sistema Solar?",
-            "respostas": [
-                "Monte Everest",
-                "Mauna Kea",
-                "Monte Olimpo",
-                "Monte Santa Helena"
-            ],
-            "correta": 2,
-            "termoExtra": "Monte Olimpo"
-        },
-        {
-            "pergunta": "Qual planeta é famoso por girar 'de lado' em sua órbita?",
-            "respostas": [
-                "Vênus",
                 "Júpiter",
-                "Urano",
-                "Netuno"
+                "Saturno",
+                "Netuno",
+                "Urano"
             ],
-            "correta": 2,
-            "termoExtra": "Urano"
+            "correta": 0,
+            "termoExtra": "Grande Mancha Vermelha",
+            "dificuldade": "medio"
         },
         {
-            "pergunta": "Qual telescópio espacial, lançado em 1990, revolucionou a astronomia?",
+            "pergunta": "Qual é o planeta mais quente do Sistema Solar?",
             "respostas": [
-                "James Webb",
-                "Kepler",
-                "Spitzer",
-                "Hubble"
-            ],
-            "correta": 3,
-            "termoExtra": "Telescópio espacial Hubble"
-        },
-        {
-            "pergunta": "Qual é o nome da explosão estelar incrivelmente energética que ocorre no final da vida de uma estrela massiva?",
-            "respostas": [
-                "Anã branca",
-                "Supernova",
-                "Nebulosa planetária",
-                "Estrela de nêutrons"
+                "Mercúrio",
+                "Vênus",
+                "Marte",
+                "Júpiter"
             ],
             "correta": 1,
-            "termoExtra": "Supernova"
+            "termoExtra": "Vênus (planeta)",
+            "dificuldade": "medio"
         },
         {
-            "pergunta": "Qual é o nome do laboratório orbital habitado que gira em torno da Terra?",
+            "pergunta": "Qual é o vulcão mais alto do Sistema Solar (localizado em Marte)?",
             "respostas": [
-                "Estação Espacial Mir",
-                "Skylab",
-                "Estação Espacial Internacional (ISS)",
-                "Tiangong"
+                "Monte Olimpo",
+                "Mauna Kea",
+                "Monte Santa Helena",
+                "Monte Everest"
             ],
-            "correta": 2,
-            "termoExtra": "Estação Espacial Internacional"
+            "correta": 0,
+            "termoExtra": "Olympus Mons",
+            "dificuldade": "medio"
         },
         {
-            "pergunta": "Qual é o planeta mais distante do Sol no Sistema Solar?",
+            "pergunta": "Qual é o planeta anão mais famoso, reclassificado em 2006?",
             "respostas": [
-                "Urano",
-                "Saturno",
-                "Plutão",
-                "Netuno"
+                "Ceres",
+                "Eris",
+                "Makemake",
+                "Plutão"
             ],
             "correta": 3,
-            "termoExtra": "Netuno"
+            "termoExtra": "Plutão",
+            "dificuldade": "medio"
         },
         {
-            "pergunta": "Qual objeto feito pelo homem é o mais distante da Terra?",
+            "pergunta": "O que causa a 'Aurora Boreal'?",
             "respostas": [
-                "Voyager 1",
-                "Voyager 2",
-                "Pioneer 10",
-                "New Horizons"
+                "Poluição luminosa",
+                "Partículas solares na atmosfera",
+                "Fases da Lua",
+                "Nuvens em alta altitude"
             ],
-            "correta": 0,
-            "termoExtra": "Voyager 1"
+            "correta": 1,
+            "termoExtra": "Aurora (astronomia)",
+            "dificuldade": "medio"
         },
         {
-            "pergunta": "Qual o nome do sucessor do Telescópio Hubble, lançado em 2021?",
+            "pergunta": "O que é um buraco negro?",
             "respostas": [
-                "Telescópio Espacial James Webb",
-                "Telescópio Kepler",
-                "Telescópio Gaia",
-                "Telescópio Nancy Grace Roman"
-            ],
-            "correta": 0,
-            "termoExtra": "Telescópio Espacial James Webb"
-        },
-        {
-            "pergunta": "Por que nunca vemos o 'lado escuro' da Lua da Terra?",
-            "respostas": [
-                "Ele não existe",
-                "A Lua não gira",
-                "Ressonância orbital",
-                "A gravidade do Sol o esconde"
+                "Uma estrela muito densa",
+                "Uma região sem matéria",
+                "Uma região com gravidade imensa",
+                "Um planeta sem luz"
             ],
             "correta": 2,
-            "termoExtra": "Acoplamento de maré"
+            "termoExtra": "Buraco negro",
+            "dificuldade": "medio"
+        },
+        {
+            "pergunta": "Qual é o nome da galáxia mais próxima da Via Láctea?",
+            "respostas": [
+                "Galáxia do Triângulo",
+                "Nuvem de Magalhães",
+                "Galáxia de Andrômeda",
+                "Galáxia do Sombreiro"
+            ],
+            "correta": 2,
+            "termoExtra": "Galáxia de Andrômeda",
+            "dificuldade": "dificil"
+        },
+        {
+            "pergunta": "Qual é a lua de Saturno que possui uma atmosfera densa?",
+            "respostas": [
+                "Europa",
+                "Titã",
+                "Ganimedes",
+                "Enceladus"
+            ],
+            "correta": 1,
+            "termoExtra": "Titã (lua)",
+            "dificuldade": "dificil"
+        },
+        {
+            "pergunta": "Qual sonda espacial foi a primeira a fotografar o lado oculto da Lua?",
+            "respostas": [
+                "Voyager 1",
+                "Pioneer 10",
+                "Luna 3",
+                "Mariner 2"
+            ],
+            "correta": 2,
+            "termoExtra": "Luna 3",
+            "dificuldade": "dificil"
+        },
+        {
+            "pergunta": "Qual é o elemento químico mais abundante no universo?",
+            "respostas": [
+                "Hélio",
+                "Oxigênio",
+                "Carbono",
+                "Hidrogênio"
+            ],
+            "correta": 3,
+            "termoExtra": "Hidrogênio",
+            "dificuldade": "dificil"
+        },
+        {
+            "pergunta": "Quantos planetas anões são oficialmente reconhecidos no Sistema Solar?",
+            "respostas": [
+                "3",
+                "5",
+                "10",
+                "13"
+            ],
+            "correta": 1,
+            "termoExtra": "Planeta anão",
+            "dificuldade": "dificil"
+        },
+        {
+            "pergunta": "Qual telescópio espacial, lançado em 2021, é o sucessor do Hubble?",
+            "respostas": [
+                "Kepler",
+                "Spitzer",
+                "James Webb",
+                "Chandra"
+            ],
+            "correta": 2,
+            "termoExtra": "Telescópio Espacial James Webb",
+            "dificuldade": "dificil"
         }
     ],
     "fallbackInfo": {
@@ -251,7 +271,7 @@
             "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Mancha%20Vermelha.png"
         },
         "Vênus (planeta)": {
-            "texto": "Vênus é o segundo planeta a partir do Sol e o mais quente do Sistema Solar, devido ao seu efeito estufa intenso.",
+            "texto": "Vênus é o segundo planeta a partir do Sol e o mais quente do Sistema Solar, due ao seu efeito estufa intenso.",
             "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Venus.png"
         },
         "Apollo 11": {
@@ -263,44 +283,44 @@
             "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Sputnik1.png"
         },
         "Buraco negro": {
-            "texto": "Um buraco negro é uma região do espaço-tempo onde a gravidade é tão forte que nada—nem partículas ou radiação eletromagnética como a luz—pode escapar de lá.",
+            "texto": "Um buraco negro é uma região do espaço-tempo onde a gravidade é tão forte que nada, nem mesmo a luz, pode escapar. São formados pela morte de estrelas muito massivas.",
             "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Buraco-negro.png"
         },
-        "Monte Olimpo": {
-            "texto": "O Monte Olimpo (Olympus Mons) em Marte é o maior vulcão conhecido no Sistema Solar. Ele tem quase 22 km de altura, cerca de 2,5 vezes a altura do Monte Everest.",
-            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Monte-Olimpo.png"
-        },
-        "Urano": {
-            "texto": "Urano é único no Sistema Solar por ter uma inclinação axial de 97,77 graus, o que significa que ele essencialmente 'gira de lado' em sua órbita ao redor do Sol.",
-            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Urano.png"
-        },
-        "Telescópio espacial Hubble": {
-            "texto": "Lançado em 1990, o Telescópio Espacial Hubble orbita a Terra e capturou algumas das imagens mais detalhadas do espaço profundo, mudando nossa compreensão do universo.",
-            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Hubble.png"
-        },
-        "Supernova": {
-            "texto": "Uma supernova é uma explosão estelar poderosa e luminosa. Ocorre durante os últimos estágios evolutivos de uma estrela massiva ou quando uma anã branca desencadeia uma fusão nuclear descontrolada.",
-            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Supernova.png"
-        },
-        "Estação Espacial Internacional": {
-            "texto": "A Estação Espacial Internacional (ISS) é um laboratório de pesquisa modular e multinacional em órbita baixa da Terra. É o maior objeto artificial no espaço e pode ser visto da Terra a olho nu.",
-            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/ISS.png"
-        },
-        "Netuno": {
-            "texto": "Netuno é o oitavo e mais distante planeta do Sol no Sistema Solar. É um gigante gasoso escuro, frio e assolado por ventos supersônicos.",
-            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Netuno.png"
-        },
-        "Voyager 1": {
-            "texto": "Lançada em 1977, a Voyager 1 é a sonda espacial mais distante da Terra. Ela foi a primeira a entrar no espaço interestelar, a região entre as estrelas.",
-            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Voyager-1.png"
+        "Titã (lua)": {
+            "texto": "Titã é a maior lua de Saturno e a única lua conhecida por ter uma atmosfera densa, composta principalmente de nitrogênio, semelhante à Terra primitiva.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Tita.png"
         },
         "Telescópio Espacial James Webb": {
-            "texto": "O Telescópio Espacial James Webb é o sucessor do Hubble. Ele observa o universo em infravermelho, permitindo-lhe ver objetos mais distantes e antigos do que qualquer outro telescópio.",
+            "texto": "O Telescópio Espacial James Webb (JWST), lançado em 2021, observa o universo em infravermelho e é o sucessor do Telescópio Espacial Hubble.",
             "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/James-Webb.png"
         },
-        "Acoplamento de maré": {
-            "texto": "A Lua está em 'acoplamento de maré' com a Terra. Isso significa que ela leva o mesmo tempo para girar em seu próprio eixo e para completar uma órbita ao redor da Terra, fazendo com que a mesma face esteja sempre voltada para nós.",
-            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Lua.png"
+        "Galáxia de Andrômeda": {
+            "texto": "A Galáxia de Andrômeda (M31) é a galáxia espiral mais próxima da Via Láctea e espera-se que colida conosco em cerca de 4,5 bilhões de anos.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Andromeda.png"
+        },
+        "Aurora (astronomia)": {
+            "texto": "Uma aurora (Boreal no norte, Austral no sul) é um fenômeno de luz natural nos céus, causado pela colisão de partículas solares com a magnetosfera da Terra.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Aurora-Boreal.png"
+        },
+        "Plutão": {
+            "texto": "Plutão foi considerado o nono planeta do Sistema Solar até 2006, quando foi reclassificado como um planeta anão pela União Astronômica Internacional.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Plutao.png"
+        },
+        "Olympus Mons": {
+            "texto": "O Olympus Mons (Monte Olimpo) em Marte é o maior vulcão conhecido no Sistema Solar, com quase 22 km de altura, cerca de três vezes a altura do Monte Everest.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Monte-Olimpo.png"
+        },
+        "Luna 3": {
+            "texto": "A sonda soviética Luna 3 foi a primeira espaçonave a fotografar o lado oculto da Lua, em 1959, revelando um terreno muito diferente do lado visível.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Luna-3.png"
+        },
+        "Hidrogênio": {
+            "texto": "O hidrogênio é o elemento químico mais simples e mais abundante no universo, compondo cerca de 75% de toda a matéria bariônica.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Hidrogenio.png"
+        },
+        "Planeta anão": {
+            "texto": "Atualmente, a União Astronômica Internacional reconhece oficialmente cinco planetas anões: Ceres, Plutão, Haumea, Makemake e Eris.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Planetas-anoes.png"
         }
     }
 }

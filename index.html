@@ -9,6 +9,7 @@
     type="image/png">
   <title>Quiz do Espaço 🚀</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Link para o arquivo CSS externo -->
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -32,8 +33,17 @@
       <form id="loginForm">
         <label for="username">Usuário:</label>
         <input type="text" id="username" placeholder="Digite seu nome..." required>
+
+        <!-- Seleção de Dificuldade -->
+        <label>Escolha a dificuldade:</label>
+        <div id="difficulty-selection" class="difficulty-buttons">
+          <button type="button" class="btn-difficulty" data-difficulty="facil">🚀 Fácil</button>
+          <button type="button" class="btn-difficulty" data-difficulty="medio">🪐 Médio</button>
+          <button type="button" class="btn-difficulty" data-difficulty="dificil">☄️ Difícil</button>
+        </div>
+
         <p id="errorMsg"></p>
-        <button type="submit">Entrar</button>
+        <button type="submit" id="login-btn" disabled>Entrar</button> <!-- Botão desabilitado por padrão -->
       </form>
       <button id="creditos-btn-login">👩‍🚀 Créditos</button>
     </section>
@@ -90,6 +100,8 @@
       </div>
     </div>
   </div>
+
+  <!-- Link para o arquivo JavaScript externo -->
   <script src="script.js"></script>
 </body>
 
