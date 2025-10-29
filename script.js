@@ -2,35 +2,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // BANCO DE PERGUNTAS E INFORMAÇÕES
-    const BANCO_DE_PERGUNTAS = [
-        { pergunta: "Qual é o maior planeta do Sistema Solar?", respostas: ["Terra", "Júpiter", "Marte", "Saturno"], correta: 1, termoExtra: "Júpiter (planeta)" },
-        { pergunta: "Qual planeta é conhecido como o Planeta Vermelho?", respostas: ["Vênus", "Marte", "Mercúrio", "Saturno"], correta: 1, termoExtra: "Marte (planeta)" },
-        { pergunta: "Qual é a estrela mais próxima da Terra?", respostas: ["Alfa Centauri", "Proxima Centauri", "Sol", "Sirius"], correta: 2, termoExtra: "Sol" },
-        { pergunta: "Quem foi o primeiro humano a viajar ao espaço?", respostas: ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "Valentina Tereshkova"], correta: 2, termoExtra: "Yuri Gagarin" },
-        { pergunta: "Qual missão levou o primeiro homem à Lua?", respostas: ["Apollo 11", "Apollo 13", "Gemini 4", "Mercury 7"], correta: 0, termoExtra: "Apollo 11" },
-        { pergunta: "Qual planeta possui um sistema de anéis mais visível?", respostas: ["Júpiter", "Urano", "Saturno", "Netuno"], correta: 2, termoExtra: "Anéis de Saturno" },
-        { pergunta: "Em que galáxia está localizado o Sistema Solar?", respostas: ["Galáxia de Andrômeda", "Via Láctea", "Nuvem de Magalhães", "Galáxia do Triângulo"], correta: 1, termoExtra: "Via Láctea" },
-        { pergunta: "Qual planeta é conhecido por ter a maior tempestade do Sistema Solar, a Grande Mancha Vermelha?", respostas: ["Júpiter", "Saturno", "Netuno", "Urano"], correta: 0, termoExtra: "Grande Mancha Vermelha" },
-        { pergunta: "Qual é o planeta mais quente do Sistema Solar?", respostas: ["Mercúrio", "Vênus", "Marte", "Júpiter"], correta: 1, termoExtra: "Vênus (planeta)" },
-        { pergunta: "Qual foi o primeiro satélite artificial lançado pela humanidade?", respostas: ["Sputnik 1", "Explorer 1", "Vanguard 1", "Lunik 1"], correta: 0, termoExtra: "Sputnik 1" },
-    ];
-    const FALLBACK_INFO = {
-        "Júpiter (planeta)": { texto: "Júpiter é o maior planeta do Sistema Solar, composto principalmente de hidrogênio e hélio, conhecido por sua Grande Mancha Vermelha.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Jupiter.png" },
-        "Marte (planeta)": { texto: "Marte é o quarto planeta do Sistema Solar, conhecido como o Planeta Vermelho devido à sua superfície rica em óxido de ferro.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Marte.png" },
-        "Sol": { texto: "O Sol é a estrela central do Sistema Solar e a principal fonte de luz e energia da Terra.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Sol.png" },
-        "Yuri Gagarin": { texto: "Yuri Gagarin foi o primeiro ser humano a viajar ao espaço, em 1961, a bordo da espaçonave Vostok 1.", imagem: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Yuri_Gagarin_1961.jpg" },
-        "Anéis de Saturno": { texto: "Os anéis de Saturno são compostos por bilhões de partículas de gelo e rocha, sendo os mais visíveis do Sistema Solar.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Saturno.png" },
-        "Via Láctea": { texto: "A Via Láctea é a galáxia espiral onde o Sistema Solar está localizado.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Via-Lactea.png" },
-        "Grande Mancha Vermelha": { texto: "A Grande Mancha Vermelha é uma gigantesca tempestade anticiclônica na atmosfera de Júpiter, maior que a Terra.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Mancha%20Vermelha.png" },
-        "Vênus (planeta)": { texto: "Vênus é o segundo planeta a partir do Sol e o mais quente do Sistema Solar, devido ao seu efeito estufa intenso.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Venus.png" },
-        "Apollo 11": { texto: "A Apollo 11 foi a missão da NASA que levou o primeiro homem à Lua, Neil Armstrong, em 1969.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Apollo11.png" },
-        "Sputnik 1": { texto: "Sputnik 1 foi o primeiro satélite artificial lançado pela União Soviética em 1957, marcando o início da era espacial.", imagem: "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Sputnik1.png" },
-    };
+    // REMOVIDO: Agora será carregado do perguntas.json
 
     // == GESTÃO DE ESTADO DA APLICAÇÃO ==
     const state = {
         nomeJogador: '',
         perguntasQuiz: [],
+        perguntasDoBanco: [], // <-- NOVO: Armazena perguntas do JSON
+        fallbackDoBanco: {}, // <-- NOVO: Armazena fallbacks do JSON
         perguntaAtual: 0,
         pontos: 0,
         streak: 0, // <-- NOVO: Para contar acertos consecutivos
@@ -117,12 +96,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // == LÓGICA DO QUIZ ==
     const quizManager = {
-        start() {
-            this.selecionarPerguntas();
-            this.resetState();
-            elements.playerName.textContent = `Jogador(a): ${state.nomeJogador}`;
-            this.carregarPergunta();
-            showView('quiz');
+        // A função start agora é "async" para poder usar "await" no fetch
+        start: async function () {
+            try {
+                // Tenta carregar as perguntas do arquivo JSON
+                const response = await fetch('perguntas.json');
+                if (!response.ok) {
+                    throw new Error(`Erro ao carregar perguntas.json: ${response.statusText}`);
+                }
+                const data = await response.json();
+
+                // Salva os dados carregados no estado global
+                state.perguntasDoBanco = data.perguntas;
+                state.fallbackDoBanco = data.fallbackInfo;
+
+                // Continua com a lógica original do quiz
+                this.selecionarPerguntas();
+                this.resetState();
+                elements.playerName.textContent = `Jogador(a): ${state.nomeJogador}`;
+                this.carregarPergunta();
+                showView('quiz');
+
+            } catch (error) {
+                // Se falhar, exibe um erro na tela de login
+                console.error("Não foi possível carregar o banco de perguntas:", error);
+                elements.errorMsg.textContent = "Erro fatal: Não foi possível carregar as perguntas. Tente recarregar a página.";
+                showView('login');
+            }
         },
         resetState() {
             state.perguntaAtual = 0;
@@ -132,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
             state.respondeuPeloMenosUma = false;
         },
         selecionarPerguntas() {
-            const copia = [...BANCO_DE_PERGUNTAS];
+            // Modificado: Usa state.perguntasDoBanco em vez de BANCO_DE_PERGUNTAS
+            const copia = [...state.perguntasDoBanco];
             state.perguntasQuiz = [];
             const numPerguntas = Math.min(10, copia.length);
             for (let i = 0; i < numPerguntas; i++) {
@@ -238,7 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(() => this.usarFallback(termo));
         },
         usarFallback(termo) {
-            const fallback = FALLBACK_INFO[termo];
+            // Modificado: Usa state.fallbackDoBanco em vez de FALLBACK_INFO
+            const fallback = state.fallbackDoBanco[termo];
             if (fallback) {
                 let content = '';
                 if (fallback.imagem) {
@@ -335,13 +337,25 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // == EVENT LISTENERS (Controladores) ==
-    elements.loginForm.addEventListener('submit', (e) => {
+    // A função do listener agora é "async" para poder chamar quizManager.start()
+    elements.loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const username = elements.usernameInput.value.trim();
         if (username) {
             state.nomeJogador = username;
             elements.errorMsg.textContent = '';
-            quizManager.start();
+
+            // Desabilita o botão para evitar cliques duplos enquanto carrega
+            const loginButton = elements.loginForm.querySelector('button');
+            loginButton.disabled = true;
+            loginButton.textContent = 'Carregando...';
+
+            await quizManager.start(); // Chama o start "async"
+
+            // Reabilita o botão
+            loginButton.disabled = false;
+            loginButton.textContent = 'Entrar';
+
         } else {
             elements.errorMsg.textContent = "Por favor, digite seu nome!";
         }
@@ -410,4 +424,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init(); // Roda a aplicação
 });
+
 
