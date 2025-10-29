@@ -7,9 +7,9 @@ Com uma interface imersiva e desempenho aprimorado, o jogo leva o jogador a uma 
 
 ## 🌐 Acesse o Quiz
 
-````
-(quizdoespaco.netlify.app)[https://quizdoespaco.netlify.app/]
-````
+
+[quizdoespaco.netlify.app](https://quizdoespaco.netlify.app/)  
+  
 Cole o link no seu navegador favorito e comece a explorar o universo!
 
 ---
