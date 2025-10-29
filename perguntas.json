@@ -109,6 +109,116 @@
             ],
             "correta": 0,
             "termoExtra": "Sputnik 1"
+        },
+        {
+            "pergunta": "Como é chamada uma região do espaço da qual nada, nem mesmo a luz, pode escapar?",
+            "respostas": [
+                "Nebulosa",
+                "Quasar",
+                "Buraco negro",
+                "Supernova"
+            ],
+            "correta": 2,
+            "termoExtra": "Buraco negro"
+        },
+        {
+            "pergunta": "Qual é o maior vulcão conhecido no Sistema Solar?",
+            "respostas": [
+                "Monte Everest",
+                "Mauna Kea",
+                "Monte Olimpo",
+                "Monte Santa Helena"
+            ],
+            "correta": 2,
+            "termoExtra": "Monte Olimpo"
+        },
+        {
+            "pergunta": "Qual planeta é famoso por girar 'de lado' em sua órbita?",
+            "respostas": [
+                "Vênus",
+                "Júpiter",
+                "Urano",
+                "Netuno"
+            ],
+            "correta": 2,
+            "termoExtra": "Urano"
+        },
+        {
+            "pergunta": "Qual telescópio espacial, lançado em 1990, revolucionou a astronomia?",
+            "respostas": [
+                "James Webb",
+                "Kepler",
+                "Spitzer",
+                "Hubble"
+            ],
+            "correta": 3,
+            "termoExtra": "Telescópio espacial Hubble"
+        },
+        {
+            "pergunta": "Qual é o nome da explosão estelar incrivelmente energética que ocorre no final da vida de uma estrela massiva?",
+            "respostas": [
+                "Anã branca",
+                "Supernova",
+                "Nebulosa planetária",
+                "Estrela de nêutrons"
+            ],
+            "correta": 1,
+            "termoExtra": "Supernova"
+        },
+        {
+            "pergunta": "Qual é o nome do laboratório orbital habitado que gira em torno da Terra?",
+            "respostas": [
+                "Estação Espacial Mir",
+                "Skylab",
+                "Estação Espacial Internacional (ISS)",
+                "Tiangong"
+            ],
+            "correta": 2,
+            "termoExtra": "Estação Espacial Internacional"
+        },
+        {
+            "pergunta": "Qual é o planeta mais distante do Sol no Sistema Solar?",
+            "respostas": [
+                "Urano",
+                "Saturno",
+                "Plutão",
+                "Netuno"
+            ],
+            "correta": 3,
+            "termoExtra": "Netuno"
+        },
+        {
+            "pergunta": "Qual objeto feito pelo homem é o mais distante da Terra?",
+            "respostas": [
+                "Voyager 1",
+                "Voyager 2",
+                "Pioneer 10",
+                "New Horizons"
+            ],
+            "correta": 0,
+            "termoExtra": "Voyager 1"
+        },
+        {
+            "pergunta": "Qual o nome do sucessor do Telescópio Hubble, lançado em 2021?",
+            "respostas": [
+                "Telescópio Espacial James Webb",
+                "Telescópio Kepler",
+                "Telescópio Gaia",
+                "Telescópio Nancy Grace Roman"
+            ],
+            "correta": 0,
+            "termoExtra": "Telescópio Espacial James Webb"
+        },
+        {
+            "pergunta": "Por que nunca vemos o 'lado escuro' da Lua da Terra?",
+            "respostas": [
+                "Ele não existe",
+                "A Lua não gira",
+                "Ressonância orbital",
+                "A gravidade do Sol o esconde"
+            ],
+            "correta": 2,
+            "termoExtra": "Acoplamento de maré"
         }
     ],
     "fallbackInfo": {
@@ -117,7 +227,7 @@
             "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Jupiter.png"
         },
         "Marte (planeta)": {
-            "texto": "Marte é o quarto planeta do Sistema Solar, conhecido como o Planeta Vermelho devido à sua superfície rica em óxido de ferro.",
+            "texto": "Marte é o quarto planeta do Sistema Solar, conhecido como o Planeta Vermelho due à sua superfície rica em óxido de ferro.",
             "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Marte.png"
         },
         "Sol": {
@@ -151,6 +261,46 @@
         "Sputnik 1": {
             "texto": "Sputnik 1 foi o primeiro satélite artificial lançado pela União Soviética em 1957, marcando o início da era espacial.",
             "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Sputnik1.png"
+        },
+        "Buraco negro": {
+            "texto": "Um buraco negro é uma região do espaço-tempo onde a gravidade é tão forte que nada—nem partículas ou radiação eletromagnética como a luz—pode escapar de lá.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Buraco-negro.png"
+        },
+        "Monte Olimpo": {
+            "texto": "O Monte Olimpo (Olympus Mons) em Marte é o maior vulcão conhecido no Sistema Solar. Ele tem quase 22 km de altura, cerca de 2,5 vezes a altura do Monte Everest.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Monte-Olimpo.png"
+        },
+        "Urano": {
+            "texto": "Urano é único no Sistema Solar por ter uma inclinação axial de 97,77 graus, o que significa que ele essencialmente 'gira de lado' em sua órbita ao redor do Sol.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Urano.png"
+        },
+        "Telescópio espacial Hubble": {
+            "texto": "Lançado em 1990, o Telescópio Espacial Hubble orbita a Terra e capturou algumas das imagens mais detalhadas do espaço profundo, mudando nossa compreensão do universo.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Hubble.png"
+        },
+        "Supernova": {
+            "texto": "Uma supernova é uma explosão estelar poderosa e luminosa. Ocorre durante os últimos estágios evolutivos de uma estrela massiva ou quando uma anã branca desencadeia uma fusão nuclear descontrolada.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Supernova.png"
+        },
+        "Estação Espacial Internacional": {
+            "texto": "A Estação Espacial Internacional (ISS) é um laboratório de pesquisa modular e multinacional em órbita baixa da Terra. É o maior objeto artificial no espaço e pode ser visto da Terra a olho nu.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/ISS.png"
+        },
+        "Netuno": {
+            "texto": "Netuno é o oitavo e mais distante planeta do Sol no Sistema Solar. É um gigante gasoso escuro, frio e assolado por ventos supersônicos.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Netuno.png"
+        },
+        "Voyager 1": {
+            "texto": "Lançada em 1977, a Voyager 1 é a sonda espacial mais distante da Terra. Ela foi a primeira a entrar no espaço interestelar, a região entre as estrelas.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Voyager-1.png"
+        },
+        "Telescópio Espacial James Webb": {
+            "texto": "O Telescópio Espacial James Webb é o sucessor do Hubble. Ele observa o universo em infravermelho, permitindo-lhe ver objetos mais distantes e antigos do que qualquer outro telescópio.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/James-Webb.png"
+        },
+        "Acoplamento de maré": {
+            "texto": "A Lua está em 'acoplamento de maré' com a Terra. Isso significa que ela leva o mesmo tempo para girar em seu próprio eixo e para completar uma órbita ao redor da Terra, fazendo com que a mesma face esteja sempre voltada para nós.",
+            "imagem": "https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/banco-de-imgs/Lua.png"
         }
     }
 }
