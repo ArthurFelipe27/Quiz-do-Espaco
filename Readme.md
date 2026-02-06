@@ -1,106 +1,163 @@
-# 🚀 Quiz Interativo: Explorando o Espaço 🌌 (Versão SPA)
+# 🌌 Quiz Interativo – Explorando o Espaço (SPA)
 
-Este é um projeto de **Quiz Interativo** totalmente reestruturado para uma **Single Page Application (SPA)** fluida e dinâmica, desenvolvida com **HTML**, **CSS** e **JavaScript moderno**, sem bibliotecas externas.  
-Com uma interface imersiva e desempenho aprimorado, o jogo leva o jogador a uma jornada espacial de aprendizado e diversão.
+![GitHub repo size](https://img.shields.io/github/repo-size/ArthurFelipe27/quiz-do-espaco?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/ArthurFelipe27/quiz-do-espaco?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/ArthurFelipe27/quiz-do-espaco?style=for-the-badge)
+![License](https://img.shields.io/github/license/ArthurFelipe27/quiz-do-espaco?style=for-the-badge)
+
+> **Quiz Interativo: Explorando o Espaço** é uma aplicação web desenvolvida como uma **Single Page Application (SPA)** fluida e imersiva, utilizando apenas **HTML, CSS e JavaScript moderno**, sem bibliotecas externas.  
+> O jogo convida o usuário a uma jornada espacial de aprendizado, curiosidade e diversão.
 
 ---
 
 ## 🌐 Acesse o Quiz
 
+🚀 Jogue agora diretamente no navegador:  
+👉 https://quizdoespaco.netlify.app/
 
-[quizdoespaco.netlify.app](https://quizdoespaco.netlify.app/)  
-  
-Cole o link no seu navegador favorito e comece a explorar o universo!
+Basta acessar o link e começar sua viagem pelo universo 🌠
+
+---
+
+## ✨ Funcionalidades Principais
+
+* 🛰️ **Arquitetura SPA (Single Page Application)**  
+  Navegação instantânea entre login, quiz, resultados e créditos, sem recarregar a página.
+
+* 🧩 **Código Moderno e Modularizado**  
+  Lógica organizada em *managers* responsáveis por estado do jogo, perguntas, ranking e tema.
+
+* 💡 **Sistema de Pontuação Inteligente**  
+  * ✅ +10 pontos por acerto  
+  * ❌ -5 pontos por erro (sem pontuação negativa)
+
+* 🌐 **Integração com a API da Wikipédia**  
+  Após cada pergunta, o jogo exibe um resumo e imagem relacionados ao tema, enriquecendo o aprendizado.
+
+* 🏆 **Ranking dos 5 Melhores Jogadores**  
+  Pontuações salvas no **localStorage**, incentivando competição saudável.
+
+* 🎨 **Design Responsivo e Imersivo**  
+  Tema espacial com fundo animado de estrelas e astronauta flutuante, adaptado para diferentes tamanhos de tela.
+
+* 🌗 **Tema Claro / Escuro**  
+  Alternância livre entre temas, com preferência salva automaticamente no navegador.
+
+* 💬 **Modal Customizado**  
+  Alertas e mensagens integradas ao visual do jogo, substituindo diálogos nativos.
 
 ---
 
 ## 🎮 Como Jogar
 
-1. **Baixe ou clone** este repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/quiz-espaco.git
+1️⃣ Clone o repositório:
 
-2. Abra o arquivo principal:
+```bash
+git clone https://github.com/seu-usuario/quiz-espaco.git
+```
+
+---
+
+2️⃣ Abra o arquivo principal:
+
+```text
 index.html
+```
 
-3. Execute-o diretamente no seu navegador moderno (Chrome, Firefox, Edge, etc.).
+---
 
-4. Digite seu nome para iniciar sua jornada pelo espaço.
+3️⃣ Execute diretamente no navegador (Chrome, Firefox, Edge, etc.)
 
-5. Responda às perguntas:
+---
 
-✅ Acertos valem +10 pontos
+4️⃣ Digite seu nome para iniciar a jornada espacial.
 
-❌ Erros reduzem -5 pontos (sem pontuação negativa)
+---
 
-6. Ao final, veja sua pontuação, ranking e informações extras sobre os temas através da integração com a Wikipédia.
+5️⃣ Responda às perguntas e acumule pontos:
 
-## 📁 Estrutura do Projeto  
-📦 quiz-espaco/  
-└── index.html → Contém toda a estrutura (HTML), estilo (CSS) e lógica (JavaScript) da aplicação.  
+* ✅ Acertos: +10 pontos  
+* ❌ Erros: -5 pontos  
 
-## ✨ Funcionalidades Principais
+---
 
-🛰 Arquitetura SPA (Single Page Application)
-Navegação instantânea entre as telas de login, quiz, resultados e créditos — tudo sem recarregar a página.
+6️⃣ Ao final, visualize sua pontuação, ranking e curiosidades extras via Wikipédia.
 
-🧩 Código Moderno e Modularizado
-Lógica dividida em managers que controlam o estado do jogo, perguntas, ranking e tema.
+---
 
-💡 Sistema de Pontuação Inteligente
-+10 pontos por acerto e -5 por erro, sem pontuação negativa.
+## 📂 Estrutura do Projeto
 
-🌐 Integração com a API da Wikipédia
-Após cada pergunta, um resumo e uma imagem sobre o tema são exibidos para enriquecer o aprendizado.
+```text
+quiz-espaco/
+└── index.html   # HTML, CSS e JavaScript da aplicação (SPA)
+```
 
-🏆 Ranking dos 5 Melhores Jogadores
-Os resultados são salvos no localStorage, incentivando a competição saudável.
-
-🎨 Design Responsivo e Imersivo
-Tema espacial com fundo animado de estrelas e astronauta flutuante.
-Adapta-se a diferentes tamanhos de tela, mantendo fluidez e estética.
-
-🌗 Tema Claro/Escuro
-O jogador pode alternar livremente entre os dois temas, com salvamento da preferência no navegador.
-
-💬 Modal Customizado
-Alertas e mensagens integradas ao design do jogo, substituindo as caixas de diálogo padrão.
+---
 
 ## 🔧 Tecnologias Utilizadas
 
-HTML5
+* 🧱 **HTML5**
+* 💅 **CSS3**
+  * Variáveis de tema
+  * Flexbox e Grid
+  * Animações com `@keyframes`
+* ⚡ **JavaScript (ES6+)**
+* 🌐 **Fetch API** — Integração com a Wikipédia
+* 💾 **localStorage** — Ranking e preferências de tema
 
-CSS3 (com variáveis de tema, animações @keyframes, Flexbox e Grid)
-
-JavaScript (ES6+)
-
-fetch() para integração com a Wikipédia
-
-localStorage para salvar ranking e tema
+---
 
 ## 💡 Melhorias Implementadas
 
-✅ Reestruturação completa para SPA (sem múltiplas páginas).  
-✅ Código unificado e otimizado em um único arquivo.  
-✅ Modularização da lógica e uso de managers para cada parte do jogo.  
-✅ Sistema de tema claro/escuro totalmente funcional.  
-✅ Modal estilizado substituindo alertas nativos.  
-✅ Melhor desempenho e compatibilidade mobile.  
+* ✅ Reestruturação completa para SPA
+* ✅ Código unificado e otimizado
+* ✅ Modularização com managers
+* ✅ Tema claro/escuro funcional
+* ✅ Modal estilizado customizado
+* ✅ Melhor desempenho e compatibilidade mobile
+
+---
 
 ## 📌 Requisitos para Execução
 
 Navegador moderno com suporte a:
 
-JavaScript (ES6+)
+* JavaScript (ES6+)
+* Manipulação de DOM
+* Fetch API
+* localStorage
+* Conexão com a internet (para dados da Wikipédia)
 
-Manipulação de DOM
+---
 
-Fetch API
+## 📸 Demonstração
 
-localStorage
+### Tela Inicial
+<img width="1881" height="830" alt="Captura de tela 2026-02-05 232352" src="https://github.com/user-attachments/assets/ab731791-7e16-4254-8d50-b083c83a56da" />
 
-Conexão com internet (para carregar dados da Wikipédia)
+### Tela do Quiz
+<img width="1751" height="897" alt="Captura de tela 2026-02-05 232414" src="https://github.com/user-attachments/assets/410f56eb-fce2-4e56-9f94-39d0ae2e75b6" />
 
-## 🌟 Divirta-se aprendendo sobre o universo!
+### Tela de Resultados
+<img width="1401" height="812" alt="Captura de tela 2026-02-05 232543" src="https://github.com/user-attachments/assets/2d85cad6-3ead-434e-aa6a-c509c7353284" />
 
-“A curiosidade é o combustível da descoberta.” – Carl Sagan
+---
+
+## 🧑‍💻 Autores
+
+👨‍🚀 **Arthur Felipe**  
+🌐 GitHub: https://github.com/ArthurFelipe27  
+
+👩‍🚀 **Luana Pereira**  
+🌐 GitHub: https://github.com/LuluPereira  
+
+---
+
+## 📝 Licença
+
+Este projeto está licenciado sob a **Licença MIT**.
+
+---
+
+🌟 *Divirta-se aprendendo sobre o universo!*  
+> “A curiosidade é o combustível da descoberta.” — **Carl Sagan**
