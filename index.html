@@ -6,10 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz do Espaço</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="shortcut icon" href="img/svgs/icon-page.svg" type="image/x-icon">
 </head>
 
 <body>
+
+  <!-- Canvas para as estrelas animadas -->
+  <canvas id="starsCanvas"></canvas>
 
   <!-- TELA 1: INÍCIO -->
   <main id="tela-inicio" class="tela ativa">
@@ -18,7 +20,14 @@
     <div class="modal-conteudo">
       <h1>Quiz do Espaço</h1>
       <p>Teste seus conhecimentos astronômicos!</p>
+
+      <!-- Input Arcade -->
+      <input type="text" id="input-nome" placeholder="NOME DO JOGADOR" maxlength="15" autocomplete="off"
+        style="text-align: center; text-transform: uppercase; font-size: 1.2rem; font-weight: bold; letter-spacing: 2px;">
+
+      <!-- Menu de Botões -->
       <button id="btn-iniciar" class="btn-primario">Iniciar Missão</button>
+      <a href="configuracao.html" class="btn-secundario">⚙️ Configurações</a>
       <a href="creditos.html" class="btn-secundario">Ver Créditos</a>
     </div>
   </main>
@@ -28,10 +37,11 @@
     <img src="img/svgs/flutuando.svg" alt="Astronauta Flutuando" class="svg-flutuante svg-quiz">
 
     <div class="modal-conteudo">
+      <div id="timer">Tempo: <span id="tempo-restante">15</span>s</div>
       <h2 id="texto-pergunta">Carregando dados espaciais...</h2>
-      <div id="container-alternativas" class="alternativas">
-        <!-- Os botões das alternativas serão gerados via JS -->
-      </div>
+
+      <div id="container-alternativas" class="alternativas"></div>
+
       <div class="status-missao">
         <span>Progresso: <span id="contador-perguntas">0/0</span></span>
         <span>Pontuação: <span id="pontuacao-atual">0</span></span>
@@ -42,12 +52,10 @@
   <!-- TELA 3: RESULTADO (PONTO MÁXIMO) -->
   <main id="tela-resultado" class="tela oculta">
     <div class="container-resultado">
-      <!-- Imagem ESTÁTICA ao lado do modal -->
       <img src="img/svgs/ponto-maximo.svg" alt="Astronauta cravando a bandeira" class="img-ponto-maximo">
 
       <div class="modal-conteudo">
-        <h2>Missão Cumprida!</h2>
-        <p>Você sobreviveu à jornada espacial.</p>
+        <h2>Missão Cumprida, <span id="nome-final">Astronauta</span>!</h2>
         <div class="placar">
           <h3>Sua Pontuação:</h3>
           <span id="pontuacao-final" class="destaque-pontos">0</span>
@@ -59,11 +67,11 @@
 
   <!-- TELA DE ERRO (FALLBACK / INDISPONIBILIDADE) -->
   <main id="tela-erro" class="tela oculta">
-    <img src="img/svgs/flutuando.svg" alt="Astronauta Perdido" class="svg-flutuante svg-erro">
+    <img src="img/svgs/offline.svg" alt="Astronauta Perdido" class="svg-flutuante svg-erro">
 
     <div class="modal-conteudo">
       <h2>Houston, temos um problema!</h2>
-      <p>Nossos sistemas perderam contato com a base de dados. O módulo de emergência offline será ativado.</p>
+      <p>Nossos sistemas perderam contato com a base de dados.</p>
       <button id="btn-tentar-novamente" class="btn-secundario">Reconectar</button>
     </div>
   </main>

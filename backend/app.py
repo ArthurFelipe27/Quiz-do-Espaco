@@ -25,13 +25,21 @@ def create_app():
         
         # Só insere as perguntas se a tabela estiver vazia
         if not Pergunta.query.first():
-            p1 = Pergunta(texto="Qual é o maior planeta do nosso sistema solar?", alternativas="Terra|Saturno|Júpiter|Marte", resposta_correta=2)
-            p2 = Pergunta(texto="Qual galáxia é a vizinha mais próxima da Via Láctea?", alternativas="Andrômeda|Sombrero|Girassol|Triângulo", resposta_correta=0)
-            p3 = Pergunta(texto="Qual o nome do primeiro satélite artificial lançado ao espaço?", alternativas="Apollo 11|Sputnik 1|Voyager 1|Hubble", resposta_correta=1)
-            
-            db.session.add_all([p1, p2, p3])
+            perguntas_iniciais = [
+                Pergunta(texto="Qual é o maior planeta do nosso sistema solar?", alternativas="Terra|Saturno|Júpiter|Marte", resposta_correta=2),
+                Pergunta(texto="Qual galáxia é a vizinha mais próxima da Via Láctea?", alternativas="Andrômeda|Sombrero|Girassol|Triângulo", resposta_correta=0),
+                Pergunta(texto="Qual o nome do primeiro satélite artificial lançado ao espaço?", alternativas="Apollo 11|Sputnik 1|Voyager 1|Hubble", resposta_correta=1),
+                Pergunta(texto="Qual planeta é conhecido como o 'Planeta Vermelho'?", alternativas="Vênus|Marte|Mercúrio|Júpiter", resposta_correta=1),
+                Pergunta(texto="Quem foi o primeiro ser humano a viajar para o espaço?", alternativas="Neil Armstrong|Yuri Gagarin|Buzz Aldrin|Marcos Pontes", resposta_correta=1),
+                Pergunta(texto="Qual é a estrela mais próxima da Terra?", alternativas="Alpha Centauri|Sirius|Sol|Betelgeuse", resposta_correta=2),
+                Pergunta(texto="O que é um buraco negro?", alternativas="Uma estrela brilhante|Um planeta gasoso|Uma região de gravidade infinita|Um cometa", resposta_correta=2),
+                Pergunta(texto="Qual planeta tem os anéis mais visíveis?", alternativas="Urano|Saturno|Netuno|Júpiter", resposta_correta=1),
+                Pergunta(texto="Qual é a unidade usada para medir distâncias no espaço?", alternativas="Quilômetro|Ano-luz|Milha Espacial|Parsec", resposta_correta=1),
+                Pergunta(texto="Qual telescópio famoso foi lançado em 1990?", alternativas="James Webb|Kepler|Spitzer|Hubble", resposta_correta=3)
+            ]
+            db.session.add_all(perguntas_iniciais)
             db.session.commit()
-            print("Banco de dados SQLite populado com sucesso!")
+            print("Banco de dados SQLite populado com 10 perguntas com sucesso!")
             
     return app
 

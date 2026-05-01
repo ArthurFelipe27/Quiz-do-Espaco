@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações | Quiz do Espaço</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <canvas id="starsCanvas"></canvas>
+
+    <img src="img/svgs/flutuando.svg" alt="Astronauta Configurando" class="svg-flutuante" style="top: 15%; left: 10%;">
+
+    <main class="modal-conteudo" style="position: relative; z-index: 2;">
+        <h1>Configurações da Missão</h1>
+        <p>Ajuste o oxigênio (tempo) para o seu desafio.</p>
+
+        <div class="difficulty-buttons" style="margin-top: 30px; margin-bottom: 30px;">
+            <button class="btn-difficulty" data-time="30">Fácil (30s)</button>
+            <button class="btn-difficulty active" data-time="15">Médio (15s)</button>
+            <button class="btn-difficulty" data-time="10">Difícil (10s)</button>
+        </div>
+
+        <a href="index.html" class="btn-primario" style="text-decoration: none;">Salvar e Voltar para a Base</a>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
