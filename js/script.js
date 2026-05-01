@@ -32,15 +32,25 @@ function alternarTela(telaAtiva) {
 // Simulação de Fetch para sua futura API Própria
 async function fetchPerguntasAPI() {
     try {
-        // Agora bate direto no seu backend Python rodando localmente!
+        // Agora o frontend bate no seu backend local!
         const response = await fetch('http://localhost:5000/api/perguntas');
-        if (!response.ok) throw new Error('Falha na conexão com a API');
+
+        if (!response.ok) {
+            throw new Error('Falha na conexão com a API');
+        }
 
         perguntas = await response.json();
-        iniciarQuiz();
+
+        // Verifica se vieram perguntas
+        if (perguntas.length > 0) {
+            iniciarQuiz();
+        } else {
+            throw new Error('Nenhuma pergunta encontrada no banco de dados.');
+        }
+
     } catch (error) {
         console.error("Erro ao conectar com a API:", error);
-        alternarTela(telaErro);
+        alternarTela(telaErro); // Aciona sua tela com o SVG do astronauta offline
     }
 }
 
@@ -87,9 +97,34 @@ function verificarResposta(indiceSelecionado, indiceCorreto) {
     }
 }
 
-function finalizarQuiz() {
+async function finalizarQuiz() {
     pontuacaoFinal.textContent = pontuacao;
-    alternarTela(telaResultado); // Aparece o modal ao lado do ponto-maximo.svg
+    alternarTela(telaResultado);
+
+    // Você pode depois criar um input para o usuário digitar o nome.
+    // Por enquanto, vamos enviar um nome padrão.
+    const dadosPontuacao = {
+        nome: "Astronauta Arthur",
+        pontos: pontuacao
+    };
+
+    try {
+        const response = await fetch('http://localhost:5000/api/pontuacao', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dadosPontuacao)
+        });
+
+        if (response.ok) {
+            console.log("Pontuação salva com sucesso no banco de dados!");
+        } else {
+            console.error("Erro ao salvar pontuação.");
+        }
+    } catch (error) {
+        console.error("Erro de rede ao tentar salvar pontuação:", error);
+    }
 }
 
 // Listeners de Botões
