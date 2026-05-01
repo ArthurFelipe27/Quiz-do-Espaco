@@ -1,0 +1,49 @@
+# ==========================================
+# SEGURANÇA (CRÍTICO)
+# ==========================================
+# Nunca envie o .env para o GitHub!
+.env
+.env.*
+!.env.example
+
+# ==========================================
+# BANCO DE DADOS LOCAL
+# ==========================================
+# Ignora os arquivos do SQLite gerados localmente
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# ==========================================
+# PYTHON & FLASK
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Ambientes Virtuais (VENV)
+venv/
+env/
+.venv/
+.env/
+
+# ==========================================
+# SISTEMA OPERACIONAL & CACHE
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# IDEs E EDITORES (VS Code, PyCharm, etc)
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo

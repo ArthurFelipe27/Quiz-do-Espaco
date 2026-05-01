@@ -4,114 +4,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon"
-    href="https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/shortcutIcon.png"
-    type="image/png">
-  <title>Quiz do Espaço 🚀</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Link para o arquivo CSS externo -->
-  <link rel="stylesheet" href="style.css">
+  <title>Quiz do Espaço</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <!-- Canvas para o fundo animado de estrelas -->
-  <canvas id="starsCanvas"></canvas>
 
-  <!-- Botão de alternância de tema claro/escuro -->
-  <button id="toggleThemeBtn" class="botao-tema">🌓 Alternar Tema</button>
+  <!-- TELA 1: INÍCIO -->
+  <main id="tela-inicio" class="tela ativa">
+    <img src="img/svgs/inicio.svg" alt="Astronauta Iniciando Missão" class="svg-flutuante svg-inicio">
 
-  <!-- Astronauta animado -->
-  <img src="https://raw.githubusercontent.com/arthurfelipe27/projeto-quizinterativo/main/img/astronauta.png"
-    alt="Astronauta flutuando" class="astronaut">
-
-  <!-- Container principal da aplicação -->
-  <main id="app">
-
-    <!-- TELA DE LOGIN -->
-    <section id="login-view" class="view">
-      <h1 id="title">🌌 Bem-vindo ao Quiz do Espaço</h1>
-      <form id="loginForm">
-        <label for="username">Usuário:</label>
-        <input type="text" id="username" placeholder="Digite seu nome..." required>
-
-        <!-- Seleção de Dificuldade -->
-        <label>Escolha a dificuldade:</label>
-        <div id="difficulty-selection" class="difficulty-buttons">
-          <button type="button" class="btn-difficulty" data-difficulty="facil">Fácil</button>
-          <button type="button" class="btn-difficulty" data-difficulty="medio">Médio</button>
-          <button type="button" class="btn-difficulty" data-difficulty="dificil">Difícil</button>
-        </div>
-
-        <p id="errorMsg"></p>
-        <button type="submit" id="login-btn" disabled>Entrar</button>
-      </form>
-      <button id="creditos-btn-login">👩‍🚀 Créditos</button>
-    </section>
-
-    <!-- TELA DO QUIZ -->
-    <section id="quiz-view" class="view">
-      <h1 id="quiz-title">Quiz do Espaço</h1>
-      <div id="player-name" class="player-name"></div>
-      <div id="timer"></div>
-      <p id="question" class="pergunta"></p>
-      <div id="answers" role="group" aria-label="Opções de resposta"></div>
-      <p id="feedback" aria-live="polite"></p>
-      <div id="info-extra" aria-live="polite"></div>
-      <p id="pontos-usuario"></p>
-      <div class="quiz-botoes">
-        <button id="voltar-btn">Voltar</button>
-        <button id="pular-btn">Pular Pergunta</button>
-        <button id="reset-btn">Resetar Quiz</button>
-        <button id="next-btn" disabled>Próxima Pergunta</button>
-      </div>
-    </section>
-
-    <!-- TELA DE RESULTADO -->
-    <section id="resultado-view" class="view">
-      <h1 class="titulo-espacial">Resultado Final</h1>
-      <p id="resultado-texto" aria-live="polite"></p>
-      <section>
-        <h2>🏆 Ranking Global (Top 5)</h2>
-        <ol id="lista-ranking"></ol>
-      </section>
-      <button id="jogar-novamente-btn">Jogar Novamente</button>
-      <!-- O botão de reiniciar ranking foi removido da lógica (e escondido), 
-           pois o ranking agora é global e não deve ser apagado por um usuário. -->
-      <button id="reiniciar-ranking-btn" style="display: none;">Reiniciar Ranking</button>
-    </section>
-
-    <!-- TELA DE CRÉDITOS -->
-    <section id="creditos-view" class="view">
-      <h1 class="titulo-espacial">Créditos do Projeto</h1>
-      <p>Este quiz foi desenvolvido por:</p>
-      <ul class="creditos-lista">
-        <li><span class="estrela-nome">Luana Pereira</span> – Desenvolvedora Front-end</li>
-        <li><span class="estrela-nome">Arthur Felipe</span> – Desenvolvedor Front-end & Designer</li>
-      </ul>
-      <button id="voltar-inicio-btn">Voltar ao Início</button>
-    </section>
+    <div class="modal-conteudo">
+      <h1>Quiz do Espaço</h1>
+      <p>Teste seus conhecimentos astronômicos!</p>
+      <button id="btn-iniciar" class="btn-primario">Iniciar Missão</button>
+      <a href="creditos.html" class="btn-secundario">Ver Créditos</a>
+    </div>
   </main>
 
-  <!-- MODAL CUSTOMIZADO -->
-  <div id="custom-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-      <p id="modal-text"></p>
-      <div class="modal-buttons">
-        <button id="modal-confirm-btn">Confirmar</button>
-        <button id="modal-cancel-btn">Cancelar</button>
+  <!-- TELA 2: QUIZ (PERGUNTAS) -->
+  <main id="tela-quiz" class="tela oculta">
+    <img src="img/svgs/flutuando.svg" alt="Astronauta Flutuando" class="svg-flutuante svg-quiz">
+
+    <div class="modal-conteudo">
+      <h2 id="texto-pergunta">Carregando dados espaciais...</h2>
+      <div id="container-alternativas" class="alternativas">
+        <!-- Os botões das alternativas serão gerados via JS -->
+      </div>
+      <div class="status-missao">
+        <span>Progresso: <span id="contador-perguntas">0/0</span></span>
+        <span>Pontuação: <span id="pontuacao-atual">0</span></span>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- 
-    SDKs do Firebase 
-    Estes scripts se conectam ao seu banco de dados na nuvem.
-  -->
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+  <!-- TELA 3: RESULTADO (PONTO MÁXIMO) -->
+  <main id="tela-resultado" class="tela oculta">
+    <div class="container-resultado">
+      <!-- Imagem ESTÁTICA ao lado do modal -->
+      <img src="img/svgs/ponto-maximo.svg" alt="Astronauta cravando a bandeira" class="img-ponto-maximo">
 
-  <!-- Link para o arquivo JavaScript externo -->
-  <script src="script.js"></script>
+      <div class="modal-conteudo">
+        <h2>Missão Cumprida!</h2>
+        <p>Você sobreviveu à jornada espacial.</p>
+        <div class="placar">
+          <h3>Sua Pontuação:</h3>
+          <span id="pontuacao-final" class="destaque-pontos">0</span>
+        </div>
+        <button id="btn-reiniciar" class="btn-primario">Tentar Novamente</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- TELA DE ERRO (FALLBACK / INDISPONIBILIDADE) -->
+  <main id="tela-erro" class="tela oculta">
+    <img src="img/svgs/flutuando.svg" alt="Astronauta Perdido" class="svg-flutuante svg-erro">
+
+    <div class="modal-conteudo">
+      <h2>Houston, temos um problema!</h2>
+      <p>Nossos sistemas perderam contato com a base de dados. O módulo de emergência offline será ativado.</p>
+      <button id="btn-tentar-novamente" class="btn-secundario">Reconectar</button>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
 </body>
 
 </html>

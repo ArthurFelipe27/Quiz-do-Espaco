@@ -66,26 +66,42 @@ body {
     z-index: -1;
 }
 
-/*===[ESTRUTURA DAS VIEWS (TELAS)]===*/
-.view {
+/*===[ESTRUTURA DAS TELAS E MODAIS (NOVO HTML)]===*/
+.tela {
     display: none;
-    /* Esconde todas as telas por padrão */
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+.tela.ativa {
+    display: flex;
+}
+
+.tela.oculta {
+    display: none !important;
+}
+
+/* Aplica o tema de vidro neon aos novos containers */
+.modal-conteudo,
+.container-creditos {
+    display: flex;
     flex-direction: column;
     gap: 15px;
     background: var(--container-bg);
     backdrop-filter: blur(10px);
-    padding: 30px;
+    padding: 40px 30px;
     border-radius: 15px;
     text-align: center;
-    width: 90%;
-    max-width: 900px;
+    width: 100%;
+    max-width: 600px;
     box-shadow: 0 0 20px var(--container-shadow);
+    border: 1px solid var(--focus-shadow);
     animation: portalOpen 0.8s ease-out;
-}
-
-.view.active {
-    display: flex;
-    /* Mostra apenas a tela ativa */
+    z-index: 2;
 }
 
 @keyframes portalOpen {
@@ -100,13 +116,15 @@ body {
     }
 }
 
-/*===[ELEMENTOS COMUNS]===*/
+/*===[ELEMENTOS COMUNS E TÍTULOS]===*/
 h1,
-h2 {
+h2,
+h3 {
     text-shadow: 0 0 10px var(--text-color);
+    margin-bottom: 10px;
 }
 
-body:not(.light-theme) h1#title {
+body:not(.light-theme) h1 {
     animation: glow 2s infinite alternate;
 }
 
@@ -120,71 +138,54 @@ body:not(.light-theme) h1#title {
     }
 }
 
-.astronaut {
-    position: absolute;
-    top: 50px;
-    right: 90px;
-    width: 90px;
-    animation: float 6s infinite ease-in-out;
-    z-index: 10;
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    background-color: var(--input-bg);
-    color: var(--text-color);
-    transition: 0.3s;
-    font-family: var(--font-family);
-}
-
-input:focus {
-    box-shadow: 0 0 10px var(--focus-shadow);
-    outline: none;
-}
-
-input::placeholder {
-    color: var(--input-placeholder);
-}
-
+/*===[PADRONIZAÇÃO DE TODOS OS BOTÕES]===*/
 button,
-.button-like-link {
+.btn-primario,
+.btn-secundario,
+.btn-voltar,
+.btn-alternativa {
     background: linear-gradient(45deg, var(--btn-gradient-start), var(--btn-gradient-end));
     border: none;
-    padding: 12px;
+    padding: 12px 20px;
+    margin-top: 10px;
     cursor: pointer;
     width: 100%;
     border-radius: 5px;
     font-size: 16px;
+    font-weight: bold;
     transition: 0.3s;
     color: white;
     text-decoration: none;
     font-family: var(--font-family);
     text-align: center;
+    display: inline-block;
 }
 
 button:hover,
-.button-like-link:hover {
+.btn-primario:hover,
+.btn-voltar:hover,
+.btn-alternativa:hover {
     background: linear-gradient(45deg, var(--btn-hover-gradient-start), var(--btn-hover-gradient-end));
     transform: scale(1.05);
     box-shadow: 0 0 15px var(--btn-hover-shadow);
 }
 
+/* Botão Secundário (Ghost Button Cyberpunk) */
+.btn-secundario {
+    background: transparent;
+    border: 2px solid var(--btn-gradient-end);
+    color: var(--btn-gradient-end);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2) inset;
+}
+
+.btn-secundario:hover {
+    background: var(--btn-gradient-end);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px var(--btn-gradient-end);
+    transform: scale(1.05);
+}
+
+/* Status do botão desativado */
 button:disabled {
     background: gray;
     cursor: not-allowed;
@@ -192,147 +193,52 @@ button:disabled {
     box-shadow: none;
 }
 
-#errorMsg {
-    color: var(--error-color);
-    margin-top: 10px;
-    min-height: 20px;
+/*===[QUIZ E ALTERNATIVAS]===*/
+.alternativas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
 }
 
-/*===[QUIZ ESPECÍFICO]===*/
-.pergunta {
-    margin-bottom: 20px;
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
+.btn-alternativa {
+    margin-top: 0;
+    /* Remove a margem superior pois o 'gap' do flex já resolve */
 }
 
-/* Estilos para botões de dificuldade */
-.difficulty-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.btn-difficulty {
-    background: var(--input-bg);
-    border: 2px solid var(--container-shadow);
-    padding: 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: 0.3s;
-    color: var(--text-color);
-    font-family: var(--font-family);
-    opacity: 0.7;
-}
-
-.btn-difficulty:hover {
-    opacity: 1;
-    border-color: var(--focus-shadow);
-}
-
-.btn-difficulty.active {
-    opacity: 1;
-    background: linear-gradient(45deg, var(--btn-gradient-start), var(--btn-gradient-end));
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 0 10px var(--focus-shadow);
-    transform: scale(1.05);
-}
-
-#answers button {
-    margin: 5px 0;
-    width: 100%;
-}
-
-#answers button.btn-correta {
+.btn-correta {
     background: var(--correct-color) !important;
+    box-shadow: 0 0 15px var(--correct-color) !important;
 }
 
-#answers button.btn-incorreta {
+.btn-incorreta {
     background: var(--incorrect-color) !important;
+    box-shadow: 0 0 15px var(--incorrect-color) !important;
 }
 
-#feedback {
-    margin-top: 10px;
-    font-weight: bold;
-    min-height: 24px;
+.status-missao {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.8;
 }
 
-#info-extra {
-    margin-top: 15px;
-    padding: 15px;
-    background: var(--input-bg);
-    border-radius: 8px;
-    font-style: italic;
-    max-height: 250px;
-    overflow-y: auto;
-    text-align: left;
-}
-
-#info-extra img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-bottom: 10px;
+.destaque-pontos {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#pontos-usuario {
-    margin-top: 15px;
-    font-size: 1.1em;
+    font-size: 3.5rem;
     font-weight: bold;
-}
-
-#timer {
-    font-size: 1.2em;
-    margin-bottom: 15px;
     color: var(--timer-color);
-    text-shadow: 0 0 8px var(--timer-color);
-}
-
-.quiz-botoes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    margin-top: 15px;
+    text-shadow: 0 0 15px var(--timer-color);
+    margin: 20px 0;
 }
 
 /*===[RESULTADO E CRÉDITOS]===*/
-.rocket {
-    display: inline-block;
-    animation: flutuar 2s ease-in-out infinite;
-}
-
-@keyframes flutuar {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-#lista-ranking {
-    list-style-position: inside;
-    text-align: left;
-}
-
-#lista-ranking li {
-    margin-bottom: 8px;
-}
-
-.creditos-lista {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-
-.creditos-lista li {
-    margin-bottom: 10px;
+.equipe p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    text-shadow: 0 0 5px var(--focus-shadow);
 }
 
 .estrela-nome {
@@ -361,45 +267,62 @@ body.light-theme .estrela-nome {
     }
 }
 
-/*===[MODAL]===*/
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+/*===[SVGS FLUTUANTES E LAYOUT FINAL]===*/
+.svg-flutuante {
+    position: absolute;
+    z-index: 10;
+    animation: flutuar 6s infinite ease-in-out;
+}
+
+/* Posições Padrão Desktop */
+.svg-inicio {
+    top: 10%;
+    right: 15%;
+    width: 160px;
+}
+
+.svg-quiz {
+    top: 5%;
+    left: 8%;
+    width: 130px;
+}
+
+.svg-erro {
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+}
+
+@keyframes flutuar {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(3deg);
+    }
+}
+
+.container-resultado {
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 1001;
-}
-
-.modal-content {
-    background: var(--bg-color);
-    color: var(--text-color);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px var(--container-shadow);
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    border: 1px solid var(--focus-shadow);
-}
-
-.modal-content p {
-    margin-bottom: 20px;
-}
-
-.modal-buttons {
-    display: flex;
-    gap: 10px;
     justify-content: center;
+    flex-wrap: wrap;
+    /* Cai a imagem em telas menores */
+    gap: 3rem;
+    z-index: 2;
+    position: relative;
+    width: 100%;
 }
 
-.modal-buttons button {
-    width: auto;
-    padding: 10px 20px;
+.img-ponto-maximo {
+    width: 250px;
+    max-width: 100%;
+    filter: drop-shadow(0 0 15px var(--focus-shadow));
+    /* Brilho neon na imagem estática */
 }
 
 /*===[BOTÃO DE TEMA]===*/
@@ -417,15 +340,27 @@ body.light-theme .estrela-nome {
 
 /*===[RESPONSIVIDADE]===*/
 @media (max-width: 768px) {
-    .view {
-        width: 95%;
+    .tela {
+        padding: 10px;
+    }
+
+    .modal-conteudo,
+    .container-creditos {
         padding: 20px;
     }
 
-    .astronaut {
-        width: 60px;
-        right: 20px;
-        top: 20px;
+    .svg-flutuante {
+        width: 90px;
+    }
+
+    .svg-inicio {
+        top: 3%;
+        right: 5%;
+    }
+
+    .svg-quiz {
+        top: 2%;
+        left: 2%;
     }
 
     .botao-tema {
@@ -434,5 +369,10 @@ body.light-theme .estrela-nome {
         padding: 8px 10px;
         top: 15px;
         right: 15px;
+    }
+
+    .container-resultado {
+        flex-direction: column;
+        gap: 1rem;
     }
 }
