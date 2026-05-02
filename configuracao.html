@@ -6,25 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações | Quiz do Espaço</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="img/svgs/icon-page.svg" type="image/x-icon">
 </head>
 
 <body>
+    <!-- Fundo Animado -->
     <canvas id="starsCanvas"></canvas>
 
-    <img src="img/svgs/flutuando.svg" alt="Astronauta Configurando" class="svg-flutuante" style="top: 15%; left: 10%;">
+    <!-- Envelopando no container que garante a responsividade e a centralização! -->
+    <main class="tela ativa">
 
-    <main class="modal-conteudo" style="position: relative; z-index: 2;">
-        <h1>Configurações da Missão</h1>
-        <p>Ajuste o oxigênio (tempo) para o seu desafio.</p>
+        <!-- Usando a classe svg-quiz para ele herdar o tamanho e posicionamento correto no mobile e desktop -->
+        <img src="img/svgs/flutuando.svg" alt="Astronauta Configurando" class="svg-flutuante svg-quiz">
 
-        <div class="difficulty-buttons" style="margin-top: 30px; margin-bottom: 30px;">
-            <button class="btn-difficulty" data-time="30">Fácil (30s)</button>
-            <button class="btn-difficulty active" data-time="15">Médio (15s)</button>
-            <button class="btn-difficulty" data-time="10">Difícil (10s)</button>
+        <div class="modal-conteudo">
+            <h1>Configurações da Missão</h1>
+            <p>Ajuste o oxigênio (tempo) para o seu desafio.</p>
+
+            <div class="difficulty-buttons" style="margin-top: 30px; margin-bottom: 30px;">
+                <button class="btn-difficulty" data-time="30">Fácil (30s)</button>
+                <button class="btn-difficulty active" data-time="15">Médio (15s)</button>
+                <button class="btn-difficulty" data-time="10">Difícil (10s)</button>
+            </div>
+
+            <a href="index.html" class="btn-primario" style="text-decoration: none;">Salvar e Voltar para a Base</a>
         </div>
-
-        <a href="index.html" class="btn-primario" style="text-decoration: none;">Salvar e Voltar para a Base</a>
     </main>
+
+    <!-- ========================================== -->
+    <!-- ALERT CUSTOMIZADO (FORA DO MAIN)           -->
+    <!-- ========================================== -->
+    <div id="custom-alert" class="modal-overlay oculta">
+        <div class="modal-content"
+            style="max-width: 350px; padding: 20px; border-color: var(--timer-color); box-shadow: 0 0 20px var(--timer-color);">
+            <h3 style="color: var(--timer-color); margin-bottom: 15px;">✅ Sistema Atualizado</h3>
+            <p id="custom-alert-msg" style="font-size: 1.1rem; margin-bottom: 20px;">Nível de oxigênio ajustado!</p>
+            <button id="btn-fechar-alert" class="btn-primario" style="width: 100%;">Entendido</button>
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
 </body>

@@ -1,3 +1,4 @@
+import random
 from flask import Blueprint, jsonify, request
 from models.modelos import db, Pergunta, Pontuacao
 
@@ -10,10 +11,18 @@ def health_check():
 
 @quiz_bp.route('/api/perguntas', methods=['GET'])
 def get_perguntas():
-    perguntas = Pergunta.query.all()
+    # Pega TODAS as perguntas do banco de dados
+    todas_perguntas = Pergunta.query.all()
+    
+    # Embaralha as perguntas de forma aleatória
+    random.shuffle(todas_perguntas)
+    
+    # Seleciona apenas as 10 primeiras (ou menos, se o banco for menor)
+    perguntas_rodada = todas_perguntas[:10]
+    
     resultado = []
     
-    for p in perguntas:
+    for p in perguntas_rodada:
         resultado.append({
             "id": p.id,
             "pergunta": p.texto,

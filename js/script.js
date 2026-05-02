@@ -108,7 +108,7 @@ if (telaInicio) {
 
     async function fetchPerguntasAPI() {
         try {
-            const response = await fetch('http://localhost:5000/api/perguntas');
+            const response = await fetch('http://192.168.1.4:5000/api/perguntas'); // Use o seu IP real aqui
             if (!response.ok) throw new Error('Falha na conexão com a API');
 
             perguntas = await response.json();
@@ -197,7 +197,7 @@ if (telaInicio) {
         };
 
         try {
-            await fetch('http://localhost:5000/api/pontuacao', {
+            await fetch('http://192.168.1.4:5000/api/pontuacao', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dadosPontuacao)
@@ -224,9 +224,11 @@ if (telaInicio) {
 // ==========================================
 const containerDificuldade = document.querySelector('.difficulty-buttons');
 
-// Só executa se a página tiver os botões de dificuldade (configuracao.html)
 if (containerDificuldade) {
     const botoesDificuldade = document.querySelectorAll('.btn-difficulty');
+    const customAlert = document.getElementById('custom-alert');
+    const customAlertMsg = document.getElementById('custom-alert-msg');
+    const btnFecharAlert = document.getElementById('btn-fechar-alert');
 
     let tempoSalvo = parseInt(localStorage.getItem('tempoQuiz')) || 15;
 
@@ -242,6 +244,26 @@ if (containerDificuldade) {
 
             const novoTempo = e.target.getAttribute('data-time');
             localStorage.setItem('tempoQuiz', novoTempo);
+
+            // Exibe o Alert Customizado
+            if (customAlert && customAlertMsg) {
+                customAlertMsg.innerHTML = `Oxigênio ajustado para <strong>${novoTempo} segundos</strong>.`;
+
+                customAlert.classList.remove('oculta');
+                customAlert.classList.add('ativa'); // Usa a mesma classe que criamos pro CSS
+
+                // Fecha o alert ao clicar no botão "Entendido"
+                btnFecharAlert.onclick = () => {
+                    customAlert.classList.remove('ativa');
+                    customAlert.classList.add('oculta');
+                };
+
+                // Opcional: O alert fecha sozinho automaticamente após 3 segundos
+                setTimeout(() => {
+                    customAlert.classList.remove('ativa');
+                    customAlert.classList.add('oculta');
+                }, 6000);
+            }
         });
     });
 }

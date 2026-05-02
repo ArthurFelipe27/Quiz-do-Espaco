@@ -35,7 +35,14 @@ def create_app():
                 Pergunta(texto="O que é um buraco negro?", alternativas="Uma estrela brilhante|Um planeta gasoso|Uma região de gravidade infinita|Um cometa", resposta_correta=2),
                 Pergunta(texto="Qual planeta tem os anéis mais visíveis?", alternativas="Urano|Saturno|Netuno|Júpiter", resposta_correta=1),
                 Pergunta(texto="Qual é a unidade usada para medir distâncias no espaço?", alternativas="Quilômetro|Ano-luz|Milha Espacial|Parsec", resposta_correta=1),
-                Pergunta(texto="Qual telescópio famoso foi lançado em 1990?", alternativas="James Webb|Kepler|Spitzer|Hubble", resposta_correta=3)
+                Pergunta(texto="Qual telescópio famoso foi lançado em 1990?", alternativas="James Webb|Kepler|Spitzer|Hubble", resposta_correta=3),
+                Pergunta(texto="Qual é o planeta mais quente do sistema solar?", alternativas="Mercúrio|Vênus|Marte|Júpiter", resposta_correta=1),
+                Pergunta(texto="Qual é a estrela mais próxima da Terra (depois do Sol)?", alternativas="Sirius|Proxima Centauri|Betelgeuse|Vega", resposta_correta=1),
+                Pergunta(texto="O que é uma supernova?", alternativas="Uma estrela recém-nascida|Uma galáxia anã|A explosão de uma estrela|Um tipo de cometa", resposta_correta=2),
+                Pergunta(texto="Qual planeta é famoso pelos seus anéis?", alternativas="Urano|Netuno|Júpiter|Saturno", resposta_correta=3),
+                Pergunta(texto="Quem foi a primeira pessoa a pisar na Lua?", alternativas="Yuri Gagarin|Buzz Aldrin|Neil Armstrong|Michael Collins", resposta_correta=2),
+                Pergunta(texto="Qual é o nome da nossa galáxia?", alternativas="Andrômeda|Via Láctea|Sombrero|Triângulo", resposta_correta=1),
+                Pergunta(texto="O que é o cinturão de asteroides?", alternativas="Um anel ao redor de Júpiter|Uma região entre Marte e Júpiter|O limite do sistema solar|Um grupo de estrelas", resposta_correta=1)
             ]
             db.session.add_all(perguntas_iniciais)
             db.session.commit()

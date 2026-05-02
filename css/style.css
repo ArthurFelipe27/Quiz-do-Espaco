@@ -284,7 +284,7 @@ body.light-theme .estrela-nome {
 .svg-quiz {
     top: 5%;
     left: 8%;
-    width: 130px;
+    width: 220px;
 }
 
 .svg-erro {
@@ -311,18 +311,20 @@ body.light-theme .estrela-nome {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    /* Cai a imagem em telas menores */
+    /* Se não couber lado a lado, quebra a linha */
     gap: 3rem;
     z-index: 2;
     position: relative;
     width: 100%;
+    padding: 20px;
+    /* Garante um respiro nas laterais */
 }
 
 .img-ponto-maximo {
-    width: 250px;
+    width: 380px;
+    /* Aumentado para dar mais destaque ao astronauta vitorioso */
     max-width: 100%;
     filter: drop-shadow(0 0 15px var(--focus-shadow));
-    /* Brilho neon na imagem estática */
 }
 
 /*===[BOTÃO DE TEMA]===*/
@@ -356,6 +358,7 @@ body.light-theme .estrela-nome {
         pointer-events: none;
         /* Impede que o SVG bloqueie os cliques do mouse */
         animation: flutuar 6s infinite ease-in-out;
+        width: 140px;
     }
 
     .svg-inicio {
@@ -376,9 +379,24 @@ body.light-theme .estrela-nome {
         right: 15px;
     }
 
+    /* AJUSTES PARA A TELA DE RESULTADO NO CELULAR */
     .container-resultado {
         flex-direction: column;
-        gap: 1rem;
+        /* Empilha a imagem em cima do modal */
+        gap: 1.5rem;
+        /* Reduz o espaço entre a imagem e o placar */
+    }
+
+    .img-ponto-maximo {
+        width: 200px;
+        /* Reduz o astronauta para caber bem na tela do celular */
+        margin-bottom: -10px;
+        /* Puxa ele um pouco mais para perto da caixa */
+    }
+
+    .destaque-pontos {
+        font-size: 2.5rem;
+        /* Diminui um pouco a fonte do placar para não quebrar */
     }
 }
 
@@ -429,4 +447,42 @@ body.light-theme .estrela-nome {
     color: var(--focus-shadow);
     transform: scale(1.2);
     filter: drop-shadow(0 0 5px var(--focus-shadow));
+}
+
+/* Rede Sociais - Página de Créditos */
+.dev-card {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    border: 1px solid var(--focus-shadow);
+}
+
+.redes-sociais {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.redes-sociais a {
+    color: var(--text-color);
+    transition: 0.3s;
+}
+
+.redes-sociais a:hover {
+    color: var(--focus-shadow);
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 5px var(--focus-shadow));
+}
+
+/* =========================================
+   CONTROLE DO ALERT CUSTOMIZADO
+   ========================================= */
+.modal-overlay.oculta {
+    display: none !important;
+}
+
+.modal-overlay.ativa {
+    display: flex !important;
 }
