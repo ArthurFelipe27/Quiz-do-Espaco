@@ -28,8 +28,14 @@
 
       <!-- Menu de Botões -->
       <button id="btn-iniciar" class="btn-primario">Iniciar Missão</button>
-      <a href="configuracao.html" class="btn-secundario">⚙️ Configurações</a>
-      <a href="creditos.html" class="btn-secundario">Ver Créditos</a>
+
+      <!-- Divisão de colunas para os botões secundários -->
+      <div style="display: flex; gap: 10px; width: 100%;">
+        <a href="ranking.html" class="btn-secundario" style="flex: 1; text-decoration: none;">🏆 Ranking</a>
+        <a href="configuracao.html" class="btn-secundario" style="flex: 1; text-decoration: none;">⚙️ Config</a>
+      </div>
+
+      <a href="creditos.html" class="btn-secundario" style="text-decoration: none;">Ver Créditos</a>
     </div>
   </main>
 
@@ -62,6 +68,8 @@
           <span id="pontuacao-final" class="destaque-pontos">0</span>
         </div>
         <button id="btn-reiniciar" class="btn-primario">Tentar Novamente</button>
+        <a href="ranking.html" class="btn-secundario" style="text-decoration: none; margin-top: 10px;">🏆 Ver
+          Ranking</a>
       </div>
     </div>
   </main>

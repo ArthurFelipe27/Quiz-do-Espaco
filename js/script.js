@@ -267,3 +267,45 @@ if (containerDificuldade) {
         });
     });
 }
+
+// ==========================================
+// LÓGICA DO RANKING GLOBAL
+// ==========================================
+const listaRanking = document.getElementById('lista-ranking');
+
+if (listaRanking) {
+    async function carregarRanking() {
+        try {
+            // Se for testar no celular, troque 'localhost' pelo seu IP
+            const response = await fetch('http://192.168.1.4:5000/api/ranking');
+            if (!response.ok) throw new Error('Erro ao buscar o ranking');
+
+            const dados = await response.json();
+            listaRanking.innerHTML = ''; // Limpa a mensagem de "Buscando dados..."
+
+            if (dados.length === 0) {
+                listaRanking.innerHTML = '<li class="linha-ranking" style="justify-content: center;">Nenhum astronauta no mural ainda!</li>';
+                return;
+            }
+
+            // Preenche os top 5 na tela
+            dados.forEach((jogador, index) => {
+                const li = document.createElement('li');
+                li.classList.add('linha-ranking');
+
+                // Adiciona as cores do pódio
+                if (index === 0) li.classList.add('podio-1');
+                if (index === 1) li.classList.add('podio-2');
+                if (index === 2) li.classList.add('podio-3');
+
+                li.innerHTML = `<span>#${index + 1} ${jogador.nome}</span> <span>${jogador.pontos} pts</span>`;
+                listaRanking.appendChild(li);
+            });
+        } catch (error) {
+            console.error("Erro API Ranking:", error);
+            listaRanking.innerHTML = '<li class="linha-ranking" style="justify-content: center; border-color: red;">Falha ao contatar a base de dados.</li>';
+        }
+    }
+
+    carregarRanking();
+}

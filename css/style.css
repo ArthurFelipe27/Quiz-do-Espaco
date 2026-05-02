@@ -486,3 +486,45 @@ body.light-theme .estrela-nome {
 .modal-overlay.ativa {
     display: flex !important;
 }
+
+/* =========================================
+   ESTILOS DO RANKING
+   ========================================= */
+.tabela-ranking {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.linha-ranking {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--timer-color);
+    font-size: 1.1rem;
+    color: var(--text-color);
+    letter-spacing: 1px;
+}
+
+/* Efeito de Pódio */
+.linha-ranking.podio-1 {
+    border-left-color: gold;
+    color: gold;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.linha-ranking.podio-2 {
+    border-left-color: silver;
+    color: silver;
+    font-size: 1.2rem;
+}
+
+.linha-ranking.podio-3 {
+    border-left-color: #cd7f32;
+    color: #cd7f32;
+}

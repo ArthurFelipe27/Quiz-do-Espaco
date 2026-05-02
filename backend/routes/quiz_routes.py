@@ -47,3 +47,17 @@ def salvar_pontuacao():
     db.session.commit()
     
     return jsonify({"mensagem": "Pontuação salva com sucesso!", "id": nova_pontuacao.id}), 201
+
+@quiz_bp.route('/api/ranking', methods=['GET'])
+def get_ranking():
+    # Pega os 5 maiores pontuadores em ordem decrescente (do maior pro menor)
+    top_5 = Pontuacao.query.order_by(Pontuacao.pontos.desc()).limit(5).all()
+    
+    resultado = []
+    for p in top_5:
+        resultado.append({
+            "nome": p.nome_usuario,
+            "pontos": p.pontos
+        })
+        
+    return jsonify(resultado), 200

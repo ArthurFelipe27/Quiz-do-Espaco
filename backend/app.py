@@ -42,7 +42,17 @@ def create_app():
                 Pergunta(texto="Qual planeta é famoso pelos seus anéis?", alternativas="Urano|Netuno|Júpiter|Saturno", resposta_correta=3),
                 Pergunta(texto="Quem foi a primeira pessoa a pisar na Lua?", alternativas="Yuri Gagarin|Buzz Aldrin|Neil Armstrong|Michael Collins", resposta_correta=2),
                 Pergunta(texto="Qual é o nome da nossa galáxia?", alternativas="Andrômeda|Via Láctea|Sombrero|Triângulo", resposta_correta=1),
-                Pergunta(texto="O que é o cinturão de asteroides?", alternativas="Um anel ao redor de Júpiter|Uma região entre Marte e Júpiter|O limite do sistema solar|Um grupo de estrelas", resposta_correta=1)
+                Pergunta(texto="O que é o cinturão de asteroides?", alternativas="Um anel ao redor de Júpiter|Uma região entre Marte e Júpiter|O limite do sistema solar|Um grupo de estrelas", resposta_correta=1),
+                Pergunta(texto="O que é um pulsar?", alternativas="Um exoplaneta gigante|Uma estrela de nêutrons altamente magnetizada|Um buraco negro em rotação|Uma anã branca pulsante", resposta_correta=1),
+                Pergunta(texto="Onde se localiza o Cinturão de Kuiper?", alternativas="Entre Marte e Júpiter|Entre a Terra e Marte|No centro da Via Láctea|Além da órbita de Netuno", resposta_correta=3),
+                Pergunta(texto="Qual lua do Sistema Solar é conhecida por ter uma atmosfera densa e lagos de metano líquido?", alternativas="Europa|Ganimedes|Titã|Encélado", resposta_correta=2),
+                Pergunta(texto="Como é chamada a fronteira ao redor de um buraco negro da qual nem a luz consegue escapar?", alternativas="Singularidade|Disco de Acreção|Horizonte de Eventos|Ergosfera", resposta_correta=2),
+                Pergunta(texto="O que é a Radiação Cósmica de Fundo em Micro-ondas?", alternativas="Emissão de buracos negros|O eco luminoso do Big Bang|Radiação de supernovas|A luz de galáxias distantes", resposta_correta=1),
+                Pergunta(texto="Onde fica o Monte Olimpo (Olympus Mons), o maior vulcão conhecido do Sistema Solar?", alternativas="Vênus|Marte|Io (Lua de Júpiter)|Terra", resposta_correta=1),
+                Pergunta(texto="Qual sonda espacial carrega um 'Disco de Ouro' com sons e imagens da Terra para possíveis civilizações alienígenas?", alternativas="Cassini|New Horizons|Pioneer 10|Voyager 1", resposta_correta=3),
+                Pergunta(texto="Qual é o exoplaneta mais próximo conhecido do nosso Sistema Solar?", alternativas="Kepler-452b|TRAPPIST-1e|Proxima Centauri b|Gliese 581g", resposta_correta=2),
+                Pergunta(texto="Qual é a idade estimada do Universo observável?", alternativas="4,5 bilhões de anos|13,8 bilhões de anos|93 bilhões de anos|100 milhões de anos", resposta_correta=1),
+                Pergunta(texto="Aproximadamente qual porcentagem do Universo é composta por Matéria Escura e Energia Escura juntas?", alternativas="25%|50%|70%|95%", resposta_correta=3)
             ]
             db.session.add_all(perguntas_iniciais)
             db.session.commit()

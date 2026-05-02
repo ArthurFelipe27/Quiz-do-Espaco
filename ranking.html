@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Global | Quiz do Espaço</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Fundo Animado -->
+    <canvas id="starsCanvas"></canvas>
+
+    <main class="tela ativa">
+        <img src="img/svgs/ponto-maximo.svg" alt="Astronauta" class="svg-flutuante svg-quiz">
+
+        <div class="modal-conteudo">
+            <h1 style="color: gold;">🏆 Top 5 Astronautas</h1>
+            <p>Os maiores exploradores do universo!</p>
+
+            <!-- A lista será preenchida pelo JavaScript -->
+            <ul id="lista-ranking" class="tabela-ranking">
+                <li class="linha-ranking" style="justify-content: center;">Buscando dados na Agência Espacial...</li>
+            </ul>
+
+            <a href="index.html" class="btn-primario" style="text-decoration: none;">Voltar para a Base</a>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
