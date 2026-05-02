@@ -118,7 +118,7 @@ if (telaInicio) {
         try {
             const modoEscolhido = localStorage.getItem('modoQuiz') || 'medio';
             // IP da rede mantido para testes no celular
-            const response = await fetch(`http://192.168.1.4:5000/api/perguntas?modo=${modoEscolhido}`);
+            const response = await fetch(`/api/perguntas?modo=${modoEscolhido}`);
             if (!response.ok) throw new Error('Falha na conexão com a API');
 
             perguntas = await response.json();

@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: nginx:alpine
+    container_name: quiz_frontend
+    ports:
+      - "8080:80" # Acessível na porta 8080 do seu notebook
+    volumes:
+      - ./frontend:/usr/share/nginx/html # Puxa o seu HTML para dentro do Nginx
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf # Aplica as regras de roteamento
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: quiz_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      # <-- ADICIONADO AQUI
+      - ./backend/.env # <-- ADICIONADO AQUI
+    environment:
+      - FLASK_ENV=production

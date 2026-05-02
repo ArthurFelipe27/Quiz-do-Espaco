@@ -1,15 +1,14 @@
 import os
 from dotenv import load_dotenv
 
-# Carrega as variáveis do arquivo .env para o ambiente
 load_dotenv()
 
 class Config:
-    # Busca a chave secreta do .env, com um fallback de segurança
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'chave-super-secreta-fallback'
+    # Removemos o fallback. Se a SECRET_KEY não existir no .env, o Python 
+    # vai estourar um erro "KeyError" e o container não vai subir, avisando do problema.
+    SECRET_KEY = os.environ['SECRET_KEY']
     
-    # Busca a URI do banco (SQLite para testes, depois MySQL)
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or 'sqlite:///quiz_espaco.db'
+    # Fazemos o mesmo para o banco de dados.
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URI']
     
-    # Desativa avisos desnecessários do SQLAlchemy que consomem memória
     SQLALCHEMY_TRACK_MODIFICATIONS = False
