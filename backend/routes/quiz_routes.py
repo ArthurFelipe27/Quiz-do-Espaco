@@ -1,6 +1,8 @@
 import random
+import html # NOVO IMPORT DE SEGURANÇA
 from flask import Blueprint, jsonify, request
 from models.modelos import db, Pergunta, Pontuacao
+from extensions import limiter
 
 # Criando o Blueprint para as rotas do quiz
 quiz_bp = Blueprint('quiz_routes', __name__)
@@ -33,20 +35,22 @@ def get_perguntas():
     return jsonify(resultado), 200
 
 @quiz_bp.route('/api/pontuacao', methods=['POST'])
+@limiter.limit("3 per minute") # REGRA ESTRITA: Máximo de 3 pontuações por minuto por IP!
 def salvar_pontuacao():
     dados = request.get_json()
     
     if not dados or 'pontos' not in dados:
         return jsonify({"erro": "Dados inválidos"}), 400
         
-    nome = dados.get('nome', 'Astronauta Anônimo')
+    nome_sujo = dados.get('nome', 'Astronauta Anônimo')
+    nome_limpo = html.escape(str(nome_sujo))[:15] 
     pontos = dados.get('pontos', 0)
     
-    nova_pontuacao = Pontuacao(nome_usuario=nome, pontos=pontos)
+    nova_pontuacao = Pontuacao(nome_usuario=nome_limpo, pontos=pontos)
     db.session.add(nova_pontuacao)
     db.session.commit()
     
-    return jsonify({"mensagem": "Pontuação salva com sucesso!", "id": nova_pontuacao.id}), 201
+    return jsonify({"mensagem": "Pontuação salva com segurança!", "id": nova_pontuacao.id}), 201
 
 @quiz_bp.route('/api/ranking', methods=['GET'])
 def get_ranking():

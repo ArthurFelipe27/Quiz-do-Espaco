@@ -43,6 +43,17 @@ if (canvas) {
 // ==========================================
 // LÓGICA DO QUIZ (SÓ RODA NO INDEX.HTML)
 // ==========================================
+
+// ==========================================
+// FUNÇÃO DE SEGURANÇA (SANITIZAÇÃO)
+// ==========================================
+function sanitizarTexto(texto) {
+    const div = document.createElement('div');
+    div.textContent = texto;
+    return div.innerHTML;
+}
+
+
 const telaInicio = document.getElementById('tela-inicio');
 
 // Só executa se estivermos na tela principal
@@ -125,14 +136,15 @@ if (telaInicio) {
     }
 
     btnIniciar.addEventListener('click', () => {
-        // Valida o nome antes de iniciar
         if (inputNome.value.trim() === '') {
             inputNome.style.borderColor = 'red';
             inputNome.focus();
             return;
         }
         inputNome.style.borderColor = 'transparent';
-        nomeJogador = inputNome.value.trim().toUpperCase();
+
+        // Aplica a sanitização antes de jogar a variável para a memória
+        nomeJogador = sanitizarTexto(inputNome.value.trim()).toUpperCase();
 
         btnIniciar.textContent = "Conectando...";
         fetchPerguntasAPI();
