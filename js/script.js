@@ -8,7 +8,6 @@ if (canvas) {
     canvas.height = window.innerHeight;
 
     const stars = [];
-    // Gera 120 estrelas de diferentes tamanhos e velocidades
     for (let i = 0; i < 120; i++) {
         stars.push({
             x: Math.random() * canvas.width,
@@ -26,14 +25,12 @@ if (canvas) {
             ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
             ctx.fill();
             star.y += star.speed;
-            // Se a estrela sair da tela, volta pro topo
             if (star.y > canvas.height) star.y = 0;
         });
         requestAnimationFrame(drawStars);
     }
     drawStars();
 
-    // Recalcula o canvas se a tela for redimensionada
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -41,11 +38,7 @@ if (canvas) {
 }
 
 // ==========================================
-// LÓGICA DO QUIZ (SÓ RODA NO INDEX.HTML)
-// ==========================================
-
-// ==========================================
-// FUNÇÃO DE SEGURANÇA (SANITIZAÇÃO)
+// FUNÇÃO DE SEGURANÇA (SANITIZAÇÃO XSS)
 // ==========================================
 function sanitizarTexto(texto) {
     const div = document.createElement('div');
@@ -53,16 +46,18 @@ function sanitizarTexto(texto) {
     return div.innerHTML;
 }
 
-
+// ==========================================
+// LÓGICA DO QUIZ (SÓ RODA NO INDEX.HTML)
+// ==========================================
 const telaInicio = document.getElementById('tela-inicio');
 
-// Só executa se estivermos na tela principal
 if (telaInicio) {
     const telaQuiz = document.getElementById('tela-quiz');
     const telaResultado = document.getElementById('tela-resultado');
     const telaErro = document.getElementById('tela-erro');
 
     const btnIniciar = document.getElementById('btn-iniciar');
+    const btnExploracao = document.getElementById('btn-exploracao'); // NOVO: Modo Educativo
     const btnReiniciar = document.getElementById('btn-reiniciar');
     const btnTentarNovamente = document.getElementById('btn-tentar-novamente');
     const inputNome = document.getElementById('input-nome');
@@ -75,12 +70,16 @@ if (telaInicio) {
     const contadorPerguntas = document.getElementById('contador-perguntas');
     const timerSpan = document.getElementById('tempo-restante');
 
+    // Elementos da Caixa de Explicação
+    const boxExplicacao = document.getElementById('box-explicacao');
+    const textoExplicacao = document.getElementById('texto-explicacao');
+    const btnProximaExploracao = document.getElementById('btn-proxima-exploracao');
+
     let perguntas = [];
     let indicePerguntaAtual = 0;
     let pontuacao = 0;
     let nomeJogador = "ANÔNIMO";
 
-    // Pega o tempo do localStorage (gravado pela tela de config) ou 15s por padrão
     let tempoBase = parseInt(localStorage.getItem('tempoQuiz')) || 15;
     let tempoRestante = 0;
     let timerInterval;
@@ -95,7 +94,6 @@ if (telaInicio) {
     }
 
     function iniciarTimer() {
-        // Atualiza a base caso o usuário tenha jogado, ido na config e voltado na mesma sessão
         tempoBase = parseInt(localStorage.getItem('tempoQuiz')) || 15;
         tempoRestante = tempoBase;
         timerSpan.textContent = tempoRestante;
@@ -107,7 +105,6 @@ if (telaInicio) {
 
             if (tempoRestante <= 0) {
                 clearInterval(timerInterval);
-                // Estourou o tempo, trata como erro (-1)
                 verificarResposta(-1, perguntas[indicePerguntaAtual].respostaCorreta);
             }
         }, 1000);
@@ -120,8 +117,8 @@ if (telaInicio) {
     async function fetchPerguntasAPI() {
         try {
             const modoEscolhido = localStorage.getItem('modoQuiz') || 'medio';
-            // Mude o localhost para o seu IP caso esteja testando no celular
-            const response = await fetch(`http://localhost:5000/api/perguntas?modo=${modoEscolhido}`); // Use o seu IP real aqui
+            // IP da rede mantido para testes no celular
+            const response = await fetch(`http://192.168.1.4:5000/api/perguntas?modo=${modoEscolhido}`);
             if (!response.ok) throw new Error('Falha na conexão com a API');
 
             perguntas = await response.json();
@@ -137,6 +134,7 @@ if (telaInicio) {
         }
     }
 
+    // Clique no Iniciar Normal (Competitivo)
     btnIniciar.addEventListener('click', () => {
         if (inputNome.value.trim() === '') {
             inputNome.style.borderColor = 'red';
@@ -144,13 +142,27 @@ if (telaInicio) {
             return;
         }
         inputNome.style.borderColor = 'transparent';
-
-        // Aplica a sanitização antes de jogar a variável para a memória
         nomeJogador = sanitizarTexto(inputNome.value.trim()).toUpperCase();
+
+        // Garante que se o jogador não clicou nas configs, inicie no modo médio
+        if (!localStorage.getItem('modoQuiz') || localStorage.getItem('modoQuiz') === 'exploracao') {
+            localStorage.setItem('modoQuiz', 'medio');
+        }
 
         btnIniciar.textContent = "Conectando...";
         fetchPerguntasAPI();
     });
+
+    // Clique no Iniciar Modo Exploração (Educativo)
+    if (btnExploracao) {
+        btnExploracao.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.setItem('modoQuiz', 'exploracao');
+            nomeJogador = "EXPLORADOR ESTELAR";
+            btnExploracao.textContent = "Carregando Nave...";
+            fetchPerguntasAPI();
+        });
+    }
 
     function iniciarQuiz() {
         pontuacao = 0;
@@ -162,11 +174,28 @@ if (telaInicio) {
     }
 
     function carregarPergunta() {
+        // Esconde a caixa de explicação que pode ter ficado aberta da pergunta anterior
+        if (boxExplicacao) {
+            boxExplicacao.style.display = 'none';
+        }
+
         const dadosPergunta = perguntas[indicePerguntaAtual];
         textoPergunta.textContent = dadosPergunta.pergunta;
         contadorPerguntas.textContent = `${indicePerguntaAtual + 1}/${perguntas.length}`;
 
         containerAlternativas.innerHTML = '';
+
+        // Verifica o modo atual para esconder/mostrar UI
+        const modoAtual = localStorage.getItem('modoQuiz') || 'medio';
+
+        if (modoAtual === 'exploracao') {
+            timerSpan.parentElement.style.display = 'none';
+            pontuacaoAtualEl.parentElement.style.display = 'none';
+        } else {
+            timerSpan.parentElement.style.display = 'block';
+            pontuacaoAtualEl.parentElement.style.display = 'block';
+            iniciarTimer();
+        }
 
         dadosPergunta.alternativas.forEach((alternativa, index) => {
             const button = document.createElement('button');
@@ -178,83 +207,104 @@ if (telaInicio) {
             });
             containerAlternativas.appendChild(button);
         });
-
-        iniciarTimer();
     }
 
     function verificarResposta(indiceSelecionado, indiceCorreto, btnElemento = null) {
-
-        // --- NOVO SISTEMA DE PONTUAÇÃO (RISK/REWARD) ---
         const modoAtual = localStorage.getItem('modoQuiz') || 'medio';
-        // Usa o indicePerguntaAtual para pegar a dificuldade correta do array de perguntas
         const dificuldadeDaPergunta = perguntas[indicePerguntaAtual].dificuldade;
 
+        // --- SISTEMA DE PONTUAÇÃO (RISK/REWARD) ---
         let ganhos = 0;
         let descontos = 0;
 
-        // Regra de Ganhos pela dificuldade da pergunta (só ganha se acertar)
         if (dificuldadeDaPergunta === 'facil') ganhos = 15;
         else if (dificuldadeDaPergunta === 'medio') ganhos = 35;
         else if (dificuldadeDaPergunta === 'dificil') ganhos = 95;
 
-        // Regra de Perdas baseada no Modo de Jogo (perde se errar ou tempo esgotar)
         if (modoAtual === 'facil') descontos = 3;
         else if (modoAtual === 'medio') descontos = 10;
         else if (modoAtual === 'dificil') descontos = 45;
 
-
-        // Lógica de Acerto ou Erro
+        // Verifica acerto
         if (indiceSelecionado === indiceCorreto) {
-            pontuacao += ganhos; // Soma os ganhos da pergunta
+            pontuacao += ganhos;
             if (btnElemento) btnElemento.classList.add('btn-correta');
         } else {
-            pontuacao -= descontos; // Subtrai o desconto do modo
-            if (pontuacao < 0) pontuacao = 0; // Impede saldo negativo
+            pontuacao -= descontos;
+            if (pontuacao < 0) pontuacao = 0;
             if (btnElemento) btnElemento.classList.add('btn-incorreta');
         }
 
-        // Atualiza a tela imediatamente com o novo valor
         pontuacaoAtualEl.textContent = pontuacao;
 
-        // Aguarda 1 segundo antes de passar para a próxima
-        setTimeout(() => {
-            indicePerguntaAtual++;
-            if (indicePerguntaAtual < perguntas.length) {
-                carregarPergunta();
-            } else {
-                finalizarQuiz();
+        // Bloqueia todos os botões para não clicarem duas vezes
+        const botoes = document.querySelectorAll('.btn-alternativa');
+        botoes.forEach(b => b.disabled = true);
+
+        // --- FLUXO DE AVANÇO ---
+        if (modoAtual === 'exploracao') {
+            if (textoExplicacao && boxExplicacao) {
+                textoExplicacao.textContent = perguntas[indicePerguntaAtual].explicacao;
+                boxExplicacao.style.display = 'block';
             }
-        }, 1000);
+        } else {
+            // Modo Competitivo: Espera 1 segundo e avança automático
+            setTimeout(() => {
+                avancarPergunta();
+            }, 1000);
+        }
+    }
+
+    function avancarPergunta() {
+        indicePerguntaAtual++;
+        if (indicePerguntaAtual < perguntas.length) {
+            carregarPergunta();
+        } else {
+            finalizarQuiz();
+        }
+    }
+
+    // Botão de continuar do Modo Exploração
+    if (btnProximaExploracao) {
+        btnProximaExploracao.addEventListener('click', avancarPergunta);
     }
 
     async function finalizarQuiz() {
-        pontuacaoFinal.textContent = pontuacao;
+        const modoAtual = localStorage.getItem('modoQuiz') || 'medio';
         alternarTela(telaResultado);
 
-        const dadosPontuacao = {
-            nome: nomeJogador,
-            pontos: pontuacao
-        };
+        if (modoAtual === 'exploracao') {
+            document.querySelector('.placar h3').textContent = "Exploração Concluída!";
+            pontuacaoFinal.style.display = 'none';
+        } else {
+            document.querySelector('.placar h3').textContent = "Sua Pontuação:";
+            pontuacaoFinal.style.display = 'block';
+            pontuacaoFinal.textContent = pontuacao;
 
-        try {
-            await fetch('http://192.168.1.4:5000/api/pontuacao', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dadosPontuacao)
-            });
-        } catch (error) {
-            console.error("Erro ao salvar pontuação.", error);
+            const dadosPontuacao = { nome: nomeJogador, pontos: pontuacao };
+
+            try {
+                await fetch('http://192.168.1.4:5000/api/pontuacao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosPontuacao)
+                });
+            } catch (error) {
+                console.error("Erro ao salvar pontuação.", error);
+            }
         }
     }
 
     btnReiniciar.addEventListener('click', () => {
         btnIniciar.textContent = "Iniciar Missão";
-        inputNome.value = ''; // Limpa o nome para um novo jogo
+        if (btnExploracao) btnExploracao.textContent = "🚀 Modo Exploração (Educativo)";
+        inputNome.value = '';
         alternarTela(telaInicio);
     });
 
     btnTentarNovamente.addEventListener('click', () => {
         btnIniciar.textContent = "Iniciar Missão";
+        if (btnExploracao) btnExploracao.textContent = "🚀 Modo Exploração (Educativo)";
         alternarTela(telaInicio);
     });
 }
@@ -283,25 +333,21 @@ if (containerDificuldade) {
             e.target.classList.add('active');
 
             const novoTempo = e.target.getAttribute('data-time');
-            const novoModo = e.target.getAttribute('data-modo'); // <--- Puxa o modo
+            const novoModo = e.target.getAttribute('data-modo');
 
             localStorage.setItem('tempoQuiz', novoTempo);
-            localStorage.setItem('modoQuiz', novoModo); // <--- Salva o modo
+            localStorage.setItem('modoQuiz', novoModo);
 
-            // Exibe o Alert Customizado
             if (customAlert && customAlertMsg) {
                 customAlertMsg.innerHTML = `Oxigênio ajustado para <strong>${novoTempo} segundos</strong>.`;
-
                 customAlert.classList.remove('oculta');
-                customAlert.classList.add('ativa'); // Usa a mesma classe que criamos pro CSS
+                customAlert.classList.add('ativa');
 
-                // Fecha o alert ao clicar no botão "Entendido"
                 btnFecharAlert.onclick = () => {
                     customAlert.classList.remove('ativa');
                     customAlert.classList.add('oculta');
                 };
 
-                // Opcional: O alert fecha sozinho automaticamente após 3 segundos
                 setTimeout(() => {
                     customAlert.classList.remove('ativa');
                     customAlert.classList.add('oculta');
@@ -319,24 +365,21 @@ const listaRanking = document.getElementById('lista-ranking');
 if (listaRanking) {
     async function carregarRanking() {
         try {
-            // Se for testar no celular, troque 'localhost' pelo seu IP
             const response = await fetch('http://192.168.1.4:5000/api/ranking');
             if (!response.ok) throw new Error('Erro ao buscar o ranking');
 
             const dados = await response.json();
-            listaRanking.innerHTML = ''; // Limpa a mensagem de "Buscando dados..."
+            listaRanking.innerHTML = '';
 
             if (dados.length === 0) {
                 listaRanking.innerHTML = '<li class="linha-ranking" style="justify-content: center;">Nenhum astronauta no mural ainda!</li>';
                 return;
             }
 
-            // Preenche os top 5 na tela
             dados.forEach((jogador, index) => {
                 const li = document.createElement('li');
                 li.classList.add('linha-ranking');
 
-                // Adiciona as cores do pódio
                 if (index === 0) li.classList.add('podio-1');
                 if (index === 1) li.classList.add('podio-2');
                 if (index === 2) li.classList.add('podio-3');

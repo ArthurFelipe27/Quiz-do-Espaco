@@ -15,25 +15,29 @@ def health_check():
 def get_perguntas():
     modo = request.args.get('modo', 'facil')
     
-    faceis = Pergunta.query.filter_by(dificuldade='facil').all()
-    medias = Pergunta.query.filter_by(dificuldade='medio').all()
-    dificeis = Pergunta.query.filter_by(dificuldade='dificil').all()
-    
-    random.shuffle(faceis)
-    random.shuffle(medias)
-    random.shuffle(dificeis)
-    
-    selecionadas = []
-    
-    if modo == 'facil':
-        selecionadas = faceis[:10]
-    elif modo == 'medio':
-        selecionadas = medias[:6] + faceis[:4]
-    elif modo == 'dificil':
-        selecionadas = dificeis[:8] + medias[:2]
+    # Se for exploração, pega 10 perguntas de qualquer dificuldade misturadas
+    if modo == 'exploracao':
+        todas_perguntas = Pergunta.query.all()
+        random.shuffle(todas_perguntas)
+        selecionadas = todas_perguntas[:10]
+    else:
+        faceis = Pergunta.query.filter_by(dificuldade='facil').all()
+        medias = Pergunta.query.filter_by(dificuldade='medio').all()
+        dificeis = Pergunta.query.filter_by(dificuldade='dificil').all()
         
-    # Mistura as 10 selecionadas para o jogador não saber quando vem a fácil ou a média
-    random.shuffle(selecionadas)
+        random.shuffle(faceis)
+        random.shuffle(medias)
+        random.shuffle(dificeis)
+        
+        selecionadas = []
+        if modo == 'facil':
+            selecionadas = faceis[:10]
+        elif modo == 'medio':
+            selecionadas = medias[:6] + faceis[:4]
+        elif modo == 'dificil':
+            selecionadas = dificeis[:8] + medias[:2]
+            
+        random.shuffle(selecionadas)
     
     resultado = []
     for p in selecionadas:
@@ -42,7 +46,8 @@ def get_perguntas():
             "pergunta": p.texto,
             "alternativas": p.alternativas.split('|'),
             "respostaCorreta": p.resposta_correta,
-            "dificuldade": p.dificuldade # Enviamos a dificuldade para o Javascript calcular
+            "dificuldade": p.dificuldade,
+            "explicacao": p.explicacao # <-- ENVIANDO PARA O JS
         })
         
     return jsonify(resultado), 200

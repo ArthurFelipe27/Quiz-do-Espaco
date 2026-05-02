@@ -34,7 +34,9 @@
         <a href="ranking.html" class="btn-secundario" style="flex: 1; text-decoration: none;">🏆 Ranking</a>
         <a href="configuracao.html" class="btn-secundario" style="flex: 1; text-decoration: none;">⚙️ Config</a>
       </div>
-
+      <a href="#" id="btn-exploracao" class="btn-secundario"
+        style="text-decoration: none; margin-bottom: 5px; border-color: #00ffff; color: #00ffff;">🚀 Modo Exploração
+        (Educativo)</a>
       <a href="creditos.html" class="btn-secundario" style="text-decoration: none;">Ver Créditos</a>
     </div>
   </main>
@@ -48,6 +50,15 @@
       <h2 id="texto-pergunta">Carregando dados espaciais...</h2>
 
       <div id="container-alternativas" class="alternativas"></div>
+
+      <!-- CAIXA DE EXPLICAÇÃO (Modo Educação) -->
+      <div id="box-explicacao"
+        style="display: none; margin-top: 20px; padding: 15px; background: rgba(0, 255, 255, 0.1); border: 2px solid #00ffff; border-radius: 8px; text-align: left;">
+        <p style="color: #00ffff; font-weight: bold; margin-bottom: 10px;">💡 Sabia dessa?</p>
+        <p id="texto-explicacao" style="margin-bottom: 15px; font-size: 1.1rem; line-height: 1.5; color: white;"></p>
+        <button id="btn-proxima-exploracao" class="btn-primario"
+          style="width: 100%; border-color: #00ffff; box-shadow: 0 0 10px #00ffff;">Continuar Viagem</button>
+      </div>
 
       <div class="status-missao">
         <span>Progresso: <span id="contador-perguntas">0/0</span></span>

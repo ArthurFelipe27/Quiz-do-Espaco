@@ -11,6 +11,7 @@ class Pergunta(db.Model):
     alternativas = db.Column(db.String(500), nullable=False) 
     resposta_correta = db.Column(db.Integer, nullable=False)
     dificuldade = db.Column(db.String(20), nullable=False, default='facil') # <- NOVA COLUNA AQUI
+    explicacao = db.Column(db.Text, nullable=True) # <-- NOVA COLUNA
 
 class Pontuacao(db.Model):
     __tablename__ = 'pontuacoes'
