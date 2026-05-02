@@ -13,23 +13,36 @@ def health_check():
 
 @quiz_bp.route('/api/perguntas', methods=['GET'])
 def get_perguntas():
-    # Pega TODAS as perguntas do banco de dados
-    todas_perguntas = Pergunta.query.all()
+    modo = request.args.get('modo', 'facil')
     
-    # Embaralha as perguntas de forma aleatória
-    random.shuffle(todas_perguntas)
+    faceis = Pergunta.query.filter_by(dificuldade='facil').all()
+    medias = Pergunta.query.filter_by(dificuldade='medio').all()
+    dificeis = Pergunta.query.filter_by(dificuldade='dificil').all()
     
-    # Seleciona apenas as 10 primeiras (ou menos, se o banco for menor)
-    perguntas_rodada = todas_perguntas[:10]
+    random.shuffle(faceis)
+    random.shuffle(medias)
+    random.shuffle(dificeis)
+    
+    selecionadas = []
+    
+    if modo == 'facil':
+        selecionadas = faceis[:10]
+    elif modo == 'medio':
+        selecionadas = medias[:6] + faceis[:4]
+    elif modo == 'dificil':
+        selecionadas = dificeis[:8] + medias[:2]
+        
+    # Mistura as 10 selecionadas para o jogador não saber quando vem a fácil ou a média
+    random.shuffle(selecionadas)
     
     resultado = []
-    
-    for p in perguntas_rodada:
+    for p in selecionadas:
         resultado.append({
             "id": p.id,
             "pergunta": p.texto,
             "alternativas": p.alternativas.split('|'),
-            "respostaCorreta": p.resposta_correta
+            "respostaCorreta": p.resposta_correta,
+            "dificuldade": p.dificuldade # Enviamos a dificuldade para o Javascript calcular
         })
         
     return jsonify(resultado), 200

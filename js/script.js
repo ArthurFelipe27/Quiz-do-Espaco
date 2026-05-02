@@ -119,7 +119,9 @@ if (telaInicio) {
 
     async function fetchPerguntasAPI() {
         try {
-            const response = await fetch('http://192.168.1.4:5000/api/perguntas'); // Use o seu IP real aqui
+            const modoEscolhido = localStorage.getItem('modoQuiz') || 'medio';
+            // Mude o localhost para o seu IP caso esteja testando no celular
+            const response = await fetch(`http://localhost:5000/api/perguntas?modo=${modoEscolhido}`); // Use o seu IP real aqui
             if (!response.ok) throw new Error('Falha na conexão com a API');
 
             perguntas = await response.json();
@@ -181,14 +183,40 @@ if (telaInicio) {
     }
 
     function verificarResposta(indiceSelecionado, indiceCorreto, btnElemento = null) {
+
+        // --- NOVO SISTEMA DE PONTUAÇÃO (RISK/REWARD) ---
+        const modoAtual = localStorage.getItem('modoQuiz') || 'medio';
+        // Usa o indicePerguntaAtual para pegar a dificuldade correta do array de perguntas
+        const dificuldadeDaPergunta = perguntas[indicePerguntaAtual].dificuldade;
+
+        let ganhos = 0;
+        let descontos = 0;
+
+        // Regra de Ganhos pela dificuldade da pergunta (só ganha se acertar)
+        if (dificuldadeDaPergunta === 'facil') ganhos = 15;
+        else if (dificuldadeDaPergunta === 'medio') ganhos = 35;
+        else if (dificuldadeDaPergunta === 'dificil') ganhos = 95;
+
+        // Regra de Perdas baseada no Modo de Jogo (perde se errar ou tempo esgotar)
+        if (modoAtual === 'facil') descontos = 3;
+        else if (modoAtual === 'medio') descontos = 10;
+        else if (modoAtual === 'dificil') descontos = 45;
+
+
+        // Lógica de Acerto ou Erro
         if (indiceSelecionado === indiceCorreto) {
-            pontuacao += 100;
-            pontuacaoAtualEl.textContent = pontuacao;
+            pontuacao += ganhos; // Soma os ganhos da pergunta
             if (btnElemento) btnElemento.classList.add('btn-correta');
         } else {
+            pontuacao -= descontos; // Subtrai o desconto do modo
+            if (pontuacao < 0) pontuacao = 0; // Impede saldo negativo
             if (btnElemento) btnElemento.classList.add('btn-incorreta');
         }
 
+        // Atualiza a tela imediatamente com o novo valor
+        pontuacaoAtualEl.textContent = pontuacao;
+
+        // Aguarda 1 segundo antes de passar para a próxima
         setTimeout(() => {
             indicePerguntaAtual++;
             if (indicePerguntaAtual < perguntas.length) {
@@ -255,7 +283,10 @@ if (containerDificuldade) {
             e.target.classList.add('active');
 
             const novoTempo = e.target.getAttribute('data-time');
+            const novoModo = e.target.getAttribute('data-modo'); // <--- Puxa o modo
+
             localStorage.setItem('tempoQuiz', novoTempo);
+            localStorage.setItem('modoQuiz', novoModo); // <--- Salva o modo
 
             // Exibe o Alert Customizado
             if (customAlert && customAlertMsg) {
