@@ -284,7 +284,7 @@ if (telaInicio) {
             const dadosPontuacao = { nome: nomeJogador, pontos: pontuacao };
 
             try {
-                await fetch('http://192.168.1.4:5000/api/pontuacao', {
+                await fetch('/api/pontuacao', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dadosPontuacao)
@@ -365,7 +365,7 @@ const listaRanking = document.getElementById('lista-ranking');
 if (listaRanking) {
     async function carregarRanking() {
         try {
-            const response = await fetch('http://192.168.1.4:5000/api/ranking');
+            const response = await fetch('/api/ranking');
             if (!response.ok) throw new Error('Erro ao buscar o ranking');
 
             const dados = await response.json();
