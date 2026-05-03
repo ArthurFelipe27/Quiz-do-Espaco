@@ -110,11 +110,14 @@ Para rodar este projeto em um ambiente local ou servidor de produção, é neces
 
 ## 📸 Demonstração
 ### Tela Inicial (Base de Lançamento)
-![alt text](image.png)
+<img width="1920" height="1080" alt="Captura de tela 2026-05-02 220829" src="https://github.com/user-attachments/assets/35ec74b5-a570-4e18-a04e-8ecb892f36aa" />
+
 ### Tela do Quiz (Missão em Andamento)
-![alt text](image.png)
+<img width="1920" height="1080" alt="Captura de tela 2026-05-02 224551" src="https://github.com/user-attachments/assets/4b891f1b-efcd-4ad7-bf74-60abf32943e2" />
+
 ### Tela de Resultados (Conquista do Espaço)
-![alt text](image-1.png)
+<img width="1920" height="1080" alt="Captura de tela 2026-05-02 224638" src="https://github.com/user-attachments/assets/3c5d8d39-0e84-43ec-b0f9-3697b44204e3" />
+
 
 ---
 
