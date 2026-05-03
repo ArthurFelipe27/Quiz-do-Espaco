@@ -1,163 +1,133 @@
-# 🌌 Quiz Interativo – Explorando o Espaço (SPA)
+# 🌌🧑‍🚀 Quiz Interativo – Explorando o Espaço (Full-Stack)
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/ArthurFelipe27/quiz-do-espaco?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/ArthurFelipe27/quiz-do-espaco?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ArthurFelipe27/quiz-do-espaco?style=for-the-badge)
 ![License](https://img.shields.io/github/license/ArthurFelipe27/quiz-do-espaco?style=for-the-badge)
 
-> **Quiz Interativo: Explorando o Espaço** é uma aplicação web desenvolvida como uma **Single Page Application (SPA)** fluida e imersiva, utilizando apenas **HTML, CSS e JavaScript moderno**, sem bibliotecas externas.  
-> O jogo convida o usuário a uma jornada espacial de aprendizado, curiosidade e diversão.
-
----
+> **Quiz Interativo: Explorando o Espaço** é uma aplicação web Full-Stack desenvolvida para testar e expandir os conhecimentos do usuário sobre astronomia através de uma jornada espacial de aprendizado, curiosidade e diversão.  
+> Originalmente concebido como um projeto estático, o sistema evoluiu para uma arquitetura robusta Cliente-Servidor, utilizando **Python, Flask e SQLite** no backend, e **Vanilla JS** no frontend, tudo orquestrado de forma isolada via **Docker** e servido por **Nginx**.
 
 ## 🌐 Acesse o Quiz
 
 🚀 Jogue agora diretamente no navegador:  
-👉 https://quizdoespaco.netlify.app/
+👉 https://quizdoespaco.arthurfelipe.dev.br/
+ 
+  
+O projeto é hospedado em um servidor local operando 24/7 e exposto para a internet de forma segura através de túneis da Cloudflare.
 
-Basta acessar o link e começar sua viagem pelo universo 🌠
+---   
 
----
+## ✨ Funcionalidades Principais  
 
-## ✨ Funcionalidades Principais
-
-* 🛰️ **Arquitetura SPA (Single Page Application)**  
-  Navegação instantânea entre login, quiz, resultados e créditos, sem recarregar a página.
-
-* 🧩 **Código Moderno e Modularizado**  
-  Lógica organizada em *managers* responsáveis por estado do jogo, perguntas, ranking e tema.
-
-* 💡 **Sistema de Pontuação Inteligente**  
-  * ✅ +10 pontos por acerto  
-  * ❌ -5 pontos por erro (sem pontuação negativa)
-
-* 🌐 **Integração com a API da Wikipédia**  
-  Após cada pergunta, o jogo exibe um resumo e imagem relacionados ao tema, enriquecendo o aprendizado.
-
-* 🏆 **Ranking dos 5 Melhores Jogadores**  
-  Pontuações salvas no **localStorage**, incentivando competição saudável.
-
-* 🎨 **Design Responsivo e Imersivo**  
-  Tema espacial com fundo animado de estrelas e astronauta flutuante, adaptado para diferentes tamanhos de tela.
-
-* 🌗 **Tema Claro / Escuro**  
-  Alternância livre entre temas, com preferência salva automaticamente no navegador.
-
-* 💬 **Modal Customizado**  
-  Alertas e mensagens integradas ao visual do jogo, substituindo diálogos nativos.
+- 🛰️ Arquitetura Desacoplada (API RESTful): Comunicação assíncrona entre a interface de usuário e o servidor Python utilizando requisições Fetch API seguras e otimizadas.
+- ⚖️ Sistema de Pontuação Dinâmico (Risco/Recompensa): Os ganhos variam de acordo com a dificuldade intrínseca de cada pergunta (até +95 pontos), enquanto as penalidades variam conforme o Modo de Jogo escolhido pelo usuário (até -45 pontos).
+- 🎓 Modo Exploração (Educacional): Uma experiência "zen" sem limites de tempo ou pressão por pontuação. Ao responder, o jogo exibe um modal dinâmico contendo curiosidades científicas e explicações detalhadas sobre o tema da pergunta.
+- 🏆 Ranking Global em Tempo Real: Pontuações validadas pelo backend e persistidas no banco de dados, exibindo os 5 maiores exploradores espaciais em um mural atualizado instantaneamente.
+- 🛡️ Segurança de Múltiplas Camadas: Sanitização de inputs contra XSS no cliente (DOM) e no servidor (html.escape), aliada à proteção contra spam e ataques de força bruta através de Rate Limiting na API.
+- 🎨 Design Responsivo e Imersivo: Interface com tema Glassmorphism (efeito de vidro neon) e background procedural animado de estrelas via Canvas API, adaptável a dispositivos móveis e desktops.
 
 ---
 
-## 🎮 Como Jogar
+## 🎮 Como Executar Localmente 
+Siga os passos abaixo para rodar a aplicação completa com todos os seus serviços em sua máquina local:
 
-1️⃣ Clone o repositório:
-
-```bash
-git clone https://github.com/seu-usuario/quiz-espaco.git
-```
-
----
-
-2️⃣ Abra o arquivo principal:
-
-```text
-index.html
-```
-
----
-
-3️⃣ Execute diretamente no navegador (Chrome, Firefox, Edge, etc.)
-
----
-
-4️⃣ Digite seu nome para iniciar a jornada espacial.
-
----
-
-5️⃣ Responda às perguntas e acumule pontos:
-
-* ✅ Acertos: +10 pontos  
-* ❌ Erros: -5 pontos  
-
----
-
-6️⃣ Ao final, visualize sua pontuação, ranking e curiosidades extras via Wikipédia.
+1. Clone o repositório:   
+``git clone https://github.com/ArthurFelipe27/quiz-do-espaco.git``  
+2. Configure as Variáveis de Ambiente:  
+Navegue até a pasta **backend/** e crie um arquivo chamado ``.env`` com suas credenciais:  
+``SECRET_KEY=sua_chave_super_secreta_aqui  ``  
+``FLASK_ENV=production  ``  
+``DATABASE_URI=sqlite:///quiz_espaco.db  ``
+3. Inicie a Orquestração com Docker: Volte para a raiz do projeto (onde está o arquivo docker-compose.yml) e execute: ``docker-compose up -d --build``
+4. Acesse o sistema:Abra o seu navegador e acesse: http://localhost:8080
 
 ---
 
 ## 📂 Estrutura do Projeto
+A aplicação adota uma organização modular, separando responsabilidades e facilitando a manutenção e orquestração dos contêineres:
 
-```text
-quiz-espaco/
-└── index.html   # HTML, CSS e JavaScript da aplicação (SPA)
-```
+quiz-do-espaco/  
+├── docker-compose.yml       # Maestro da orquestração dos serviços (Nginx e Flask)  
+├── nginx.conf               # Configuração do Proxy Reverso e Web Server  
+├── frontend/                # Aplicação Cliente (Interface de Usuário)  
+│   ├── index.html           # Tela principal e motor do Quiz  
+│   ├── configuracao.html    # Configuração de oxigênio (tempo e modos)  
+│   ├── ranking.html         # Mural do Top 5  
+│   ├── creditos.html        # Página de desenvolvimento  
+│   ├── js/script.js         # Lógica Vanilla JS e consumo de APIs  
+│   └── css/style.css        # Estilos globais e variáveis CSS  
+└── backend/                 # Aplicação Servidor (API RESTful)  
+    ├── Dockerfile           # Instruções de build da imagem Python  
+    ├── app.py               # Entrypoint e inicialização do app (Factory)  
+    ├── config.py            # Validador de variáveis de ambiente  
+    ├── requirements.txt     # Dependências (Flask, SQLAlchemy, python-dotenv)  
+    ├── models/              # Camada de banco de dados (SQLite)  
+    │   └── modelos.py       # Schemas das Perguntas e Pontuações  
+    └── routes/              # Controladores  
+        └── quiz_routes.py   # Endpoints de consumo do frontend  
 
 ---
 
 ## 🔧 Tecnologias Utilizadas
 
-* 🧱 **HTML5**
-* 💅 **CSS3**
-  * Variáveis de tema
-  * Flexbox e Grid
-  * Animações com `@keyframes`
-* ⚡ **JavaScript (ES6+)**
-* 🌐 **Fetch API** — Integração com a Wikipédia
-* 💾 **localStorage** — Ranking e preferências de tema
+O desenvolvimento deste projeto envolveu uma stack completa englobando as seguintes tecnologias e ferramentas:
+* Frontend (Cliente):
+* HTML5: Estruturação semântica.
+* CSS3: Flexbox, Grid, Animações e variáveis de ambiente (CSS Variables).
+* JavaScript (ES6+): Lógica pura (Vanilla), sem frameworks adicionais, garantindo alta performance e manipulação nativa de DOM e Fetch API.
+* Backend (Servidor/API):Python 3.11: Linguagem de processamento central.
+* Flask (v3.0.0): Microframework para roteamento da API REST.
+* SQLAlchemy & SQLite: ORM e banco de dados relacional leve e embutido.
+* Flask-Limiter: Controle de limite de taxa de requisições.
+* Infraestrutura, DevOps e Segurança: 
+  * Docker & Docker Compose: Isolamento de ambiente, construção de imagens e orquestração de microsserviços.
+  * Nginx: Servidor estático e Proxy Reverso focado em alta disponibilidade e roteamento seguro. 
+  * Cloudflare Tunnels: Tunneling seguro e aplicação automática de SSL (HTTPS).
+  * Dotenv (python-dotenv): Gestão segura de segredos em tempo de execução.
 
 ---
 
-## 💡 Melhorias Implementadas
+## 💡 Melhorias Implementadas na Nova Versão
+Esta versão representa um salto significativo na maturidade arquitetural e técnica do projeto em relação ao seu protótipo inicial:
 
-* ✅ Reestruturação completa para SPA
-* ✅ Código unificado e otimizado
-* ✅ Modularização com managers
-* ✅ Tema claro/escuro funcional
-* ✅ Modal estilizado customizado
-* ✅ Melhor desempenho e compatibilidade mobile
+* ✅ Migração de Armazenamento: Substituição do armazenamento volátil do navegador (localStorage) por um banco de dados relacional sólido (SQLite).  
+* ✅ Desenvolvimento de API Própria: Criação de endpoints robustos com controle de rotas, separando a lógica de negócios da interface.  
+* ✅ Orquestração Completa de Infraestrutura: Dockerização de todo o ecossistema da aplicação, padronizando os ambientes de desenvolvimento e produção.  
+* ✅ Roteamento Seguro com Proxy Reverso: Implementação de Nginx para resolver problemas de Mixed Content (HTTPS para HTTP) e esconder IPs internos da máquina host.  
+* ✅ Novo "Modo Exploração" (Foco Educacional): Inserção de uma nova feature não competitiva com banco de dados enriquecido por curiosidades científicas de alta qualidade.  
+* ✅ Refatoração Profunda de Segurança: Sanitização implementada em duas camadas (Frontend via DOM, Backend via HTML escape), além de blindagem de rotas com Rate Limiting e Fail Fast configuration.
 
 ---
 
 ## 📌 Requisitos para Execução
-
-Navegador moderno com suporte a:
-
-* JavaScript (ES6+)
-* Manipulação de DOM
-* Fetch API
-* localStorage
-* Conexão com a internet (para dados da Wikipédia)
+Para rodar este projeto em um ambiente local ou servidor de produção, é necessário:
+- Docker Engine instalado e operando.
+- Docker Compose instalado.
+- Navegador moderno (Google Chrome, Firefox, Edge, Safari) com suporte a JavaScript atualizado.
 
 ---
 
 ## 📸 Demonstração
-
-### Tela Inicial
-<img width="1881" height="830" alt="Captura de tela 2026-02-05 232352" src="https://github.com/user-attachments/assets/ab731791-7e16-4254-8d50-b083c83a56da" />
-
-### Tela do Quiz
-<img width="1751" height="897" alt="Captura de tela 2026-02-05 232414" src="https://github.com/user-attachments/assets/410f56eb-fce2-4e56-9f94-39d0ae2e75b6" />
-
-### Tela de Resultados
-<img width="1401" height="812" alt="Captura de tela 2026-02-05 232543" src="https://github.com/user-attachments/assets/2d85cad6-3ead-434e-aa6a-c509c7353284" />
+### Tela Inicial (Base de Lançamento)
+![alt text](image.png)
+### Tela do Quiz (Missão em Andamento)
+![alt text](image.png)
+### Tela de Resultados (Conquista do Espaço)
+![alt text](image-1.png)
 
 ---
 
-## 🧑‍💻 Autores
-
-👨‍🚀 **Arthur Felipe**  
+### 🧑‍💻 Autores
+👨‍🚀 **Arthur Felipe**   
 🌐 GitHub: https://github.com/ArthurFelipe27  
-
-👩‍🚀 **Luana Pereira**  
+👩‍🚀 
+**Luana Pereira**   
 🌐 GitHub: https://github.com/LuluPereira  
 
----
-
-## 📝 Licença
-
-Este projeto está licenciado sob a **Licença MIT**.
+### 📝 Licença 
+Este projeto está licenciado sob a Licença MIT. Sinta-se livre para usar, modificar e distribuir este código!
 
 ---
-
-🌟 *Divirta-se aprendendo sobre o universo!*  
-> “A curiosidade é o combustível da descoberta.” — **Carl Sagan**
+🌟 Divirta-se aprendendo sobre o universo! 
+> *“A imaginação nos levará a mundos que nunca existiram. Mas, sem ela, não vamos a lugar nenhum.”* — **Carl Sagan**
